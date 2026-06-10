@@ -491,5 +491,104 @@ TaskForm.jsx
 App.jsx
 ```
 
-and I'll review them exactly like Exercise 1 before we move to Exercise 3 (the real addTask engine).
+
+```
+COMPONENTS/BUTTON
+function Button({buttonText, onClick, buttonColor, buttonHoverColor}){
+    return(
+        <button
+            onClick={onClick}
+            className={`${buttonColor} ${buttonHoverColor} px-4 py-2 rounded-md text-white`}
+        >
+            {buttonText}
+        </button>
+    )
+}
+
+export default Button;
+
+
+import Button from "./Button";
+
+function TaskForm({value, onChange, onClick}){
+    return (
+        <div
+            className="
+                w-full
+                max-w-3xl
+              bg-white
+                shadow-md
+                rounded-xl
+                p-5
+                my-4
+            "
+        >
+            <p className="font-bold text-xl mb-2">Add New Task</p>
+
+            <input 
+                id="taskInput"
+                type="text"
+                placeholder="Enter Text ..."
+                value={value}
+                onChange={onChange}
+                className="
+
+                    border
+                    border-gray-300
+                    rounded-md
+                    px-4
+                    py-2
+                    w-full
+                    max-w-2xl
+                    mb-2
+                "
+            />
+            <Button buttonText="Add Task" onClick={onClick} buttonColor="bg-blue-500" buttonHoverColor="hover:bg-blue-600" />
+        </div>
+    )
+}
+
+export default TaskForm;
+
+
+
+import { useState } from "react";
+import Header from "./components/Header";
+import TaskForm from "./components/TaskForm";
+
+function App(){
+  const [tasks, setTasks] =useState([]);
+  const [newTask, setNewTask] = useState("")
+  return (
+    <div
+      className="
+        min-h-screen
+        bg-gray-100
+        p-4
+        flex flex-col items-center 
+        
+
+      "
+    >
+      <Header 
+        name="Task Dashboard"
+        totalTasks={0}
+      />
+      <TaskForm 
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+        onClick={() => console.log("Clicked")}
+        
+      />
+
+      <p>{newTask}</p>
+    </div>
+  )
+}
+
+export default App;
+
+
+
+```
 
