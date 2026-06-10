@@ -1,6 +1,3 @@
-Perfect. I'll keep the same teaching style as Exercise 1 and 2.
-
----
 
 # EXERCISE 3
 
@@ -633,6 +630,83 @@ Tasks: 3
 +------------------+
 ```
 
----
 
-When finished, paste **only App.jsx**, and I'll review it line-by-line before we move to **Exercise 4 (extracting TaskCard into its own component).**
+```
+import { useState } from "react";
+import Header from "./components/Header";
+import TaskForm from "./components/TaskForm";
+import TaskCard from "./components/TaskCard";
+
+function App(){
+  const [tasks, setTasks] =useState([]);
+  const [newTask, setNewTask] = useState("");
+
+
+  function addTask(){
+    if(!newTask.trim()){
+      return;
+    }
+
+    const taskObject = {
+      id: Date.now(),
+      text: newTask.trim(),
+      completed: false
+    }
+    setTasks(prev => [...prev, taskObject]);
+
+    setNewTask("");
+  }
+
+  return (
+    <div
+      className="
+        min-h-screen
+        bg-gray-100
+        p-4
+        flex flex-col items-center 
+      "
+    >
+      <Header 
+        name="Task Dashboard"
+        totalTasks={tasks.length}
+      />
+      <TaskForm 
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+        onClick={addTask}
+        
+      />
+
+      {tasks.length === 0 ? 
+        <p>No tasks to display</p> :
+        tasks.map((task) => (
+          
+          <TaskCard key={task.id} task={task.text} />
+          
+        ))
+      }
+    
+    </div>
+  )
+}
+
+export default App;
+
+
+
+
+
+COMPONENTS/TASKCARD.JSX
+function TaskCard({ task}){
+    return (
+        <div className="px-4 py-2 shadow-md bg-white rounded-md w-full max-w-3xl flex flex-col">
+            <div>
+                <p  className="font-bold text-xl">{task}</p>
+            </div>
+        </div>
+    )
+}
+
+export default TaskCard;
+
+```
