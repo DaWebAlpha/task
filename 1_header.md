@@ -328,8 +328,57 @@ button
 task list
 ```
 
-yet.
+```
+COMPONENTS/HEADER.JSX
+function Header({name = "Tasks Dashboard", totalTasks = 0}){
+    return (
+        <div className="
+            flex 
+            flex-col 
+            shadow-md 
+            p-4 
+            bg-white 
+            justify-center 
+            items-center 
+            gap-2
+            w-full
+            max-w-2xl
+            rounded-md
+        "
+        >
+            <h1 className="font-bold capitalize text-2xl">{name}</h1>
+            <p className="font-semibold">Tasks: {totalTasks}</p>
+        </div>
+    )
+}
+export default Header
 
-Those belong to later exercises.
+
+APP.JSX
+import Header from "./components/Header";
+
+function App(){
+  return (
+    <div
+      className="
+        min-h-screen
+        bg-gray-100
+        p-4
+        flex flex-col items-center 
+        
+
+      "
+    >
+      <Header 
+        name="Task Dashboard"
+        totalTasks={0}
+      />
+    </div>
+  )
+}
+
+export default App;
+
+```
 
 
