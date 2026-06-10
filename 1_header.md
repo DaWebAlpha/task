@@ -1,43 +1,4 @@
-Excellent. This is actually the best way to learn React.
 
-We are not going to do:
-
-```text
-Learn useState
-Learn useMemo
-Learn props
-Learn Tailwind
-```
-
-separately.
-
-Instead:
-
-```text
-We build ONE application.
-
-Each exercise adds ONE feature.
-
-By Exercise 50:
-You have the complete Productivity Dashboard.
-```
-
-Think of it like building a house.
-
-```text
-Exercise 1 = Foundation
-Exercise 2 = Walls
-Exercise 3 = Roof
-Exercise 4 = Doors
-
-...
-
-Exercise 50 = Finished house
-```
-
-You should NOT jump ahead.
-
----
 
 # FINAL PROJECT WE ARE BUILDING
 
@@ -371,15 +332,4 @@ yet.
 
 Those belong to later exercises.
 
----
 
-# WHEN YOU FINISH
-
-Paste BOTH files:
-
-```text
-Header.jsx
-App.jsx
-```
-
-and I will review them like a senior React developer before we move to **Exercise 2 (creating the Add Task form)**.
