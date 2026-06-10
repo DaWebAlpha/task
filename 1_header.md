@@ -342,7 +342,7 @@ function Header({name = "Tasks Dashboard", totalTasks = 0}){
             items-center 
             gap-2
             w-full
-            max-w-2xl
+            max-w-3xl
             rounded-md
         "
         >
