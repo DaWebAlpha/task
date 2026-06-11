@@ -1,7 +1,3 @@
-Perfect. We keep the exact same format as Exercise 1.
-
----
-
 # EXERCISE 2
 
 ## GOAL
@@ -33,9 +29,9 @@ No map() yet.
 
 No useEffect yet.
 
-No useRef yet.
+No task creation yet.
 
-Just the input system.
+We WILL introduce `useRef` now because it will be used later to automatically focus the input field.
 
 ---
 
@@ -45,6 +41,7 @@ Today you learn:
 
 ```text
 ✓ useState
+✓ useRef
 ✓ Controlled Inputs
 ✓ onChange
 ✓ Props
@@ -61,6 +58,7 @@ src
 │
 ├── components
 │   ├── Header.jsx
+│   ├── Button.jsx
 │   └── TaskForm.jsx
 │
 └── App.jsx
@@ -68,471 +66,212 @@ src
 
 ---
 
-# STEP 1
+# WHAT IS useRef?
 
-Create:
+Imagine this input:
 
-```text
-components/TaskForm.jsx
+```html
+<input />
 ```
 
----
+Normally React manages data.
 
-# STEP 2
+But sometimes we need direct access to the actual HTML element.
 
-TaskForm receives FOUR props
+Example:
 
 ```text
-value
-onChange
-onClick
-buttonText
+Focus input
+Clear selection
+Scroll into view
+Measure width
+```
+
+For that we use:
+
+```jsx
+const inputRef = useRef();
 ```
 
 Think:
 
 ```text
-App owns state
+inputRef
 
 ↓
 
-TaskForm displays state
+points to
 
 ↓
 
-TaskForm tells App when user types
+<input />
 ```
 
 Diagram:
 
 ```text
-App
- │
- │ value
- │
- │ onChange
- │
- │ onClick
- ▼
+inputRef
 
-TaskForm
+    │
+
+    ▼
+
+<input />
 ```
 
 ---
 
-# STEP 3
+# WHAT WILL useRef DO TODAY?
 
-TaskForm Layout
+Nothing fancy yet.
 
-Visual:
+We are simply preparing the project structure.
 
-```text
-+------------------------+
-| Add New Task           |
-|                        |
-| [ Input Field ]        |
-|                        |
-| [ Add Task ]           |
-+------------------------+
+Later:
+
+```jsx
+inputRef.current.focus();
+```
+
+will automatically place the cursor inside the textbox.
+
+---
+
+# STEP 1 — CREATE Button.jsx
+
+## CODE TO WRITE
+
+### components/Button.jsx
+
+```jsx
+function Button({
+    buttonText,
+    onClick,
+    buttonColor,
+    buttonHoverColor
+}){
+
+    return(
+
+        <button
+            onClick={onClick}
+            className={`
+                ${buttonColor}
+                ${buttonHoverColor}
+                px-4
+                py-2
+                rounded-md
+                text-white
+            `}
+        >
+            {buttonText}
+        </button>
+
+    )
+
+}
+
+export default Button;
 ```
 
 ---
 
-# TAILWIND FOR OUTER CARD
+# UNDERSTANDING THE CODE
 
-Use:
+## buttonText
 
-```text
-bg-white
-shadow-md
-rounded-md
-p-4
-w-full
-max-w-2xl
+```jsx
+buttonText="Add Task"
 ```
 
----
-
-# WHY THESE CLASSES EXIST
-
-```text
-bg-white
-```
-
-Creates card background.
-
----
-
-```text
-shadow-md
-```
-
-Creates card effect.
-
----
-
-```text
-rounded-md
-```
-
-Rounded corners.
-
----
-
-```text
-w-full
-```
-
-Uses available width.
-
----
-
-```text
-max-w-2xl
-```
-
-Stops form becoming too wide.
-
----
-
-# TAILWIND FOR LAYOUT
-
-Use:
-
-```text
-flex
-flex-col
-gap-4
-```
-
----
-
-# WHY
-
-```text
-flex-col
-```
-
-Stack title, input and button vertically.
-
----
-
-```text
-gap-4
-```
-
-Space between elements.
-
----
-
-Without it:
-
-```text
-Title
-Input
-Button
-```
-
-would touch each other.
-
----
-
-# INPUT REQUIREMENTS
-
-Input should have:
-
-```text
-type="text"
-placeholder="Enter Task..."
-```
-
----
-
-# INPUT TAILWIND
-
-Use:
-
-```text
-border
-border-gray-300
-rounded-md
-px-3
-py-2
-w-full
-```
-
----
-
-# WHY
-
-```text
-border
-```
-
-Makes input visible.
-
----
-
-```text
-px-3
-py-2
-```
-
-Creates internal spacing.
-
----
-
-```text
-w-full
-```
-
-Input stretches across card.
-
----
-
-# BUTTON REQUIREMENTS
-
-Button text comes from props.
-
-Example:
+becomes:
 
 ```text
 Add Task
 ```
 
----
-
-# BUTTON TAILWIND
-
-Use:
-
-```text
-bg-blue-500
-text-white
-rounded-md
-px-4
-py-2
-hover:bg-blue-600
-```
+on the screen.
 
 ---
 
-# WHY
-
-```text
-bg-blue-500
-```
-
-Button color.
-
----
-
-```text
-hover:bg-blue-600
-```
-
-Shows user interaction.
-
----
-
-# APP RESPONSIBILITY
-
-App should create state:
-
-```text
-newTask
-setNewTask
-```
-
-using:
-
-```text
-useState
-```
-
----
-
-# DATA FLOW
-
-Diagram:
-
-```text
-newTask state
-
-      │
-      ▼
-
- value={newTask}
-
-      │
-      ▼
-
- input
-
-      │
-      ▼
-
- user types
-
-      │
-      ▼
-
- onChange
-
-      │
-      ▼
-
- setNewTask(...)
-```
-
----
-
-# WHAT SHOULD HAPPEN
-
-When user types:
-
-```text
-Learn React
-```
-
-state updates immediately.
-
----
-
-# TEST
-
-Temporarily add:
+## onClick
 
 ```jsx
-<p>{newTask}</p>
+onClick={onClick}
 ```
 
-below TaskForm.
+allows App to decide what happens when button is clicked.
 
 ---
 
-When typing:
+## buttonColor
 
-```text
-Learn React
+```jsx
+bg-blue-500
 ```
 
-you should see:
-
-```text
-Learn React
-```
-
-appear below the form instantly.
+controls button color.
 
 ---
 
-# YOUR EXERCISE
+## buttonHoverColor
 
-Create:
-
-```text
-TaskForm.jsx
+```jsx
+hover:bg-blue-600
 ```
 
-and update:
-
-```text
-App.jsx
-```
-
-so that:
-
-```text
-✓ Header appears
-✓ Form appears
-✓ Typing updates state
-✓ Text displays below form
-✓ Button exists
-```
+changes color when mouse moves over button.
 
 ---
 
-# DO NOT ADD YET
+# STEP 2 — CREATE TaskForm.jsx
 
-```text
-addTask function
-Date.now()
-task array
-map()
-delete
-edit
-search
-statistics
-```
+## CODE TO WRITE
 
-Those belong to later exercises.
+### components/TaskForm.jsx
 
----
-
-# SUCCESS CHECKLIST
-
-Before sending your code:
-
-```text
-✓ useState exists
-✓ newTask state exists
-✓ value prop connected
-✓ onChange prop connected
-✓ button visible
-✓ typed text appears below form
-✓ Tailwind classes added
-```
-
-When finished, paste:
-
-```text
-TaskForm.jsx
-App.jsx
-```
-
-
-```
-COMPONENTS/BUTTON
-function Button({buttonText, onClick, buttonColor, buttonHoverColor}){
-    return(
-        <button
-            onClick={onClick}
-            className={`${buttonColor} ${buttonHoverColor} px-4 py-2 rounded-md text-white`}
-        >
-            {buttonText}
-        </button>
-    )
-}
-
-export default Button;
-
-
+```jsx
 import Button from "./Button";
 
-function TaskForm({value, onChange, onClick}){
+function TaskForm({
+    value,
+    onChange,
+    onClick,
+    inputRef
+}){
+
     return (
+
         <div
             className="
                 w-full
                 max-w-3xl
-              bg-white
+                bg-white
                 shadow-md
                 rounded-xl
                 p-5
                 my-4
             "
         >
-            <p className="font-bold text-xl mb-2">Add New Task</p>
 
-            <input 
+            <p
+                className="
+                    font-bold
+                    text-xl
+                    mb-2
+                "
+            >
+                Add New Task
+            </p>
+
+            <input
                 id="taskInput"
                 type="text"
-                placeholder="Enter Text ..."
+                placeholder="Enter Task ..."
+                ref={inputRef}
                 value={value}
                 onChange={onChange}
                 className="
-
                     border
                     border-gray-300
                     rounded-md
@@ -543,52 +282,290 @@ function TaskForm({value, onChange, onClick}){
                     mb-2
                 "
             />
-            <Button buttonText="Add Task" onClick={onClick} buttonColor="bg-blue-500" buttonHoverColor="hover:bg-blue-600" />
+
+            <Button
+                buttonText="Add Task"
+                onClick={onClick}
+                buttonColor="bg-blue-500"
+                buttonHoverColor="hover:bg-blue-600"
+            />
+
         </div>
+
     )
+
 }
 
 export default TaskForm;
+```
 
+---
 
+# UNDERSTANDING EVERY NEW LINE
 
-import { useState } from "react";
+## value={value}
+
+```jsx
+value={value}
+```
+
+makes this a Controlled Input.
+
+React owns the value.
+
+Not the browser.
+
+---
+
+## onChange={onChange}
+
+```jsx
+onChange={onChange}
+```
+
+fires every time user types.
+
+---
+
+## ref={inputRef}
+
+```jsx
+ref={inputRef}
+```
+
+connects the input element to useRef.
+
+Think:
+
+```text
+inputRef
+
+↓
+
+this input
+```
+
+---
+
+# STEP 3 — UPDATE App.jsx
+
+## CODE TO WRITE
+
+### App.jsx
+
+```jsx
+import { useState, useRef } from "react";
 import Header from "./components/Header";
 import TaskForm from "./components/TaskForm";
 
 function App(){
-  const [tasks, setTasks] =useState([]);
-  const [newTask, setNewTask] = useState("")
-  return (
-    <div
-      className="
-        min-h-screen
-        bg-gray-100
-        p-4
-        flex flex-col items-center 
-        
 
-      "
-    >
-      <Header 
-        name="Task Dashboard"
-        totalTasks={0}
-      />
-      <TaskForm 
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        onClick={() => console.log("Clicked")}
-        
-      />
+    const [tasks, setTasks] = useState([]);
 
-      <p>{newTask}</p>
-    </div>
-  )
+    const [newTask, setNewTask] = useState("");
+
+    const inputRef = useRef();
+
+    return (
+
+        <div
+            className="
+                min-h-screen
+                bg-gray-100
+                p-4
+                flex
+                flex-col
+                items-center
+            "
+        >
+
+            <Header
+                name="Task Dashboard"
+                totalTasks={0}
+            />
+
+            <TaskForm
+                value={newTask}
+                inputRef={inputRef}
+                onChange={(e) =>
+                    setNewTask(
+                        e.target.value
+                    )
+                }
+                onClick={() =>
+                    console.log("Clicked")
+                }
+            />
+
+            <p
+                className="
+                    font-medium
+                    mt-2
+                "
+            >
+                {newTask}
+            </p>
+
+        </div>
+
+    )
+
 }
 
 export default App;
-
-
-
 ```
 
+---
+
+# UNDERSTANDING THE NEW CODE
+
+## useState
+
+```jsx
+const [newTask, setNewTask] = useState("");
+```
+
+Stores textbox contents.
+
+Initially:
+
+```text
+""
+```
+
+---
+
+## useRef
+
+```jsx
+const inputRef = useRef();
+```
+
+Creates a reference object.
+
+Current value:
+
+```jsx
+inputRef.current
+```
+
+Later it becomes:
+
+```jsx
+<input />
+```
+
+---
+
+## Passing the Ref
+
+```jsx
+inputRef={inputRef}
+```
+
+App sends the ref to TaskForm.
+
+---
+
+## Connecting Ref
+
+```jsx
+ref={inputRef}
+```
+
+TaskForm connects the ref to the input.
+
+Now:
+
+```jsx
+inputRef.current
+```
+
+points to the actual textbox.
+
+---
+
+## Controlled Input Flow
+
+```text
+User types
+
+↓
+
+onChange
+
+↓
+
+setNewTask()
+
+↓
+
+state updates
+
+↓
+
+input re-renders
+
+↓
+
+screen updates
+```
+
+---
+
+# TEST
+
+Type:
+
+```text
+Learn React
+```
+
+Expected:
+
+```text
+Learn React
+```
+
+appears immediately below the form.
+
+---
+
+# SUCCESS CHECKLIST
+
+Before moving on:
+
+```text
+✓ Header appears
+✓ TaskForm appears
+✓ Button appears
+✓ Input appears
+✓ useState exists
+✓ useRef exists
+✓ inputRef passed to TaskForm
+✓ ref attached to input
+✓ Typing updates state
+✓ Typed text appears below form
+✓ Tailwind styles applied
+```
+
+---
+
+# PROJECT STATUS
+
+```text
+✓ Header
+✓ Button Component
+✓ TaskForm
+✓ useState
+✓ useRef
+✓ Controlled Input
+
+Next Exercise:
+
+✓ addTask()
+✓ Validation
+✓ Date.now()
+✓ Task Objects
+✓ First TaskCard
+```
