@@ -451,4 +451,99 @@ Answer that before coding. That understanding is one of the biggest reasons we i
 id: Date.now()
 ```
 
-in Exercise 3.
+
+```
+import { useState } from "react";
+import Header from "./components/Header";
+import TaskForm from "./components/TaskForm";
+import TaskCard from "./components/TaskCard";
+
+function App(){
+  const [tasks, setTasks] =useState([]);
+  const [newTask, setNewTask] = useState("");
+
+
+  
+  function addTask(){
+    if(!newTask.trim()){
+      return;
+    }
+
+    const taskObject = {
+      id: Date.now(),
+      text: newTask.trim(),
+      completed: false
+    }
+    setTasks(prev => [...prev, taskObject]);
+
+    setNewTask("");
+  }
+
+
+  function deleteTask(idTarget){
+    const result = tasks.filter(task => task.id !== idTarget);
+    setTasks(result)
+  }
+
+
+
+  return (
+    <div
+      className="
+        min-h-screen
+        bg-gray-100
+        p-4
+        flex flex-col items-center 
+      "
+    >
+      <Header 
+        name="Task Dashboard"
+        totalTasks={tasks.length}
+      />
+      <TaskForm 
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+        onClick={addTask}
+        
+      />
+
+      {tasks.length === 0 ? 
+        <p>No tasks to display</p> :
+        tasks.map((task) => (
+          
+          <TaskCard key={task.id} task={task.text} deleteTask={() => deleteTask(task.id)} />
+          
+        ))
+      }
+    
+    </div>
+  )
+}
+export default App;
+
+
+
+
+COMPONENTS/TASKCARD.JSX
+import Button from "./Button";
+
+function TaskCard({ task, deleteTask}){
+    return (
+        <div className="px-4 py-2 shadow-md bg-white rounded-md w-full max-w-3xl flex justify-between items-center gap-4">
+            <div>
+                <p  className="font-bold text-xl">{task}</p>
+            </div>
+            <div>
+                <Button
+                    buttonText="Delete"
+                    onClick={deleteTask}
+                    buttonColor="bg-red-500"
+                    buttonHoverColor="hover:bg-red-600"
+                />
+            </div>
+        </div>
+    )
+}
+
+export default TaskCard;
+```
