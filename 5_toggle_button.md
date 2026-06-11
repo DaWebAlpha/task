@@ -662,4 +662,102 @@ Learn useMemo
 Only one task should change.
 
 ---
+App.jsx
+import { useState } from "react";
+import Header from "./components/Header";
+import TaskForm from "./components/TaskForm";
+import TaskCard from "./components/TaskCard";
+
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+
+  function addTask() {
+    if (!newTask.trim()) return;
+
+    const taskObject = {
+      id: Date.now(),
+      text: newTask.trim(),
+      completed: false,
+    };
+    
+    setTasks((prev) => [...prev, taskObject]);
+    setNewTask("");
+  }
+
+  function deleteTask(idTarget) {
+    setTasks((prev) => prev.filter((task) => task.id !== idTarget));
+  }
+
+  function toggleComplete(idTarget) {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === idTarget ? { ...task, completed: !task.completed } : task
+      )
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
+      <Header name="Task Dashboard" totalTasks={tasks.length} />
+      
+      <TaskForm 
+        value={newTask} 
+        onChange={(e) => setNewTask(e.target.value)} 
+        onClick={addTask} 
+      />
+
+      {tasks.length === 0 ? (
+        <p className="text-gray-500 mt-4">No tasks to display</p>
+      ) : (
+        /* Changed max-w-md to max-w-3xl to match your TaskCard styling */
+        <div className="w-full max-w-3xl mt-4 space-y-2">
+          {tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              task={task} /* Fixed: Passing entire object */
+              deleteTask={() => deleteTask(task.id)}
+              toggleComplete={() => toggleComplete(task.id)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+
+import Button from "./Button";
+
+function TaskCard({ task, deleteTask, toggleComplete }) {
+  return (
+    <div className="px-4 py-2 shadow-md bg-white rounded-md w-full max-w-3xl flex justify-between items-center gap-4">
+      <div>
+        <p className={`font-bold text-xl ${task.completed ? "line-through text-gray-400" : "text-gray-800"}`}>
+          {task.completed ? "✓ " : ""}
+          {task.text}
+        </p>
+      </div>
+      <div className="flex gap-4">
+        <Button
+          buttonText={task.completed ? "Undo" : "Complete"}
+          onClick={toggleComplete}
+          buttonColor={task.completed ? "bg-yellow-500" : "bg-green-500"}
+          buttonHoverColor={task.completed ? "hover:bg-yellow-600" : "hover:bg-green-600"}
+        />
+        <Button
+          buttonText="Delete"
+          onClick={deleteTask}
+          buttonColor="bg-red-500"
+          buttonHoverColor="hover:bg-red-600"
+        />
+      </div>
+    </div>
+  );
+}
+
+export default TaskCard;
 
