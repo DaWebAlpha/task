@@ -1,4 +1,3 @@
-
 # EXERCISE 3
 
 ## GOAL
@@ -40,8 +39,6 @@ You currently have:
 |                        |
 | [ Add Task ]           |
 +------------------------+
-
-Learn React
 ```
 
 The text updates because of state.
@@ -86,18 +83,136 @@ Today:
 ✓ Immutable Updates
 ✓ map()
 ✓ Validation
+✓ Conditional Rendering
+✓ First Real React Data Flow
 ```
 
 ---
 
-# STEP 1
+# BIG PICTURE
 
-Create a function inside App.
-
-Name:
+Up until now:
 
 ```text
-addTask
+User Types
+
+↓
+
+State Changes
+
+↓
+
+Text Appears
+```
+
+Now we are upgrading to:
+
+```text
+User Types
+
+↓
+
+Click Add Task
+
+↓
+
+Task Object Created
+
+↓
+
+Stored In Array
+
+↓
+
+Array Re-renders
+
+↓
+
+Task Cards Appear
+```
+
+---
+
+# STEP 1 — CREATE TASKS STATE
+
+Previously:
+
+```jsx
+const [newTask, setNewTask] = useState("");
+```
+
+stored only the textbox value.
+
+Now we need another state.
+
+---
+
+## CODE TO WRITE
+
+```jsx
+const [tasks, setTasks] = useState([]);
+```
+
+---
+
+# WHY?
+
+Think:
+
+```text
+tasks
+```
+
+will eventually contain:
+
+```js
+[
+    {
+        id: 123,
+        text: "Learn React",
+        completed: false
+    },
+
+    {
+        id: 456,
+        text: "Learn Tailwind",
+        completed: false
+    }
+]
+```
+
+---
+
+# WHY [] ?
+
+```jsx
+useState([])
+```
+
+means:
+
+```text
+Start with an empty array.
+```
+
+Initially:
+
+```js
+tasks = []
+```
+
+No tasks exist yet.
+
+---
+
+# STEP 2 — CREATE addTask()
+
+Inside App create:
+
+```jsx
+function addTask(){
+
+}
 ```
 
 ---
@@ -120,15 +235,89 @@ This function must:
 
 ---
 
-# WHY CHECK INPUT?
+# STEP 3 — VALIDATE INPUT
 
-Imagine user clicks:
+## CODE TO WRITE
 
-```text
-Add Task
+```jsx
+if(!newTask.trim()){
+    return;
+}
 ```
 
-without typing.
+---
+
+# WHAT IS HAPPENING?
+
+Suppose user enters:
+
+```text
+"       "
+```
+
+Looks like text.
+
+Actually:
+
+```jsx
+newTask.trim()
+```
+
+becomes:
+
+```text
+""
+```
+
+Empty string.
+
+---
+
+## ! Operator
+
+```jsx
+!newTask.trim()
+```
+
+means:
+
+```text
+If nothing exists
+```
+
+---
+
+## return
+
+```jsx
+return;
+```
+
+immediately exits the function.
+
+---
+
+# VISUAL
+
+```text
+User clicks Add
+
+↓
+
+Input = ""
+
+↓
+
+STOP
+
+↓
+
+No task created
+```
+
+---
+
+# WHY THIS IS IMPORTANT
 
 Without validation:
 
@@ -140,95 +329,89 @@ Task 2 = ""
 Task 3 = ""
 ```
 
-You would fill your application with junk.
+Your application becomes garbage.
 
 ---
 
-# VALIDATION RULE
+# STEP 4 — CREATE TASK OBJECT
 
-Check:
+## CODE TO WRITE
 
-```text
-newTask.trim()
-```
+```jsx
+const taskObject = {
 
----
+    id: Date.now(),
 
-# WHY trim()?
+    text: newTask.trim(),
 
-User types:
+    completed: false
 
-```text
-"       "
-```
-
-which looks empty.
-
-trim() converts:
-
-```text
-"       "
-```
-
-into:
-
-```text
-""
-```
-
-Now you can stop it.
-
----
-
-# STEP 2
-
-Create a task object.
-
-Every task in the entire project will follow ONE structure.
-
-```text
-Task
-│
-├── id
-├── text
-└── completed
+};
 ```
 
 ---
 
-# OBJECT VISUAL
+# UNDERSTANDING EVERY PROPERTY
+
+---
+
+## id
+
+```jsx
+id: Date.now()
+```
+
+Example:
 
 ```js
-{
-    id: 123456,
-    text: "Learn React",
-    completed: false
-}
+1719158812000
 ```
+
+Next click:
+
+```js
+1719158815000
+```
+
+Next click:
+
+```js
+1719158820000
+```
+
+Different every time.
+
+Perfect unique IDs.
 
 ---
 
-# WHY id EXISTS
+# WHY WE NEED id
 
 Later:
 
 ```text
 Delete Task
+
 Edit Task
+
 Complete Task
 ```
 
 need to know:
 
 ```text
-WHICH task?
+WHICH TASK?
 ```
 
-id solves that.
+id solves that problem.
 
 ---
 
-# WHY text EXISTS
+## text
+
+```jsx
+text: newTask.trim()
+```
 
 Stores:
 
@@ -238,332 +421,545 @@ Learn React
 
 ---
 
-# WHY completed EXISTS
+## completed
+
+```jsx
+completed: false
+```
+
+Every new task starts unfinished.
 
 Later:
 
 ```text
-✓ Completed
-✗ Not Completed
+✓ Complete
+
+✓ Undo
 ```
 
-will use it.
+will use this property.
 
 ---
 
-# STEP 3
+# STEP 5 — ADD TASK INTO ARRAY
 
-Generate id
+## CODE TO WRITE
 
-Use:
+```jsx
+setTasks(prev => [...prev, taskObject]);
+```
+
+---
+
+# UNDERSTANDING THIS LINE
+
+This is one of the most important React lines you'll ever learn.
+
+---
+
+## prev
+
+```jsx
+prev
+```
+
+means:
 
 ```text
-Date.now()
+Current tasks array
 ```
-
----
-
-# WHAT DOES Date.now() RETURN?
 
 Example:
 
 ```js
-1719158812000
-```
-
----
-
-Every click creates:
-
-```text
-1719158812000
-
-1719158815000
-
-1719158820000
-```
-
-Different numbers.
-
-Perfect IDs.
-
----
-
-# STEP 4
-
-Add Task Into State
-
-Current:
-
-```text
-tasks
-```
-
-might be:
-
-```js
 [
-  {
-    id: 1,
-    text: "React",
-    completed: false
-  }
+    { text: "React" }
 ]
 ```
 
 ---
 
-After adding:
+## Spread Operator
 
-```text
-Tailwind
+```jsx
+...prev
 ```
 
-it becomes:
+copies everything.
+
+Example:
 
 ```js
 [
-  {
-    id: 1,
-    text: "React",
-    completed: false
-  },
+    { text: "React" }
+]
+```
 
-  {
-    id: 2,
-    text: "Tailwind",
-    completed: false
-  }
+becomes:
+
+```js
+[
+    { text: "React" }
+]
+```
+
+copy.
+
+---
+
+## Add New Object
+
+```jsx
+[...prev, taskObject]
+```
+
+becomes:
+
+```js
+[
+    { text: "React" },
+
+    { text: "Tailwind" }
 ]
 ```
 
 ---
 
-# WHY USE SPREAD?
+# WHY NOT PUSH?
 
-Use:
+Bad:
+
+```jsx
+tasks.push(taskObject);
+```
+
+Mutates state.
+
+React dislikes mutation.
+
+---
+
+Good:
+
+```jsx
+[...prev, taskObject]
+```
+
+Creates new array.
+
+React loves immutable updates.
+
+---
+
+# STEP 6 — CLEAR INPUT
+
+## CODE TO WRITE
+
+```jsx
+setNewTask("");
+```
+
+---
+
+# WHY?
+
+After submission:
 
 ```text
-prev => [...prev, taskObject]
+Learn React
 ```
+
+should disappear.
 
 ---
 
 Visual:
 
 ```text
-Old Array
+Before
 
-[React]
+[ Learn React ]
 
-+
+After
 
-New Task
-
-[Tailwind]
-
-=
-
-[React, Tailwind]
+[             ]
 ```
 
 ---
 
-# STEP 5
+# COMPLETE addTask()
 
-Clear Input
+## FINAL CODE
 
-After task creation:
+```jsx
+function addTask(){
 
-```text
-Learn React
+    if(!newTask.trim()){
+        return;
+    }
+
+    const taskObject = {
+
+        id: Date.now(),
+
+        text: newTask.trim(),
+
+        completed: false
+
+    };
+
+    setTasks(prev => [...prev, taskObject]);
+
+    setNewTask("");
+
+}
 ```
 
-should disappear from input.
-
 ---
 
-Why?
+# STEP 7 — CONNECT BUTTON
 
-Because user already submitted it.
+Previously:
 
----
-
-# STEP 6
-
-Connect Button
-
-Current:
-
-```text
-Button Click
-
-↓
-
-Console Log
+```jsx
+onClick={() => console.log("Clicked")}
 ```
 
 ---
 
 Replace with:
 
+```jsx
+onClick={addTask}
+```
+
+---
+
+# WHY?
+
+Now clicking the button runs:
+
 ```text
-Button Click
-
-↓
-
 addTask()
 ```
 
----
-
-# STEP 7
-
-Display Tasks
-
-Below TaskForm.
-
----
-
-Use:
+instead of:
 
 ```text
-tasks.map(...)
+console.log()
 ```
 
 ---
 
-# WHY map()?
+# STEP 8 — CREATE TaskCard.jsx
+
+## FILE
+
+```text
+components/TaskCard.jsx
+```
+
+---
+
+## CODE TO WRITE
+
+```jsx
+function TaskCard({ task }){
+
+    return (
+
+        <div
+            className="
+                px-4
+                py-2
+                shadow-md
+                bg-white
+                rounded-md
+                w-full
+                max-w-3xl
+                flex
+                flex-col
+                my-2
+            "
+        >
+
+            <div>
+
+                <p
+                    className="
+                        font-bold
+                        text-xl
+                    "
+                >
+                    {task}
+                </p>
+
+            </div>
+
+        </div>
+
+    )
+
+}
+
+export default TaskCard;
+```
+
+---
+
+# WHY A SEPARATE COMPONENT?
+
+Bad:
+
+```jsx
+App.jsx
+
+500 lines long
+```
+
+Good:
+
+```text
+App
+│
+├── Header
+├── TaskForm
+└── TaskCard
+```
+
+Each component has one job.
+
+---
+
+# STEP 9 — DISPLAY TASKS
+
+Below TaskForm:
+
+## CODE TO WRITE
+
+```jsx
+{
+    tasks.length === 0
+
+    ?
+
+    <p>No tasks to display</p>
+
+    :
+
+    tasks.map((task) => (
+
+        <TaskCard
+            key={task.id}
+            task={task.text}
+        />
+
+    ))
+}
+```
+
+---
+
+# UNDERSTANDING THE CONDITIONAL
+
+## Before Any Tasks Exist
+
+```js
+tasks = []
+```
+
+Length:
+
+```js
+0
+```
+
+Screen:
+
+```text
+No tasks to display
+```
+
+---
+
+## After First Task
+
+```js
+tasks = [
+    {
+        text: "Learn React"
+    }
+]
+```
+
+Length:
+
+```js
+1
+```
+
+Now React renders:
+
+```jsx
+<TaskCard />
+```
+
+---
+
+# WHAT IS map()?
 
 Suppose:
 
 ```js
-tasks = [
-  "React",
-  "Tailwind",
-  "JavaScript"
+[
+    "React",
+    "Tailwind",
+    "JavaScript"
 ]
 ```
 
 ---
 
-Without map:
+map loops:
 
 ```jsx
-<p>React</p>
-<p>Tailwind</p>
-<p>JavaScript</p>
+tasks.map(...)
 ```
 
-Manual.
+Result:
+
+```jsx
+<TaskCard />
+<TaskCard />
+<TaskCard />
+```
+
+Automatically.
 
 ---
 
-With map:
+# WHY key={task.id} ?
+
+React must track:
 
 ```text
-React automatically loops.
+Card 1
 
-1 task
-10 tasks
-100 tasks
+Card 2
+
+Card 3
 ```
 
-same code.
+Uniquely.
 
----
-
-# TASK DISPLAY DESIGN
-
-Each task should look like:
+Without key:
 
 ```text
-+------------------------+
-| Learn React            |
-+------------------------+
-```
-
----
-
-# TAILWIND FOR TASK CARD
-
-Use:
-
-```text
-bg-white
-shadow-md
-rounded-md
-p-3
-my-2
+React Warning:
+Each child should have a unique key prop
 ```
 
 ---
 
-# WHY
+# FINAL App.jsx
 
-```text
-bg-white
-```
+## CODE TO WRITE
 
-card color
+```jsx
+import { useState } from "react";
+import Header from "./components/Header";
+import TaskForm from "./components/TaskForm";
+import TaskCard from "./components/TaskCard";
 
----
+function App(){
 
-```text
-shadow-md
-```
+    const [tasks, setTasks] = useState([]);
 
-card effect
+    const [newTask, setNewTask] = useState("");
 
----
+    function addTask(){
 
-```text
-rounded-md
-```
+        if(!newTask.trim()){
+            return;
+        }
 
-rounded corners
+        const taskObject = {
 
----
+            id: Date.now(),
 
-```text
-my-2
-```
+            text: newTask.trim(),
 
-space between cards
+            completed: false
 
----
+        };
 
-# APP STRUCTURE AFTER EXERCISE
+        setTasks(prev => [...prev, taskObject]);
 
-```text
-App
+        setNewTask("");
 
-│
+    }
 
-├── tasks state
+    return (
 
-├── newTask state
+        <div
+            className="
+                min-h-screen
+                bg-gray-100
+                p-4
+                flex
+                flex-col
+                items-center
+            "
+        >
 
-├── addTask()
+            <Header
+                name="Task Dashboard"
+                totalTasks={tasks.length}
+            />
 
-│
+            <TaskForm
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                onClick={addTask}
+            />
 
-├── Header
+            {
+                tasks.length === 0
 
-├── TaskForm
+                ?
 
-│
+                <p>No tasks to display</p>
 
-└── tasks.map(...)
+                :
+
+                tasks.map((task) => (
+
+                    <TaskCard
+                        key={task.id}
+                        task={task.text}
+                    />
+
+                ))
+            }
+
+        </div>
+
+    )
+
+}
+
+export default App;
 ```
 
 ---
 
 # SUCCESS CHECKLIST
 
-Before sending code:
+Before moving on:
 
 ```text
+✓ tasks state exists
+
 ✓ addTask exists
 
 ✓ validation exists
@@ -582,131 +978,37 @@ Before sending code:
 
 ✓ button calls addTask
 
+✓ TaskCard component created
+
 ✓ tasks.map() used
+
+✓ key={task.id}
 
 ✓ task cards visible
 ```
 
 ---
 
-# DO NOT ADD YET
+# PROJECT STATUS
 
 ```text
-delete
-edit
-save
-cancel
-search
-statistics
-useMemo
-useRef
-localStorage
-```
+✓ Header
+✓ Button
+✓ TaskForm
+✓ useState
+✓ useRef
+✓ Task Object
+✓ Date.now()
+✓ Task Array
+✓ map()
+✓ TaskCard
+✓ Add Task System
 
----
+NEXT EXERCISE
 
-# VISUAL TARGET
-
-After adding 3 tasks:
-
-```text
-Task Dashboard
-Tasks: 3
-
-[Input]
-
-[Add Task]
-
-+------------------+
-| Learn React      |
-+------------------+
-
-+------------------+
-| Learn Tailwind   |
-+------------------+
-
-+------------------+
-| Learn useState   |
-+------------------+
-```
-
-
-```
-import { useState } from "react";
-import Header from "./components/Header";
-import TaskForm from "./components/TaskForm";
-import TaskCard from "./components/TaskCard";
-
-function App(){
-  const [tasks, setTasks] =useState([]);
-  const [newTask, setNewTask] = useState("");
-
-
-  function addTask(){
-    if(!newTask.trim()){
-      return;
-    }
-
-    const taskObject = {
-      id: Date.now(),
-      text: newTask.trim(),
-      completed: false
-    }
-    setTasks(prev => [...prev, taskObject]);
-
-    setNewTask("");
-  }
-
-  return (
-    <div
-      className="
-        min-h-screen
-        bg-gray-100
-        p-4
-        flex flex-col items-center 
-      "
-    >
-      <Header 
-        name="Task Dashboard"
-        totalTasks={tasks.length}
-      />
-      <TaskForm 
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        onClick={addTask}
-        
-      />
-
-      {tasks.length === 0 ? 
-        <p>No tasks to display</p> :
-        tasks.map((task) => (
-          
-          <TaskCard key={task.id} task={task.text} />
-          
-        ))
-      }
-    
-    </div>
-  )
-}
-
-export default App;
-
-
-
-
-
-COMPONENTS/TASKCARD.JSX
-function TaskCard({ task}){
-    return (
-        <div className="px-4 py-2 shadow-md bg-white rounded-md w-full max-w-3xl flex flex-col">
-            <div>
-                <p  className="font-bold text-xl">{task}</p>
-            </div>
-        </div>
-    )
-}
-
-export default TaskCard;
-
+✓ Delete Task
+✓ filter()
+✓ Passing Functions As Props
+✓ Arrow Functions
+✓ Immutable Removal
 ```
