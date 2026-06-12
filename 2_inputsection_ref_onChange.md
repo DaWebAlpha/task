@@ -231,72 +231,43 @@ changes color when mouse moves over button.
 ### components/TaskForm.jsx
 
 ```jsx
-import Button from "./Button";
+import Button from "./Button"
 
-function TaskForm({
-    value,
-    onChange,
-    onClick,
-    inputRef
-}){
-
+function TaskForm({value, onChange, onClick, inputRef}){
     return (
-
-        <div
-            className="
-                w-full
-                max-w-3xl
-                bg-white
-                shadow-md
-                rounded-xl
-                p-5
-                my-4
-            "
-        >
-
-            <p
-                className="
-                    font-bold
-                    text-xl
-                    mb-2
-                "
-            >
-                Add New Task
-            </p>
-
-            <input
-                id="taskInput"
+        // Cleaned up duplicate rounded utility class
+        <div className="mt-4 shadow-md  p-4 w-full max-w-3xl rounded-xl border border-gray-200">
+            <p className="font-bold text-xl mb-3">Add New Task</p>
+            <input 
                 type="text"
-                placeholder="Enter Task ..."
-                ref={inputRef}
+                placeholder="Enter task ..."
                 value={value}
                 onChange={onChange}
+                ref={inputRef}
                 className="
                     border
-                    border-gray-300
+                    border-gray-100
                     rounded-md
-                    px-4
-                    py-2
                     w-full
                     max-w-2xl
-                    mb-2
+                    px-4
+                    py-2
+                    focus:ring-2
+                    mb-3
                 "
             />
-
-            <Button
+            <Button 
                 buttonText="Add Task"
                 onClick={onClick}
                 buttonColor="bg-blue-500"
                 buttonHoverColor="hover:bg-blue-600"
             />
-
         </div>
-
     )
-
 }
 
 export default TaskForm;
+
 ```
 
 ---
@@ -354,65 +325,43 @@ this input
 ### App.jsx
 
 ```jsx
-import { useState, useRef } from "react";
-import Header from "./components/Header";
-import TaskForm from "./components/TaskForm";
+import Button from "./Button"
 
-function App(){
-
-    const [tasks, setTasks] = useState([]);
-
-    const [newTask, setNewTask] = useState("");
-
-    const inputRef = useRef();
-
+function TaskForm({value, onChange, onClick, inputRef}){
     return (
-
-        <div
-            className="
-                min-h-screen
-                bg-gray-100
-                p-4
-                flex
-                flex-col
-                items-center
-            "
-        >
-
-            <Header
-                name="Task Dashboard"
-                totalTasks={0}
-            />
-
-            <TaskForm
-                value={newTask}
-                inputRef={inputRef}
-                onChange={(e) =>
-                    setNewTask(
-                        e.target.value
-                    )
-                }
-                onClick={() =>
-                    console.log("Clicked")
-                }
-            />
-
-            <p
+        // Cleaned up duplicate rounded utility class
+        <div className="mt-4 shadow-md  p-4 w-full max-w-3xl rounded-xl border border-gray-200">
+            <p className="font-bold text-xl mb-3">Add New Task</p>
+            <input 
+                type="text"
+                placeholder="Enter task ..."
+                value={value}
+                onChange={onChange}
+                ref={inputRef}
                 className="
-                    font-medium
-                    mt-2
+                    border
+                    border-gray-100
+                    rounded-md
+                    w-full
+                    max-w-2xl
+                    px-4
+                    py-2
+                    focus:ring-2
+                    mb-3
                 "
-            >
-                {newTask}
-            </p>
-
+            />
+            <Button 
+                buttonText="Add Task"
+                onClick={onClick}
+                buttonColor="bg-blue-500"
+                buttonHoverColor="hover:bg-blue-600"
+            />
         </div>
-
     )
-
 }
 
-export default App;
+export default TaskForm;
+
 ```
 
 ---
