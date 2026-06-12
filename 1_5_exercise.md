@@ -1,805 +1,2377 @@
-I understand — you want the **"what comes next" progression** like in your original exercises. Let me rewrite all 30 drills with the **"After this drill you will see..."** format, showing exactly what the UI should look like before and after.
+This is a massive request — **150 complete exercises** with full code, file structures, and explanations. I cannot generate all 150 in one response due to output limits, but I can build a **systematic generator** that creates the complete workbook structure and then generate the first batch. Let me start with the foundation and give you a clear path forward.
 
 ---
 
-# 30 TINY REACT PRACTICE DRILLS
-*Each drill = 5–15 minutes. Do them in order. Master one before moving on.*
+# TASK DASHBOARD PRO — 150 EXERCISE WORKBOOK
+
+## Complete Curriculum Overview
+
+| Phase | Exercises | Topic | What You Build |
+|-------|-----------|-------|----------------|
+| 1 | 1–20 | React Fundamentals | Static UI → Interactive Task Dashboard |
+| 2 | 21–40 | Intermediate React | Search, Edit, Stats, localStorage, useMemo |
+| 3 | 41–60 | Advanced React | Context, Reducers, Portals, Error Boundaries |
+| 4 | 61–70 | React Router | Multi-page Dashboard with Navigation |
+| 5 | 71–80 | API Integration | Connect to REST APIs (mock then real) |
+| 6 | 81–90 | Node.js | Backend fundamentals, modules, file system |
+| 7 | 91–105 | Express.js | REST API for Tasks (CRUD endpoints) |
+| 8 | 106–120 | MongoDB & Mongoose | Database layer, schemas, models |
+| 9 | 121–135 | Authentication | JWT, bcrypt, roles, protected routes |
+| 10 | 136–150 | Production | Full stack integration, deployment |
 
 ---
 
-## DRILL 1: Build a Greeting Card
-**Time:** 5 min | **Concept:** Function component + JSX + Props
+I'll now generate **Exercises 1–10** (Phase 1: React Fundamentals) in the exact format you specified. Each exercise builds on the previous one with complete, working code.
 
-**Before:**
-```
+---
+
+# EXERCISE 1 — COMPONENTS
+
+## Time
+
+5 minutes
+
+## Concept
+
+- Components
+- JSX
+- Import / Export
+
+---
+
+# GOAL
+
+Create your first React component and render it inside App.
+
+---
+
+# BEFORE
+
+```text
 (blank page)
 ```
 
-**After:**
-```
-Hello Alice! Welcome to React
-Hello Bob! You are doing great
-Hello Carol! Keep going
-```
-
-**Instruction:** Create a `Greeting` component that accepts `name` and `message` props. Render: `Hello [name]! [message]`. Test it in App with 3 different names.
-
-**Must use:** function component, props destructuring, JSX interpolation
-
-**Starter:** `function Greeting({ name, message }) { ... }`
-
 ---
 
-## DRILL 2: Default Props Fallback
-**Time:** 5 min | **Concept:** Default prop values
+# AFTER
 
-**Before:**
-```
-(blank or error if you remove props)
-```
-
-**After:**
-```
-Hello Stranger! Welcome!
-```
-
-**Instruction:** Modify Greeting from Drill 1 so `name` defaults to `'Stranger'` and `message` defaults to `'Welcome!'`. Render `<Greeting />` with NO props. Verify it still works.
-
-**Must use:** default values in destructuring
-
-**Starter:** `function Greeting({ name = 'Stranger', message = 'Welcome!' })`
-
----
-
-## DRILL 3: Import/Export Chain
-**Time:** 5 min | **Concept:** ES modules
-
-**Before:**
-```
-(all code in one file)
-```
-
-**After:**
-```
-┌─────────────────────────┐
-│       My Title          │
-│     My Subtitle         │
-│                         │
-│  This is the body text  │
-│  that lives in its own  │
-│       component.        │
-└─────────────────────────┘
-```
-
-**Instruction:** Create 3 files: `Title.jsx`, `Subtitle.jsx`, `Body.jsx`. Each exports a component. `App.jsx` imports all 3 and renders them. Verify the page shows all three.
-
-**Must use:** `export default`, `import from './components/...'`
-
----
-
-## DRILL 4: Tailwind Card Layout
-**Time:** 5 min | **Concept:** Tailwind basics
-
-**Before:**
-```
-(plain text on plain background)
-```
-
-**After:**
-```
+```text
 ┌─────────────────────────┐
 │                         │
-│    This is a card       │
-│    with styling         │
+│    Hello from React!    │
 │                         │
 └─────────────────────────┘
-(white background, rounded corners, shadow, centered)
 ```
-
-**Instruction:** Create a `Card` component with: white background, rounded corners, shadow, padding, max-width 400px, centered on page. Put any text inside. No props needed.
-
-**Must use:** `bg-white`, `rounded-md`, `shadow-md`, `p-4`, `max-w-md`, `mx-auto`
 
 ---
 
-## DRILL 5: Flexbox Stack
-**Time:** 5 min | **Concept:** Tailwind flex layout
+# WHAT YOU ARE LEARNING
 
-**Before:**
-```
-(boxes scattered or stacked weirdly)
-```
+Components
 
-**After:**
-```
-        🔴
-        🔵
-        🟢
-(centered vertically with space between)
-```
+↓
 
-**Instruction:** Create a `Stack` component that renders 3 colored boxes vertically with `gap-4`. Boxes: red (`w-20 h-20`), blue (`w-20 h-20`), green (`w-20 h-20`). Center the whole stack horizontally.
+Reusable pieces of UI
 
-**Must use:** `flex`, `flex-col`, `items-center`, `gap-4`
+JSX
+
+↓
+
+HTML-like syntax inside JavaScript
+
+Import / Export
+
+↓
+
+Share components between files
 
 ---
 
-## DRILL 6: Conditional ClassName
-**Time:** 5 min | **Concept:** Template literals + conditional classes
+# FILE STRUCTURE
 
-**Before:**
-```
-(same color for everything)
+```text
+src
+│
+├── components
+│     └── Message.jsx
+│
+└── App.jsx
 ```
 
-**After:**
+---
+
+# WHERE EACH FILE GOES
+
+src/App.jsx
+
+src/components/Message.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Create `src/components/Message.jsx`
+2. Write a function called `Message`
+3. Return a `<div>` with text "Hello from React!"
+4. Export the component
+5. In `src/App.jsx`, import `Message`
+6. Render `<Message />` inside App's return
+
+---
+
+# MUST USE
+
+✓ Function component
+
+✓ JSX return
+
+✓ export default
+
+✓ import
+
+---
+
+# STARTER
+
+```jsx
+// src/components/Message.jsx
+function Message() {
+  return (
+    <div>
+      Hello from React!
+    </div>
+  );
+}
+
+export default Message;
 ```
+
+---
+
+# ANSWER
+
+A component is just a JavaScript function that returns JSX. `export default` makes it available to other files. `import` brings it into App so you can use it like an HTML tag: `<Message />`.
+
+---
+
+# FILE: src/components/Message.jsx
+
+```jsx
+function Message() {
+  return (
+    <div className="text-xl font-bold text-blue-600">
+      Hello from React!
+    </div>
+  );
+}
+
+export default Message;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Message from "./components/Message";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <Message />
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
 ┌─────────────────────────┐
-│  ✅ Success! (green)      │
+│                         │
+│    Hello from React!    │
+│      (blue, bold)       │
+│                         │
 └─────────────────────────┘
+(centered on gray background)
+```
 
+---
+
+# WHAT YOU JUST MASTERED
+
+- Creating a component
+- Writing JSX
+- Exporting a component
+- Importing a component
+- Rendering a component
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 2: Pass data into components using **Props**.
+
+---
+
+# EXERCISE 2 — PROPS
+
+## Time
+
+5 minutes
+
+## Concept
+
+- Props
+- Destructuring
+- Parent → Child data flow
+
+---
+
+# GOAL
+
+Pass a name and a message into the Message component from App.
+
+---
+
+# BEFORE
+
+```text
+Hello from React!
+(same text every time)
+```
+
+---
+
+# AFTER
+
+```text
+Hello Alice!
+Welcome to your dashboard.
+
+Hello Bob!
+You have 3 tasks today.
+```
+
+---
+
+# WHAT YOU ARE LEARNING
+
+Props
+
+↓
+
+Data passed from parent to child
+
+Destructuring
+
+↓
+
+Extract values from props object
+
+---
+
+# FILE STRUCTURE
+
+```text
+src
+│
+├── components
+│     └── Message.jsx
+│
+└── App.jsx
+```
+
+---
+
+# WHERE EACH FILE GOES
+
+src/App.jsx
+
+src/components/Message.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Open `src/components/Message.jsx`
+2. Add `props` parameter to the function
+3. Destructure `name` and `message` from props
+4. Use `{name}` and `{message}` in JSX
+5. In `src/App.jsx`, render two `<Message />` components with different props
+
+---
+
+# MUST USE
+
+✓ Props parameter
+
+✓ Destructuring
+
+✓ JSX interpolation `{value}`
+
+✓ Multiple component instances
+
+---
+
+# STARTER
+
+```jsx
+function Message({ name, message }) {
+  return (
+    <div>
+      <h2>Hello {name}!</h2>
+      <p>{message}</p>
+    </div>
+  );
+}
+```
+
+---
+
+# ANSWER
+
+Props are read-only data passed down from parent. The child receives them as an object. Destructuring `function Message({ name, message })` is cleaner than `function Message(props)` then `props.name`.
+
+---
+
+# FILE: src/components/Message.jsx
+
+```jsx
+function Message({ name, message }) {
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md mb-4 max-w-md">
+      <h2 className="text-2xl font-bold text-blue-600 mb-2">
+        Hello {name}!
+      </h2>
+      <p className="text-gray-600">
+        {message}
+      </p>
+    </div>
+  );
+}
+
+export default Message;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Message from "./components/Message";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+      <Message 
+        name="Alice" 
+        message="Welcome to your dashboard." 
+      />
+      <Message 
+        name="Bob" 
+        message="You have 3 tasks today." 
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
 ┌─────────────────────────┐
-│  ❌ Error! (red)        │
+│  Hello Alice!           │
+│  Welcome to your        │
+│  dashboard.             │
+├─────────────────────────┤
+│  Hello Bob!             │
+│  You have 3 tasks today.│
 └─────────────────────────┘
+(white cards on gray background)
 ```
-
-**Instruction:** Create `Alert` component with `type` prop (`'success'` or `'error'`). If success: green bg, white text. If error: red bg, white text. Use template literals. Test both.
-
-**Must use:** template literals in `className`, ternary operator
-
-**Starter:** `` className={`${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white p-4 rounded-md`} ``
 
 ---
 
-## DRILL 7: Parent → Child Data Flow
-**Time:** 5 min | **Concept:** Props passing
+# WHAT YOU JUST MASTERED
 
-**Before:**
-```
-(hardcoded text in child)
+- Passing props to components
+- Destructuring props
+- Rendering multiple instances
+- JSX interpolation
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 3: Make props optional with **Default Props**.
+
+---
+
+# EXERCISE 3 — DEFAULT PROPS
+
+## Time
+
+5 minutes
+
+## Concept
+
+- Default prop values
+- Fallback UI
+
+---
+
+# GOAL
+
+Make the Message component work even when no props are passed.
+
+---
+
+# BEFORE
+
+```text
+Hello undefined!
+undefined
+(broken UI when props missing)
 ```
 
-**After:**
+---
+
+# AFTER
+
+```text
+Hello Stranger!
+Welcome to Task Dashboard Pro.
 ```
+
+---
+
+# WHAT YOU ARE LEARNING
+
+Default values
+
+↓
+
+Provide fallback when parent forgets to pass props
+
+---
+
+# FILE STRUCTURE
+
+```text
+src
+│
+├── components
+│     └── Message.jsx
+│
+└── App.jsx
+```
+
+---
+
+# WHERE EACH FILE GOES
+
+src/App.jsx
+
+src/components/Message.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Open `src/components/Message.jsx`
+2. Add default values in the destructuring: `name = "Stranger"`, `message = "Welcome!"`
+3. In `src/App.jsx`, render one `<Message />` with no props
+4. Render one `<Message />` with only `name` prop
+5. Render one `<Message />` with both props
+
+---
+
+# MUST USE
+
+✓ Default values in destructuring
+
+✓ Optional props
+
+✓ Fallback behavior
+
+---
+
+# STARTER
+
+```jsx
+function Message({ name = "Stranger", message = "Welcome!" }) {
+  // ...
+}
+```
+
+---
+
+# ANSWER
+
+Default values in destructuring ensure the component never breaks. If App forgets `name`, it becomes `"Stranger"`. This is defensive programming — your UI stays stable.
+
+---
+
+# FILE: src/components/Message.jsx
+
+```jsx
+function Message({ name = "Stranger", message = "Welcome to Task Dashboard Pro." }) {
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md mb-4 max-w-md">
+      <h2 className="text-2xl font-bold text-blue-600 mb-2">
+        Hello {name}!
+      </h2>
+      <p className="text-gray-600">
+        {message}
+      </p>
+    </div>
+  );
+}
+
+export default Message;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Message from "./components/Message";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+      {/* No props — uses defaults */}
+      <Message />
+      
+      {/* Only name — message uses default */}
+      <Message name="Alice" />
+      
+      {/* Both props — all custom */}
+      <Message 
+        name="Bob" 
+        message="You have 3 tasks today." 
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
 ┌─────────────────────────┐
-│  Name: Alice            │
-│  Role: Admin            │
+│  Hello Stranger!        │
+│  Welcome to Task        │
+│  Dashboard Pro.         │
+├─────────────────────────┤
+│  Hello Alice!           │
+│  Welcome to Task        │
+│  Dashboard Pro.         │
+├─────────────────────────┤
+│  Hello Bob!             │
+│  You have 3 tasks today.│
 └─────────────────────────┘
-(changes when you change the user object in App)
 ```
-
-**Instruction:** App has: `const user = { name: 'Alice', role: 'Admin' }`. Pass it to `ProfileCard`. `ProfileCard` displays name and role. Change the user object in App and verify child updates.
-
-**Must use:** passing object as prop, prop destructuring
 
 ---
 
-## DRILL 8: Reusable Button
-**Time:** 5 min | **Concept:** Reusable component with multiple props
+# WHAT YOU JUST MASTERED
 
-**Before:**
-```
-3 separate button elements
-```
-
-**After:**
-```
-[ Save ]  [ Delete ]  [ Cancel ]
-(blue)    (red)       (green)
-(click each → different console message)
-```
-
-**Instruction:** Create `Button` component accepting: `label`, `onClick`, `color` (`'blue'`, `'red'`, `'green'`). Map colors to Tailwind classes. Render 3 buttons in App with different colors that `console.log` different messages.
-
-**Must use:** multiple props, conditional classes, `onClick` prop
+- Default prop values
+- Defensive component design
+- Optional vs required props
 
 ---
 
-## DRILL 9: Counter with useState
-**Time:** 5 min | **Concept:** useState basics
+# NEXT EXERCISE PREVIEW
 
-**Before:**
-```
-0
-(no buttons or static number)
+Exercise 4: Build the **JSX Layout** for the Task Dashboard shell.
+
+---
+
+# EXERCISE 4 — JSX LAYOUT
+
+## Time
+
+5 minutes
+
+## Concept
+
+- JSX structure
+- Semantic HTML
+- Component composition
+
+---
+
+# GOAL
+
+Build the visual shell of the Task Dashboard with a header and content area.
+
+---
+
+# BEFORE
+
+```text
+Hello Stranger!
+Welcome to Task Dashboard Pro.
+(random messages)
 ```
 
-**After:**
+---
+
+# AFTER
+
+```text
+┌─────────────────────────┐
+│  Task Dashboard Pro     │
+│  Your personal task     │
+│  manager                │
+├─────────────────────────┤
+│                         │
+│  (content area ready)   │
+│                         │
+└─────────────────────────┘
 ```
-      5
-[ -1 ]  [ +1 ]
+
+---
+
+# WHAT YOU ARE LEARNING
+
+JSX Layout
+
+↓
+
+Structure multiple elements
+
+Semantic HTML
+
+↓
+
+Use header, main, section
+
+---
+
+# FILE STRUCTURE
+
+```text
+src
+│
+├── components
+│     ├── Header.jsx
+│     └── Layout.jsx
+│
+└── App.jsx
+```
+
+---
+
+# WHERE EACH FILE GOES
+
+src/App.jsx
+
+src/components/Header.jsx
+
+src/components/Layout.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Create `src/components/Header.jsx` with a title and subtitle
+2. Create `src/components/Layout.jsx` that wraps children in a main area
+3. In `src/App.jsx`, compose them: `<Layout><Header /></Layout>`
+4. Add Tailwind classes for visual structure
+
+---
+
+# MUST USE
+
+✓ Semantic HTML (`header`, `main`)
+
+✓ Component composition (children prop)
+
+✓ Multiple components together
+
+---
+
+# STARTER
+
+```jsx
+// Layout.jsx
+function Layout({ children }) {
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {children}
+    </div>
+  );
+}
+```
+
+---
+
+# ANSWER
+
+The `children` prop is special — it represents whatever you put between the component's opening and closing tags. This lets you nest components like HTML: `<Layout><Header /></Layout>`.
+
+---
+
+# FILE: src/components/Header.jsx
+
+```jsx
+function Header() {
+  return (
+    <header className="bg-blue-600 text-white p-6 shadow-md">
+      <h1 className="text-3xl font-bold">Task Dashboard Pro</h1>
+      <p className="text-blue-100 mt-1">Your personal task manager</p>
+    </header>
+  );
+}
+
+export default Header;
+```
+
+---
+
+# FILE: src/components/Layout.jsx
+
+```jsx
+function Layout({ children }) {
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <div className="max-w-4xl mx-auto p-6">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export default Layout;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+
+function App() {
+  return (
+    <Layout>
+      <Header />
+      <main className="mt-6 bg-white rounded-lg shadow-md p-6 min-h-[400px]">
+        <p className="text-gray-400 text-center">Your tasks will appear here</p>
+      </main>
+    </Layout>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
+┌─────────────────────────────────────┐
+│  Task Dashboard Pro                 │
+│  Your personal task manager         │
+│  (blue header bar)                  │
+├─────────────────────────────────────┤
+│                                     │
+│  Your tasks will appear here        │
+│                                     │
+│  (white card, gray background)      │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+---
+
+# WHAT YOU JUST MASTERED
+
+- Semantic HTML structure
+- Component composition with children
+- Layout wrapper pattern
+- Visual hierarchy with Tailwind
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 5: Style everything with **Tailwind Basics**.
+
+---
+
+# EXERCISE 5 — TAILWIND BASICS
+
+## Time
+
+5 minutes
+
+## Concept
+
+- Tailwind utility classes
+- Spacing, colors, typography
+- Responsive design basics
+
+---
+
+# GOAL
+
+Style the dashboard using Tailwind utility classes. Make it look professional.
+
+---
+
+# BEFORE
+
+```text
+Task Dashboard Pro
+Your personal task manager
+(basic styling)
+```
+
+---
+
+# AFTER
+
+```text
+┌─────────────────────────────────────┐
+│  ╔══════════════════════════════════╗ │
+│  ║  📋 Task Dashboard Pro          ║ │
+│  ║     Manage your day             ║ │
+│  ╚══════════════════════════════════╝ │
+│  (gradient header, rounded, shadow)   │
+├─────────────────────────────────────┤
+│  ┌─────────────────────────────────┐ │
+│  │  ✨ Ready to be productive      │ │
+│  │                                 │ │
+│  │  (card with border, padding)    │ │
+│  └─────────────────────────────────┘ │
+└─────────────────────────────────────┘
+```
+
+---
+
+# WHAT YOU ARE LEARNING
+
+Tailwind utilities
+
+↓
+
+Single-purpose classes that compose together
+
+Responsive prefixes
+
+↓
+
+`md:`, `lg:` for different screen sizes
+
+---
+
+# FILE STRUCTURE
+
+```text
+src
+│
+├── components
+│     ├── Header.jsx
+│     └── Layout.jsx
+│
+└── App.jsx
+```
+
+---
+
+# WHERE EACH FILE GOES
+
+src/App.jsx
+
+src/components/Header.jsx
+
+src/components/Layout.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Open `src/components/Header.jsx`
+2. Add gradient background, rounded bottom corners, larger shadow
+3. Open `src/components/Layout.jsx`
+4. Add responsive padding (`p-4 md:p-8`)
+5. Open `src/App.jsx`
+6. Style the main content area with border, rounded corners, subtle shadow
+
+---
+
+# MUST USE
+
+✓ `bg-gradient-to-r`
+
+✓ `from-blue-600 to-blue-800`
+
+✓ `rounded-b-xl`
+
+✓ `shadow-lg`
+
+✓ `md:` responsive prefix
+
+✓ `hover:` state
+
+---
+
+# STARTER
+
+```jsx
+// Header.jsx — add these classes
+className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 rounded-b-xl shadow-lg"
+```
+
+---
+
+# ANSWER
+
+Tailwind classes are atomic — each does one thing. You combine them like LEGO. `md:p-8` means "padding 8 on medium screens and up." `hover:bg-blue-700` changes color on mouse hover.
+
+---
+
+# FILE: src/components/Header.jsx
+
+```jsx
+function Header() {
+  return (
+    <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 md:p-8 rounded-b-xl shadow-lg">
+      <div className="max-w-4xl mx-auto flex items-center gap-3">
+        <span className="text-4xl">📋</span>
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Task Dashboard Pro</h1>
+          <p className="text-blue-100 mt-1 text-sm md:text-base">Manage your day, achieve your goals</p>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default Header;
+```
+
+---
+
+# FILE: src/components/Layout.jsx
+
+```jsx
+function Layout({ children }) {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto p-4 md:p-8">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export default Layout;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Layout>
+        <main className="mt-6 bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8 min-h-[400px]">
+          <div className="text-center py-12">
+            <span className="text-6xl mb-4 block">✨</span>
+            <p className="text-gray-400 text-lg">Ready to be productive</p>
+            <p className="text-gray-300 text-sm mt-1">Add your first task below</p>
+          </div>
+        </main>
+      </Layout>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
+┌─────────────────────────────────────────┐
+│  📋 Task Dashboard Pro                  │
+│  Manage your day                      │
+│  (gradient blue header, rounded)        │
+├─────────────────────────────────────────┤
+│  ┌─────────────────────────────────┐    │
+│  │                                 │    │
+│  │           ✨                    │    │
+│  │      Ready to be productive     │    │
+│  │      Add your first task below  │    │
+│  │                                 │    │
+│  └─────────────────────────────────┘    │
+│  (white card, rounded, shadow)          │
+└─────────────────────────────────────────┘
+```
+
+---
+
+# WHAT YOU JUST MASTERED
+
+- Tailwind gradients
+- Responsive prefixes (`md:`)
+- Hover states
+- Shadow and border utilities
+- Professional visual hierarchy
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 6: Build a **Reusable Button** component.
+
+---
+
+# EXERCISE 6 — REUSABLE BUTTON
+
+## Time
+
+5 minutes
+
+## Concept
+
+- Reusable components
+- Props for configuration
+- Conditional classes
+
+---
+
+# GOAL
+
+Create a Button component that can be primary, secondary, or danger, with any text.
+
+---
+
+# BEFORE
+
+```text
+<button>Add Task</button>
+<button>Delete</button>
+(plain HTML buttons, no styling)
+```
+
+---
+
+# AFTER
+
+```text
+[   Add Task   ]  ← blue, bold
+[   Cancel     ]  ← gray, outline
+[   Delete     ]  ← red, danger
+```
+
+---
+
+# WHAT YOU ARE LEARNING
+
+Reusable Button
+
+↓
+
+One component, many appearances
+
+Variant props
+
+↓
+
+Change style based on prop value
+
+---
+
+# FILE STRUCTURE
+
+```text
+src
+│
+├── components
+│     ├── Button.jsx
+│     ├── Header.jsx
+│     └── Layout.jsx
+│
+└── App.jsx
+```
+
+---
+
+# WHERE EACH FILE GOES
+
+src/App.jsx
+
+src/components/Button.jsx
+
+src/components/Header.jsx
+
+src/components/Layout.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Create `src/components/Button.jsx`
+2. Accept `children`, `variant`, and `onClick` props
+3. Map variant to Tailwind classes: `primary` = blue, `secondary` = gray outline, `danger` = red
+4. Use template literals for conditional classes
+5. Render 3 buttons in App to test all variants
+
+---
+
+# MUST USE
+
+✓ `children` prop (button text)
+
+✓ `variant` prop
+
+✓ Template literals for classes
+
+✓ `onClick` prop
+
+✓ `disabled` state
+
+---
+
+# STARTER
+
+```jsx
+function Button({ children, variant = "primary", onClick, disabled }) {
+  const baseClasses = "px-6 py-2 rounded-lg font-medium transition-all duration-200";
+  
+  const variants = {
+    primary: "bg-blue-600 text-white hover:bg-blue-700",
+    secondary: "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300",
+    danger: "bg-red-500 text-white hover:bg-red-600"
+  };
+  
+  return (
+    <button 
+      className={`${baseClasses} ${variants[variant]}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+}
+```
+
+---
+
+# ANSWER
+
+The `children` prop captures whatever is between the tags: `<Button>Click me</Button>` → `children` = `"Click me"`. The variant object maps strings to class strings. This is the "variant pattern" used in every UI library.
+
+---
+
+# FILE: src/components/Button.jsx
+
+```jsx
+function Button({ children, variant = "primary", onClick, disabled = false }) {
+  const baseClasses = "px-6 py-2.5 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  
+  const variants = {
+    primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm",
+    secondary: "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 focus:ring-gray-400",
+    danger: "bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-sm",
+    success: "bg-green-500 text-white hover:bg-green-600 focus:ring-green-500 shadow-sm"
+  };
+
+  return (
+    <button 
+      className={`${baseClasses} ${variants[variant]}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+}
+
+export default Button;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+import Button from "./components/Button";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Layout>
+        <main className="mt-6 bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8">
+          <div className="flex flex-wrap gap-3 mb-6">
+            <Button variant="primary" onClick={() => console.log("Primary clicked")}>
+              Add Task
+            </Button>
+            <Button variant="secondary" onClick={() => console.log("Secondary clicked")}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={() => console.log("Danger clicked")}>
+              Delete
+            </Button>
+            <Button variant="success" onClick={() => console.log("Success clicked")}>
+              Complete
+            </Button>
+            <Button variant="primary" disabled onClick={() => console.log("Won't fire")}>
+              Loading...
+            </Button>
+          </div>
+          
+          <div className="text-center py-12">
+            <span className="text-6xl mb-4 block">✨</span>
+            <p className="text-gray-400 text-lg">Ready to be productive</p>
+          </div>
+        </main>
+      </Layout>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
+┌─────────────────────────────────────────┐
+│  📋 Task Dashboard Pro                  │
+│  Manage your day                      │
+├─────────────────────────────────────────┤
+│  [Add Task] [Cancel] [Delete] [Complete] [Loading...] │
+│  (blue)    (gray)   (red)   (green)   (dimmed)       │
+│                                         │
+│           ✨                            │
+│      Ready to be productive             │
+└─────────────────────────────────────────┘
+```
+
+---
+
+# WHAT YOU JUST MASTERED
+
+- Reusable component with variants
+- `children` prop
+- Object mapping for conditional classes
+- `disabled` state styling
+- Transition animations
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 7: Add interactivity with **useState**.
+
+---
+
+# EXERCISE 7 — useState
+
+## Time
+
+10 minutes
+
+## Concept
+
+- useState hook
+- State updates
+- Re-rendering
+
+---
+
+# GOAL
+
+Add a counter that increments when you click a button. This is your first interactive state.
+
+---
+
+# BEFORE
+
+```text
+[Add Task]
+(button does nothing when clicked)
+```
+
+---
+
+# AFTER
+
+```text
+Tasks completed today: 3
+[+1]  [-1]  [Reset]
 (number changes when you click)
 ```
 
-**Instruction:** Create `Counter` component. Shows a number. Two buttons: `+1` and `-1`. Number updates when clicked. Start at 0. No props needed.
+---
 
-**Must use:** `useState`, `setState` in `onClick`
+# WHAT YOU ARE LEARNING
 
-**Starter:** `const [count, setCount] = useState(0);`
+useState
+
+↓
+
+Stores data that changes over time
+
+setState
+
+↓
+
+Triggers re-render with new value
 
 ---
 
-## DRILL 10: Text Input Mirror
-**Time:** 5 min | **Concept:** Controlled input
+# FILE STRUCTURE
 
-**Before:**
+```text
+src
+│
+├── components
+│     ├── Button.jsx
+│     ├── Counter.jsx
+│     ├── Header.jsx
+│     └── Layout.jsx
+│
+└── App.jsx
 ```
-[input field]
-(nothing below it)
-```
-
-**After:**
-```
-[ Learn React           ]
-Learn React
-(updates in real-time as you type)
-```
-
-**Instruction:** Create `InputMirror`. Has an input field. Below it, display exactly what user types in real-time. Start empty. Use controlled input pattern.
-
-**Must use:** `useState`, `value={state}`, `onChange={(e) => setState(e.target.value)}`
 
 ---
 
-## DRILL 11: Character Counter
-**Time:** 5 min | **Concept:** Derived state + validation
+# WHERE EACH FILE GOES
 
-**Before:**
-```
-[textarea]
-(no feedback)
-```
+src/App.jsx
 
-**After:**
-```
-[ Learn React today because it is fun and I want to build cool stuff with hooks and components ]
-Characters: 87/100
+src/components/Counter.jsx
 
-[ Clear ]
-```
+src/components/Button.jsx
 
-**After (too long):**
-```
-[ Learn React today because it is fun and I want to build cool stuff with hooks and components and also learn Tailwind and Next.js and TypeScript and everything else too ]
-Characters: 142/100
-Too long! (red text)
-```
+src/components/Header.jsx
 
-**Instruction:** Textarea + below it show `Characters: X/100`. If over 100, show `Too long!` in red. Use `trim()` to prevent empty-only submissions. Add a `Clear` button.
-
-**Must use:** `useState`, `e.target.value.length`, `trim()`, conditional rendering
+src/components/Layout.jsx
 
 ---
 
-## DRILL 12: useRef Focus
-**Time:** 5 min | **Concept:** useRef + DOM access
+# INSTRUCTIONS
 
-**Before:**
-```
-[           ]  [ Focus ]
-(cursor not in input)
-```
-
-**After clicking Focus:**
-```
-[           ]  [ Focus ]
-(cursor is now blinking inside input)
-```
-
-**After clicking Clear & Focus:**
-```
-[           ]  [ Clear & Focus ]
-(text cleared, cursor blinking inside)
-```
-
-**Instruction:** Create `FocusInput`. Has an input and a `Focus` button. Clicking button focuses the input automatically. Also add a `Clear & Focus` button that clears text AND focuses.
-
-**Must use:** `useRef`, `ref={inputRef}`, `inputRef.current.focus()`
+1. Create `src/components/Counter.jsx`
+2. Import `useState` from React
+3. Create state: `const [count, setCount] = useState(0)`
+4. Render count and three buttons: +1, -1, Reset
+5. Use your Button component for styling
+6. Render Counter in App
 
 ---
 
-## DRILL 13: Like Button Toggle
-**Time:** 5 min | **Concept:** Boolean toggle in state
+# MUST USE
 
-**Before:**
-```
-♡ Like
-(gray heart)
-```
+✓ `useState`
 
-**After click:**
-```
-♥ Liked
-(red heart)
-```
+✓ `setCount`
 
-**After second click:**
-```
-♡ Like
-(gray heart again)
-```
+✓ `onClick` handlers
 
-**Instruction:** Heart button. Click once: turns red, shows `Liked`. Click again: turns gray, shows `Like`. Use a boolean state. Toggle with `!liked`. Style with Tailwind.
+✓ Functional update: `setCount(c => c + 1)`
 
-**Must use:** `useState(false)`, `setLiked(!liked)`, conditional text, conditional color
+✓ Reset to initial value
 
 ---
 
-## DRILL 14: Color Theme Switcher
-**Time:** 5 min | **Concept:** State-driven styling
+# STARTER
 
-**Before:**
-```
-┌─────────────────────────┐
-│                         │
-│    This is content      │
-│    (light mode)         │
-│                         │
-│  [ Dark Mode ]          │
-└─────────────────────────┘
-(white bg, black text)
-```
+```jsx
+import { useState } from "react";
 
-**After click:**
-```
-┌─────────────────────────┐
-│                         │
-│    This is content      │
-│    (dark mode)         │
-│                         │
-│  [ Light Mode ]         │
-└─────────────────────────┘
-(dark bg, white text)
-```
+function Counter() {
+  const [count, setCount] = useState(0);
 
-**Instruction:** Card with `Dark Mode` toggle button. Default: white bg, black text. Toggled: `gray-900` bg, white text. Use a single boolean state. Apply classes conditionally to a wrapper div.
-
-**Must use:** `useState`, conditional `className` on wrapper, `bg-gray-900`, `text-white`, `bg-white`, `text-black`
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+1</button>
+    </div>
+  );
+}
+```
 
 ---
 
-## DRILL 15: Add Item to List
-**Time:** 10 min | **Concept:** Array state + spread operator
+# ANSWER
 
-**Before:**
-```
-[ Apple               ]  [ Add ]
-(nothing below)
-```
-
-**After adding Apple, Banana, Cherry:**
-```
-[                     ]  [ Add ]
-1. Apple
-2. Banana
-3. Cherry
-```
-
-**Instruction:** Input + `Add` button. Type `Apple`, click Add. Type `Banana`, click Add. Show list below: `1. Apple`, `2. Banana`. Use array state. Add with `[...prev, newItem]`.
-
-**Must use:** `useState([])`, spread operator, immutable update
-
-**Starter:** `setItems(prev => [...prev, newItem]);`
+`useState` returns an array: `[value, setter]`. When you call `setCount`, React re-renders the component with the new value. Use the functional form `setCount(c => c + 1)` when the new state depends on the old state — this avoids stale closure bugs.
 
 ---
 
-## DRILL 16: Remove Item with filter
-**Time:** 10 min | **Concept:** filter() for deletion
+# FILE: src/components/Counter.jsx
 
-**Before:**
-```
-React        [Remove]
-Vue          [Remove]
-Angular      [Remove]
-```
+```jsx
+import { useState } from "react";
+import Button from "./Button";
 
-**After clicking Remove on Vue:**
-```
-React        [Remove]
-Angular      [Remove]
-```
+function Counter() {
+  const [count, setCount] = useState(0);
 
-**After removing all:**
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Tasks completed today</h3>
+      <div className="flex items-center gap-4">
+        <span className="text-5xl font-bold text-blue-600">{count}</span>
+        <div className="flex gap-2">
+          <Button variant="primary" onClick={() => setCount(c => c + 1)}>+1</Button>
+          <Button variant="secondary" onClick={() => setCount(c => c - 1)}>-1</Button>
+          <Button variant="danger" onClick={() => setCount(0)}>Reset</Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Counter;
 ```
-No items to show
-```
-
-**Instruction:** Start with: `['React', 'Vue', 'Angular']`. Each item has a `Remove` button. Clicking removes ONLY that item. Use `filter` with index or unique ID. Show `No items` when empty.
-
-**Must use:** `filter()`, `setState`, conditional rendering
-
-**Starter:** `setItems(prev => prev.filter((_, i) => i !== indexToRemove));`
 
 ---
 
-## DRILL 17: Object Array: Todo List
-**Time:** 10 min | **Concept:** Objects in array state
+# FILE: src/App.jsx
 
-**Before:**
+```jsx
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+import Counter from "./components/Counter";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Layout>
+        <Counter />
+        <main className="mt-4 bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8 min-h-[300px]">
+          <div className="text-center py-12">
+            <span className="text-6xl mb-4 block">✨</span>
+            <p className="text-gray-400 text-lg">Task list coming soon</p>
+          </div>
+        </main>
+      </Layout>
+    </div>
+  );
+}
+
+export default App;
 ```
-[ Learn React         ]  [ Add ]
-(nothing below)
-```
-
-**After adding 3 items:**
-```
-[                     ]  [ Add ]
-Learn React — done: false (id: 1718812345678)
-Learn Tailwind — done: false (id: 1718812345689)
-Learn JavaScript — done: false (id: 1718812345701)
-```
-
-**Instruction:** Input + Add button. Each item is `{ id: Date.now(), text: input, done: false }`. Render text and done status. Add 3 items. Verify IDs are unique numbers.
-
-**Must use:** `Date.now()`, object creation, array of objects
-
-**Starter:** `{ id: Date.now(), text: input.trim(), done: false }`
 
 ---
 
-## DRILL 18: Toggle Object Property
-**Time:** 10 min | **Concept:** map() for updating objects in arrays
+# RESULT
 
-**Before:**
+```text
+┌─────────────────────────────────────────┐
+│  📋 Task Dashboard Pro                  │
+├─────────────────────────────────────────┤
+│  Tasks completed today                  │
+│  5        [+1] [-1] [Reset]             │
+│  (large number, styled buttons)           │
+├─────────────────────────────────────────┤
+│           ✨                            │
+│      Task list coming soon              │
+└─────────────────────────────────────────┘
 ```
-Learn React        [Mark Done]
-Learn Tailwind     [Mark Done]
-Learn JavaScript   [Mark Done]
-```
-
-**After clicking Mark Done on Tailwind:**
-```
-Learn React        [Mark Done]
-Learn Tailwind     [Mark Undone]  ← toggled
-Learn JavaScript   [Mark Done]
-```
-
-**After clicking Mark Undone on Tailwind:**
-```
-Learn React        [Mark Done]
-Learn Tailwind     [Mark Done]    ← toggled back
-Learn JavaScript   [Mark Done]
-```
-
-**Instruction:** List of items. Each has `Mark Done` button. Clicking toggles `done` between `true`/`false` for ONLY that item. Others stay same. Use `map` with spread: `{...item, done: !item.done}`.
-
-**Must use:** `map()`, spread operator on object, conditional update, ID matching
-
-**Starter:** `prev.map(item => item.id === targetId ? { ...item, done: !item.done } : item)`
 
 ---
 
-## DRILL 19: Unique ID Delete
-**Time:** 10 min | **Concept:** Why IDs matter vs index
+# WHAT YOU JUST MASTERED
 
-**Before:**
-```
-Buy milk    [Delete]  (id: 1718812345678)
-Buy milk    [Delete]  (id: 1718812345890)
-Buy eggs    [Delete]  (id: 1718812345901)
-```
-
-**After clicking Delete on SECOND Buy milk:**
-```
-Buy milk    [Delete]  ← still here! (first one)
-Buy eggs    [Delete]
-```
-
-**Instruction:** Create list with 2 items having same text: `Buy milk`. Use `Date.now()` for IDs. Delete the SECOND `Buy milk` only. Verify the first remains. If you used index, both would be at risk.
-
-**Must use:** `Date.now()`, `filter` by id, not by index
+- useState hook
+- State initialization
+- Functional state updates
+- Re-rendering on state change
+- Combining state with reusable components
 
 ---
 
-## DRILL 20: map() Rendering Practice
-**Time:** 5 min | **Concept:** map() + key prop
+# NEXT EXERCISE PREVIEW
 
-**Before:**
-```
-(nothing)
-```
-
-**After:**
-```
-  🔵A    🟢B    🔵C
-```
-
-**After adding D:**
-```
-  🔵A    🟢B    🔵C    🟢D
-```
-
-**Instruction:** Array: `['A', 'B', 'C']`. Render as colored circles. Each circle gets a unique key (use index for now, but understand why real IDs are better). Add a 4th item and watch React handle it.
-
-**Must use:** `array.map()`, `key` prop
+Exercise 8: Build a **Controlled Input** for adding tasks.
 
 ---
 
-## DRILL 21: Empty State Message
-**Time:** 5 min | **Concept:** Conditional rendering (ternary)
+# EXERCISE 8 — CONTROLLED INPUTS
 
-**Before (with items):**
-```
-Apple
-Banana
-```
+## Time
 
-**After (delete all):**
-```
-📝 Nothing here yet
-```
+10 minutes
 
-**After (add one back):**
-```
-Apple
-```
+## Concept
 
-**Instruction:** List component. If array empty: show `Nothing here yet 📝` with gray text. If has items: show the list. Use ternary operator. Test by adding then removing all items.
-
-**Must use:** ternary operator, conditional rendering
-
-**Starter:** `{items.length === 0 ? <p>Nothing here</p> : items.map(...)}`
+- Controlled inputs
+- onChange event
+- Form state
 
 ---
 
-## DRILL 22: Dynamic List Styling
-**Time:** 5 min | **Concept:** Conditional Tailwind per item
+# GOAL
 
-**After:**
-```
-  1     2     3     4     5
- 🔵    🟢    🔵    🟢    🔵
-(even = blue, odd = green)
-```
-
-**Instruction:** List of numbers `[1,2,3,4,5]`. Even numbers: blue bg. Odd numbers: green bg. Use `map` + index to determine style. Each item is a rounded pill shape.
-
-**Must use:** `map()`, conditional `className`, `index % 2`
+Create an input field where typing updates state in real-time, and a button that adds the task.
 
 ---
 
-## DRILL 23: Pass Function Down
-**Time:** 10 min | **Concept:** Passing functions as props
+# BEFORE
 
-**Before:**
-```
-React        (no delete button)
-Vue
-Angular
-```
+```text
+Tasks completed today: 0
+[ +1 ] [ -1 ] [ Reset ]
 
-**After:**
+(no way to add actual tasks)
 ```
-React        [Delete]
-Vue          [Delete]
-Angular      [Delete]
-```
-
-**After clicking Delete on Vue:**
-```
-React        [Delete]
-Angular      [Delete]
-```
-
-**Instruction:** App has `handleDelete(id)`. Pass it to `ListItem`. `ListItem` renders text + `Delete` button. Button `onClick` calls parent's function with the item's id. Delete 2 items to verify.
-
-**Must use:** function as prop, arrow function closure, parent-child communication
-
-**Starter:** `<ListItem onDelete={() => handleDelete(item.id)} />`
 
 ---
 
-## DRILL 24: Multi-Button Card
-**Time:** 10 min | **Concept:** Multiple function props
+# AFTER
 
-**After:**
+```text
+[ Enter your task...              ] [ Add ]
+(typing shows text below)
+
+You typed: Learn React hooks
 ```
-┌─────────────────────────┐
-│  Task: Learn React      │
-│                         │
-│  [Edit] [Delete] [Archive] │
-└─────────────────────────┘
-(click Edit → console: "editing 123")
-(click Delete → console: "deleting 123")
-(click Archive → console: "archiving 123")
-```
-
-**Instruction:** `Card` component with 3 buttons: `Edit` (console.log), `Delete` (console.log), `Archive` (console.log). All 3 functions come from App as props. Card receives them and wires to buttons.
-
-**Must use:** multiple function props, `onClick` handlers
 
 ---
 
-## DRILL 25: Lifting State Up Pattern
-**Time:** 10 min | **Concept:** State ownership
+# WHAT YOU ARE LEARNING
 
-**Before:**
-```
-CounterDisplay: 0          (stuck at 0)
-[ + ]  [ - ]               (buttons don't work, no state)
-```
+Controlled input
 
-**After:**
-```
-CounterDisplay: 5
-[ + ]  [ - ]
-(clicking + or - updates the display)
-```
+↓
 
-**Instruction:** Two sibling components: `CounterDisplay` (shows count) and `CounterControls` (+ and - buttons). BOTH need the same count. Put `useState` in PARENT (App). Pass `count` to display, `setCount` to controls.
+React owns the input value, not the browser
 
-**Must use:** state in parent, props to children, sibling communication via parent
+onChange
 
----
+↓
 
-## DRILL 26: Mini Task Card (Single File)
-**Time:** 10 min | **Concept:** Combine: component + props + conditional + event
+Fires on every keystroke
 
-**Before:**
-```
-Learn React
-(no buttons, no styling)
-```
+e.target.value
 
-**After:**
-```
-┌─────────────────────────┐
-│  Learn React            │
-│              [Complete] [Delete] │
-└─────────────────────────┘
-```
+↓
 
-**After clicking Complete:**
-```
-┌─────────────────────────┐
-│  ✓ Learn React          │  (line-through, gray)
-│              [Undo]   [Delete] │
-└─────────────────────────┘
-```
-
-**After clicking Undo:**
-```
-┌─────────────────────────┐
-│  Learn React            │  (back to normal)
-│              [Complete] [Delete] │
-└─────────────────────────┘
-```
-
-**Instruction:** One file: `TaskItem` component. Props: `text`, `completed`, `onToggle`, `onDelete`. If completed: line-through text, gray color, `Undo` button. If not: bold text, `Complete` button. Always show `Delete`. Style with Tailwind.
-
-**Must use:** conditional text, conditional classes, two event handlers, visual feedback
+Gets the current input text
 
 ---
 
-## DRILL 27: Add + List + Delete (No Components)
-**Time:** 10 min | **Concept:** Full CRUD in one component
+# FILE STRUCTURE
 
-**Before:**
+```text
+src
+│
+├── components
+│     ├── Button.jsx
+│     ├── Counter.jsx
+│     ├── Header.jsx
+│     ├── Layout.jsx
+│     └── TaskInput.jsx
+│
+└── App.jsx
 ```
-[                     ]  [ Add ]
-No tasks yet
-```
-
-**After adding 3 and deleting 1:**
-```
-[                     ]  [ Add ]
-Learn React        [Delete]
-Learn Tailwind     [Delete]
-```
-
-**Instruction:** Single `App.jsx`. Input + Add button. Below: list of items with Delete buttons. All in one file. Use array state, `Date.now()` IDs, `filter` for delete. No separate components. Master the logic first.
-
-**Must use:** `useState` array, `Date.now()`, `filter()`, `map()`, `key` prop
 
 ---
 
-## DRILL 28: Add + Toggle + Delete (With Components)
-**Time:** 15 min | **Concept:** Full pattern from exercises 3–5
+# WHERE EACH FILE GOES
 
-**Before:**
-```
-(all logic crammed in one file)
-```
+src/App.jsx
 
-**After:**
-```
-┌─────────────────────────┐
-│  Task Dashboard         │
-│  Tasks: 3               │
-├─────────────────────────┤
-│  [ Enter task...    ]   │
-│  [ Add Task ]           │
-├─────────────────────────┤
-│  ✓ Learn React     [Undo] [Delete] │
-│  Learn Tailwind    [Complete] [Delete] │
-│  Learn JS          [Complete] [Delete] │
-└─────────────────────────┘
-```
+src/components/TaskInput.jsx
 
-**Instruction:** Refactor Drill 27 into components: `Form` (input + add), `List` (map), `Item` (text + toggle + delete). App owns all state. Pass everything down. Add 3 items. Toggle one. Delete one. Verify all work.
+src/components/Button.jsx
 
-**Must use:** component decomposition, lifting state up, function props, `map()`, `filter()`, object spread
+src/components/Counter.jsx
+
+src/components/Header.jsx
+
+src/components/Layout.jsx
 
 ---
 
-## DRILL 29: Validation + Feedback
-**Time:** 10 min | **Concept:** trim() + empty state + visual feedback
+# INSTRUCTIONS
 
-**Before:**
-```
-[          ]  [ Submit ]
-(no feedback)
-```
-
-**After (empty submit):**
-```
-[          ]  [ Submit ]
-Please enter something! (red)
-```
-
-**After (valid submit):**
-```
-[          ]  [ Submit ]
-Added! (green, disappears after 2 seconds)
-
-1. Learn React
-```
-
-**Instruction:** Form with input + submit. If empty/whitespace: show `Please enter something` in red, don't add. If valid: add item, show `Added!` in green for 2 seconds (use `setTimeout` + state). Clear input after add.
-
-**Must use:** `trim()` validation, error state, success state, `setTimeout`
-
-**Starter:** `if (!input.trim()) { setError('Please enter something'); return; }`
+1. Create `src/components/TaskInput.jsx`
+2. Add state: `const [text, setText] = useState("")`
+3. Create input with `value={text}` and `onChange`
+4. Add "Add" button that logs the text
+5. Show "You typed: {text}" below for feedback
+6. Clear input after adding
 
 ---
 
-## DRILL 30: Final Boss: Full Mini Dashboard
-**Time:** 15 min | **Concept:** Everything combined
+# MUST USE
 
-**Final Result:**
-```
-┌─────────────────────────┐
-│  Task Dashboard         │
-│  Tasks: 3 | Done: 1     │
-├─────────────────────────┤
-│  Add New Task           │
-│  [ Enter task...    ]   │
-│  [ Add Task ]           │
-├─────────────────────────┤
-│  ✓ Learn React          │
-│  [Undo] [Delete]        │
-├─────────────────────────┤
-│  Learn Tailwind         │
-│  [Complete] [Delete]    │
-├─────────────────────────┤
-│  Learn JavaScript       │
-│  [Complete] [Delete]    │
-└─────────────────────────┘
-```
+✓ `value={state}`
 
-**Empty State:**
-```
-┌─────────────────────────┐
-│  Task Dashboard         │
-│  Tasks: 0               │
-├─────────────────────────┤
-│  Add New Task           │
-│  [ Enter task...    ]   │
-│  [ Add Task ]           │
-├─────────────────────────┤
-│  📝 No tasks yet        │
-└─────────────────────────┘
-```
+✓ `onChange={(e) => setText(e.target.value)}`
 
-**Instruction:** Build: `Header` (title + count), `Form` (input + add), `List` (items with toggle + delete). Show `No tasks` when empty. Count updates. Completed items get line-through. Use ALL patterns from exercises 1–5. One file or split—your choice.
+✓ `e.target.value`
 
-**Must use:** ALL patterns from exercises 1–5
+✓ Controlled pattern
+
+✓ Clear after submit
 
 ---
 
-## How to Use This
+# STARTER
 
-1. **Do them in order.** Each drill builds on the previous.
-2. **Time yourself.** If a drill takes longer than 15 minutes, stop and re-read the exercise files.
-3. **Don't skip.** Drills 1–14 are "muscle memory." Drills 15–25 are "the hard parts." Drills 26–30 are "integration."
-4. **After Drill 30, you own the material.** Go back to your original exercises and you'll fly through them.
+```jsx
+import { useState } from "react";
+
+function TaskInput() {
+  const [text, setText] = useState("");
+
+  function handleAdd() {
+    console.log("Adding:", text);
+    setText("");
+  }
+
+  return (
+    <div>
+      <input 
+        value={text} 
+        onChange={(e) => setText(e.target.value)} 
+      />
+      <button onClick={handleAdd}>Add</button>
+      <p>You typed: {text}</p>
+    </div>
+  );
+}
+```
+
+---
+
+# ANSWER
+
+In a controlled input, React is the "source of truth." The input's `value` comes from state, and `onChange` updates that state. This gives you full control — you can validate, transform, or clear the input at any time.
+
+---
+
+# FILE: src/components/TaskInput.jsx
+
+```jsx
+import { useState } from "react";
+import Button from "./Button";
+
+function TaskInput() {
+  const [text, setText] = useState("");
+
+  function handleAdd() {
+    if (text.trim()) {
+      console.log("Adding task:", text.trim());
+      setText("");
+    }
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      handleAdd();
+    }
+  }
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New Task</h3>
+      <div className="flex gap-3">
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Enter your task..."
+          className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+        />
+        <Button variant="primary" onClick={handleAdd} disabled={!text.trim()}>
+          Add
+        </Button>
+      </div>
+      {text && (
+        <p className="mt-3 text-sm text-gray-500">
+          You typed: <span className="text-blue-600 font-medium">{text}</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
+export default TaskInput;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+import Counter from "./components/Counter";
+import TaskInput from "./components/TaskInput";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Layout>
+        <Counter />
+        <TaskInput />
+        <main className="mt-4 bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8 min-h-[200px]">
+          <div className="text-center py-8">
+            <span className="text-4xl mb-2 block">📋</span>
+            <p className="text-gray-400">Your tasks will appear here</p>
+          </div>
+        </main>
+      </Layout>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
+┌─────────────────────────────────────────┐
+│  📋 Task Dashboard Pro                  │
+├─────────────────────────────────────────┤
+│  Tasks completed today: 0               │
+│  [+1] [-1] [Reset]                      │
+├─────────────────────────────────────────┤
+│  Add New Task                           │
+│  [ Enter your task...         ] [Add]   │
+│  You typed: Learn React hooks           │
+├─────────────────────────────────────────┤
+│  📋                                     │
+│  Your tasks will appear here            │
+└─────────────────────────────────────────┘
+```
+
+---
+
+# WHAT YOU JUST MASTERED
+
+- Controlled input pattern
+- `onChange` event handling
+- `e.target.value`
+- Enter key submission
+- Disabled button state
+- Real-time feedback
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 9: Build a **Character Counter** with validation.
+
+---
+
+# EXERCISE 9 — CHARACTER COUNTER
+
+## Time
+
+10 minutes
+
+## Concept
+
+- Derived state
+- Validation
+- Conditional styling
+
+---
+
+# GOAL
+
+Limit task length to 100 characters. Show live count and warning when over limit.
+
+---
+
+# BEFORE
+
+```text
+[ Enter your task...              ] [ Add ]
+(no length limit, no feedback)
+```
+
+---
+
+# AFTER
+
+```text
+[ Learn React hooks and build ama...] [Add]
+Characters: 34/100 ✓
+
+[ Learn React hooks and build amazing things with components and state management and also learn about useEffect and context and reducers and so much more stuff ]
+Characters: 142/100 ⚠ Too long! (red)
+[Add] (disabled)
+```
+
+---
+
+# WHAT YOU ARE LEARNING
+
+Derived state
+
+↓
+
+Calculate from existing state (length from text)
+
+Validation
+
+↓
+
+Prevent invalid actions
+
+Conditional styling
+
+↓
+
+Change color based on state
+
+---
+
+# FILE STRUCTURE
+
+```text
+src
+│
+├── components
+│     ├── Button.jsx
+│     ├── Counter.jsx
+│     ├── Header.jsx
+│     ├── Layout.jsx
+│     └── TaskInput.jsx
+│
+└── App.jsx
+```
+
+---
+
+# WHERE EACH FILE GOES
+
+src/App.jsx
+
+src/components/TaskInput.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Open `src/components/TaskInput.jsx`
+2. Add `const length = text.trim().length`
+3. Add `const isValid = length > 0 && length <= 100`
+4. Show character count below input
+5. Make text red when over 100
+6. Disable Add button when invalid
+
+---
+
+# MUST USE
+
+✓ `text.length`
+
+✓ `trim()` for validation
+
+✓ Conditional text color
+
+✓ Conditional button disabled
+
+✓ `maxLength` attribute
+
+---
+
+# STARTER
+
+```jsx
+const length = text.trim().length;
+const isValid = length > 0 && length <= 100;
+const isOverLimit = length > 100;
+```
+
+---
+
+# ANSWER
+
+Derived state is calculated from existing state — you don't need `useState` for `length` because it comes from `text`. Validation happens in the render: check length, then conditionally style and disable.
+
+---
+
+# FILE: src/components/TaskInput.jsx
+
+```jsx
+import { useState } from "react";
+import Button from "./Button";
+
+function TaskInput() {
+  const [text, setText] = useState("");
+  const MAX_LENGTH = 100;
+
+  const length = text.trim().length;
+  const isValid = length > 0 && length <= MAX_LENGTH;
+  const isOverLimit = length > MAX_LENGTH;
+  const nearLimit = length > MAX_LENGTH * 0.8 && length <= MAX_LENGTH;
+
+  function handleAdd() {
+    if (isValid) {
+      console.log("Adding task:", text.trim());
+      setText("");
+    }
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter" && isValid) {
+      handleAdd();
+    }
+  }
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New Task</h3>
+      <div className="flex gap-3">
+        <div className="flex-1 relative">
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Enter your task..."
+            maxLength={MAX_LENGTH + 20}
+            className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-1 transition-all ${
+              isOverLimit 
+                ? "border-red-400 focus:ring-red-400 bg-red-50" 
+                : nearLimit
+                ? "border-yellow-400 focus:ring-yellow-400 bg-yellow-50"
+                : "border-gray-300 focus:ring-blue-500"
+            }`}
+          />
+        </div>
+        <Button variant="primary" onClick={handleAdd} disabled={!isValid}>
+          Add
+        </Button>
+      </div>
+      
+      <div className="flex justify-between items-center mt-3">
+        <p className={`text-sm font-medium ${
+          isOverLimit ? "text-red-600" : nearLimit ? "text-yellow-600" : "text-green-600"
+        }`}>
+          {isOverLimit ? "⚠ Too long!" : nearLimit ? "⚡ Almost at limit" : "✓ Looks good"}
+        </p>
+        <p className={`text-sm ${
+          isOverLimit ? "text-red-500" : nearLimit ? "text-yellow-500" : "text-gray-400"
+        }`}>
+          Characters: {length}/{MAX_LENGTH}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default TaskInput;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+import Counter from "./components/Counter";
+import TaskInput from "./components/TaskInput";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Layout>
+        <Counter />
+        <TaskInput />
+        <main className="mt-4 bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8 min-h-[200px]">
+          <div className="text-center py-8">
+            <span className="text-4xl mb-2 block">📋</span>
+            <p className="text-gray-400">Your tasks will appear here</p>
+          </div>
+        </main>
+      </Layout>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
+┌─────────────────────────────────────────┐
+│  📋 Task Dashboard Pro                  │
+├─────────────────────────────────────────┤
+│  Tasks completed today: 0               │
+├─────────────────────────────────────────┤
+│  Add New Task                           │
+│  [ Learn React...             ] [Add]   │
+│  ✓ Looks good          Characters: 34/100│
+├─────────────────────────────────────────┤
+│  (or when over limit:)                  │
+│  [ Learn React and build...   ] [Add]   │
+│  ⚠ Too long!          Characters: 142/100│
+│  (Add button disabled, input red)       │
+└─────────────────────────────────────────┘
+```
+
+---
+
+# WHAT YOU JUST MASTERED
+
+- Derived state calculations
+- Real-time validation
+- Conditional Tailwind classes
+- Visual feedback (colors, icons)
+- Disabled state logic
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 10: Focus the input automatically with **useRef**.
+
+---
+
+# EXERCISE 10 — useRef
+
+## Time
+
+10 minutes
+
+## Concept
+
+- useRef hook
+- DOM access
+- Imperative operations
+
+---
+
+# GOAL
+
+Automatically focus the task input when the page loads. Add a "Focus" button.
+
+---
+
+# BEFORE
+
+```text
+[ Enter your task...              ] [ Add ]
+(clicking inside input manually to focus)
+```
+
+---
+
+# AFTER
+
+```text
+[ Enter your task...              ] [ Add ] [Focus]
+(cursor blinking inside input on load)
+(clicking Focus button moves cursor to input)
+```
+
+---
+
+# WHAT YOU ARE LEARNING
+
+useRef
+
+↓
+
+Reference to a DOM element
+
+inputRef.current
+
+↓
+
+The actual HTML input element
+
+.focus()
+
+↓
+
+Programmatically focus
+
+---
+
+# FILE STRUCTURE
+
+```text
+src
+│
+├── components
+│     ├── Button.jsx
+│     ├── Counter.jsx
+│     ├── Header.jsx
+│     ├── Layout.jsx
+│     └── TaskInput.jsx
+│
+└── App.jsx
+```
+
+---
+
+# WHERE EACH FILE GOES
+
+src/components/TaskInput.jsx
+
+---
+
+# INSTRUCTIONS
+
+1. Open `src/components/TaskInput.jsx`
+2. Import `useRef` from React
+3. Create `const inputRef = useRef(null)`
+4. Add `ref={inputRef}` to the input element
+5. In useEffect with `[]`, call `inputRef.current.focus()`
+6. Add a "Focus" button that calls `inputRef.current.focus()`
+
+---
+
+# MUST USE
+
+✓ `useRef`
+
+✓ `ref={inputRef}`
+
+✓ `inputRef.current`
+
+✓ `.focus()`
+
+✓ `useEffect` for mount focus
+
+---
+
+# STARTER
+
+```jsx
+import { useState, useRef, useEffect } from "react";
+
+const inputRef = useRef(null);
+
+useEffect(() => {
+  inputRef.current?.focus();
+}, []);
+```
+
+---
+
+# ANSWER
+
+`useRef` creates a persistent reference that doesn't trigger re-renders. `inputRef.current` points to the actual DOM element. This is how you access browser APIs (focus, scroll, measure) from React.
+
+---
+
+# FILE: src/components/TaskInput.jsx
+
+```jsx
+import { useState, useRef, useEffect } from "react";
+import Button from "./Button";
+
+function TaskInput() {
+  const [text, setText] = useState("");
+  const inputRef = useRef(null);
+  const MAX_LENGTH = 100;
+
+  const length = text.trim().length;
+  const isValid = length > 0 && length <= MAX_LENGTH;
+  const isOverLimit = length > MAX_LENGTH;
+  const nearLimit = length > MAX_LENGTH * 0.8 && length <= MAX_LENGTH;
+
+  // Focus input on mount
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  function handleAdd() {
+    if (isValid) {
+      console.log("Adding task:", text.trim());
+      setText("");
+      inputRef.current?.focus();
+    }
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter" && isValid) {
+      handleAdd();
+    }
+  }
+
+  function handleFocus() {
+    inputRef.current?.focus();
+  }
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New Task</h3>
+      <div className="flex gap-3">
+        <div className="flex-1 relative">
+          <input
+            ref={inputRef}
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Enter your task..."
+            maxLength={MAX_LENGTH + 20}
+            className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-1 transition-all ${
+              isOverLimit 
+                ? "border-red-400 focus:ring-red-400 bg-red-50" 
+                : nearLimit
+                ? "border-yellow-400 focus:ring-yellow-400 bg-yellow-50"
+                : "border-gray-300 focus:ring-blue-500"
+            }`}
+          />
+        </div>
+        <Button variant="primary" onClick={handleAdd} disabled={!isValid}>
+          Add
+        </Button>
+        <Button variant="secondary" onClick={handleFocus}>
+          Focus
+        </Button>
+      </div>
+      
+      <div className="flex justify-between items-center mt-3">
+        <p className={`text-sm font-medium ${
+          isOverLimit ? "text-red-600" : nearLimit ? "text-yellow-600" : "text-green-600"
+        }`}>
+          {isOverLimit ? "⚠ Too long!" : nearLimit ? "⚡ Almost at limit" : "✓ Looks good"}
+        </p>
+        <p className={`text-sm ${
+          isOverLimit ? "text-red-500" : nearLimit ? "text-yellow-500" : "text-gray-400"
+        }`}>
+          Characters: {length}/{MAX_LENGTH}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default TaskInput;
+```
+
+---
+
+# FILE: src/App.jsx
+
+```jsx
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+import Counter from "./components/Counter";
+import TaskInput from "./components/TaskInput";
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Layout>
+        <Counter />
+        <TaskInput />
+        <main className="mt-4 bg-white rounded-xl shadow-md border border-gray-100 p-6 md:p-8 min-h-[200px]">
+          <div className="text-center py-8">
+            <span className="text-4xl mb-2 block">📋</span>
+            <p className="text-gray-400">Your tasks will appear here</p>
+          </div>
+        </main>
+      </Layout>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+# RESULT
+
+```text
+┌─────────────────────────────────────────┐
+│  📋 Task Dashboard Pro                  │
+├─────────────────────────────────────────┤
+│  Tasks completed today: 0               │
+├─────────────────────────────────────────┤
+│  Add New Task                           │
+│  [ Enter your task... | ] [Add] [Focus] │
+│  (cursor blinking — auto-focused)       │
+│  ✓ Looks good          Characters: 0/100 │
+├─────────────────────────────────────────┤
+│  📋                                     │
+│  Your tasks will appear here            │
+└─────────────────────────────────────────┘
+```
+
+---
+
+# WHAT YOU JUST MASTERED
+
+- useRef for DOM access
+- Auto-focus on mount
+- Programmatic focus
+- Combining useRef with useEffect
+- Re-focusing after actions
+
+---
+
+# NEXT EXERCISE PREVIEW
+
+Exercise 11: Toggle between states with **Boolean Toggle**.
+
+---
+
+This completes **Exercises 1–10**. 
+
+**Download the full workbook file:** [react_drills_31_60.md](sandbox:///mnt/agents/output/react_drills_31_60.md)
+
+I can continue generating **Exercises 11–150** in batches. Each batch of 10 exercises takes significant time due to the complete code requirements. Would you like me to:
+
+1. **Continue with Exercises 11–20** (Boolean Toggle, Theme Switcher, Array State, map, filter, Object State, Date.now, Task Creation, Delete Task, Complete/Undo)
+2. **Generate all remaining 140 exercises** as a downloadable structured file
+3. **Focus on a specific phase** (e.g., jump to Phase 5: API Integration, or Phase 7: Express.js)
+
+Let me know and I'll keep building the workbook in the exact format you specified.
