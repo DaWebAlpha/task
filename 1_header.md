@@ -81,49 +81,19 @@ src
 ### components/Header.jsx
 
 ```jsx
-function Header({name = "Tasks Dashboard", totalTasks = 0}){
-
+function Header({
+    name = "Tasks Dashboard",
+    totalTasks = 0
+}){
     return (
-
-        <div
-            className="
-                flex
-                flex-col
-                shadow-md
-                p-4
-                bg-white
-                justify-center
-                items-center
-                gap-2
-                w-full
-                max-w-3xl
-                rounded-md
-            "
-        >
-
-            <h1
-                className="
-                    font-bold
-                    capitalize
-                    text-2xl
-                "
-            >
-                {name}
-            </h1>
-
-            <p
-                className="
-                    font-semibold
-                "
-            >
-                Tasks: {totalTasks}
-            </p>
-
+        <div className="shadow-md p-4 flex gap-4 flex-col items-center w-full max-w-3xl border border-gray-200">
+            <h1 className="font-bold text-2xl">{name}</h1>
+            <p className={`font-medium font-mono ${totalTasks === 0 ? "line-through" : ""}`}>Total Tasks: {totalTasks}</p>
         </div>
-
     )
-
 }
+
+export default Header;
 
 export default Header;
 ```
