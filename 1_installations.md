@@ -265,3 +265,42 @@ task_manager/
 * Vite → Development server and build tool.
 * Tailwind → Styling framework.
 
+## Step 11: Create Source Code Folders
+
+```bash
+mkdir -p src/{components,context,features,hooks,services,styles,types,utils}
+```
+
+### Explanation
+
+Creates multiple folders inside `src` with a single command.
+
+* `components` → Reusable UI components.
+* `context` → React Context providers.
+* `features` → Feature-based modules (Tasks, Auth, etc.).
+* `hooks` → Custom React hooks.
+* `services` → API and external services.
+* `styles` → Global styles and CSS files.
+* `types` → Type definitions and interfaces.
+* `utils` → Helper and utility functions.
+
+---
+
+### Folder Structure
+
+```text
+src/
+├── components/
+├── context/
+├── features/
+├── hooks/
+├── services/
+├── styles/
+├── types/
+└── utils/
+```
+
+### Why?
+
+This structure keeps the project organized and scalable as it grows.
+
