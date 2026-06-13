@@ -304,3 +304,317 @@ src/
 
 This structure keeps the project organized and scalable as it grows.
 
+
+## Step 12: Create Header Component
+
+Create a new file:
+
+```text
+src/components/Header.jsx
+```
+
+Add:
+
+```jsx
+import { memo } from "react";
+
+function Header({
+  title = "Task DashBoard Pro",
+  subTitle = "Your Personal Task Manager"
+}) {
+  return (
+    <header className="relative shadow-lg p-6 md:p-8 text-white text-center bg-gradient-to-r from-blue-500 to-blue-600 w-full max-w-4xl rounded-b-xl mx-auto">
+
+      <h1 className="font-extrabold text-2xl md:text-3xl tracking-tight mb-1">
+        {title}
+      </h1>
+
+      <p className="text-blue-100 text-sm md:text-base font-normal max-w-md mx-auto">
+        {subTitle}
+      </p>
+
+    </header>
+  );
+}
+
+export default memo(Header);
+```
+
+### Explanation
+
+Import:
+
+```jsx
+import { memo } from "react";
+```
+
+* `memo` is a React optimization function.
+* Prevents unnecessary re-renders.
+* The component only re-renders when its props change.
+
+---
+
+### Component Props
+
+```jsx
+function Header({
+  title = "Task DashBoard Pro",
+  subTitle = "Your Personal Task Manager"
+})
+```
+
+Creates two props:
+
+| Prop     | Default Value              |
+| -------- | -------------------------- |
+| title    | Task DashBoard Pro         |
+| subTitle | Your Personal Task Manager |
+
+If no props are passed:
+
+```jsx
+<Header />
+```
+
+React uses the default values.
+
+---
+
+### Header Container
+
+```jsx
+<header className="relative shadow-lg p-6 md:p-8 text-white text-center bg-gradient-to-r from-blue-500 to-blue-600 w-full max-w-4xl rounded-b-xl mx-auto">
+```
+
+Tailwind classes:
+
+```css
+relative
+```
+
+Positioning reference.
+
+```css
+shadow-lg
+```
+
+Large shadow effect.
+
+```css
+p-6
+```
+
+24px padding.
+
+```css
+md:p-8
+```
+
+32px padding on medium screens and larger.
+
+```css
+text-white
+```
+
+White text.
+
+```css
+text-center
+```
+
+Center align text.
+
+```css
+bg-gradient-to-r
+```
+
+Creates a left-to-right gradient.
+
+```css
+from-blue-500
+```
+
+Starting gradient color.
+
+```css
+to-blue-600
+```
+
+Ending gradient color.
+
+```css
+w-full
+```
+
+Take full width.
+
+```css
+max-w-4xl
+```
+
+Maximum width constraint.
+
+```css
+rounded-b-xl
+```
+
+Round bottom corners.
+
+```css
+mx-auto
+```
+
+Center horizontally.
+
+---
+
+### Title
+
+```jsx
+<h1 className="font-extrabold text-2xl md:text-3xl tracking-tight mb-1">
+  {title}
+</h1>
+```
+
+Displays the main application title.
+
+Tailwind classes:
+
+```css
+font-extrabold
+```
+
+Extra bold text.
+
+```css
+text-2xl
+```
+
+Large text size.
+
+```css
+md:text-3xl
+```
+
+Larger text on medium screens.
+
+```css
+tracking-tight
+```
+
+Reduces letter spacing.
+
+```css
+mb-1
+```
+
+Small margin below the title.
+
+---
+
+### Subtitle
+
+```jsx
+<p className="text-blue-100 text-sm md:text-base font-normal max-w-md mx-auto">
+  {subTitle}
+</p>
+```
+
+Displays the application description.
+
+Tailwind classes:
+
+```css
+text-blue-100
+```
+
+Light blue text color.
+
+```css
+text-sm
+```
+
+Small text.
+
+```css
+md:text-base
+```
+
+Normal text size on medium screens.
+
+```css
+font-normal
+```
+
+Normal font weight.
+
+```css
+max-w-md
+```
+
+Maximum width.
+
+```css
+mx-auto
+```
+
+Center horizontally.
+
+---
+
+### Export
+
+```jsx
+export default memo(Header);
+```
+
+### Explanation
+
+Without `memo`:
+
+```text
+App Re-renders
+      |
+      V
+Header Re-renders
+```
+
+With `memo`:
+
+```text
+App Re-renders
+      |
+      V
+Props Changed?
+      |
+   No |
+      V
+Skip Render
+```
+
+Since the Header rarely changes, this improves performance.
+
+---
+
+### Project Structure So Far
+
+```text
+src/
+├── components/
+│   └── Header.jsx
+├── context/
+├── features/
+├── hooks/
+├── services/
+├── styles/
+├── types/
+└── utils/
+```
+
+### Purpose
+
+* `Header.jsx` displays the application title and subtitle.
+* Uses Tailwind for styling.
+* Uses `memo()` to avoid unnecessary re-renders.
+
+
