@@ -618,3 +618,206 @@ src/
 * Uses `memo()` to avoid unnecessary re-renders.
 
 
+## Step 13: Create Layout Component
+
+Create a new file:
+
+```text
+src/components/Layout.jsx
+```
+
+Add:
+
+```jsx
+import { memo } from "react";
+
+function Layout({ children }) {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {children}
+    </div>
+  );
+}
+
+export default memo(Layout);
+```
+
+### Explanation
+
+Import:
+
+```jsx
+import { memo } from "react";
+```
+
+* Imports React's `memo()` function.
+* Used to optimize rendering.
+* Component only re-renders when props change.
+
+---
+
+### children Prop
+
+```jsx
+function Layout({ children })
+```
+
+`children` is a special React prop.
+
+Example:
+
+```jsx
+<Layout>
+  <Header />
+  <TaskForm />
+  <TaskList />
+</Layout>
+```
+
+Everything between the opening and closing tags becomes `children`.
+
+React converts it to:
+
+```jsx
+children = (
+  <>
+    <Header />
+    <TaskForm />
+    <TaskList />
+  </>
+)
+```
+
+---
+
+### Layout Container
+
+```jsx
+<div className="min-h-screen bg-gray-50">
+```
+
+Tailwind classes:
+
+```css
+min-h-screen
+```
+
+Makes the layout at least the full height of the screen.
+
+```css
+bg-gray-50
+```
+
+Adds a light gray background.
+
+---
+
+### Render Children
+
+```jsx
+{children}
+```
+
+Displays whatever components are passed into the Layout.
+
+Example:
+
+```jsx
+<Layout>
+  <Header />
+</Layout>
+```
+
+Output:
+
+```jsx
+<div className="min-h-screen bg-gray-50">
+  <Header />
+</div>
+```
+
+---
+
+### Export
+
+```jsx
+export default memo(Layout);
+```
+
+### Explanation
+
+Without `memo`:
+
+```text
+App Re-renders
+      |
+      V
+Layout Re-renders
+```
+
+With `memo`:
+
+```text
+App Re-renders
+      |
+      V
+Props Changed?
+      |
+   No |
+      V
+Skip Render
+```
+
+This can improve performance in larger applications.
+
+---
+
+### Example Usage
+
+```jsx
+import Layout from "./components/Layout";
+import Header from "./components/Header";
+
+function App() {
+  return (
+    <Layout>
+      <Header />
+    </Layout>
+  );
+}
+```
+
+Rendered structure:
+
+```text
+Layout
+│
+└── Header
+```
+
+---
+
+### Project Structure So Far
+
+```text
+src/
+├── components/
+│   ├── Header.jsx
+│   └── Layout.jsx
+├── context/
+├── features/
+├── hooks/
+├── services/
+├── styles/
+├── types/
+└── utils/
+```
+
+### Purpose
+
+* `Layout.jsx` acts as the main page wrapper.
+* Provides a consistent page structure.
+* Displays all child components.
+* Uses `memo()` for render optimization.
+
+
