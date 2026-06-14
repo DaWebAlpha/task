@@ -1,129 +1,159 @@
-## Step 19: Create the Reusable Button Component
-
-Create a new file:
-
-```text
-src/components/Button.jsx
-```
-
-Add your Button component code.
-
-### Explanation
-
-The Button component is a reusable UI component that supports:
-
-* Multiple variants
-* Multiple sizes
-* Loading state
-* Disabled state
-* Ref forwarding
-* Custom styling
-* Rendering as links or buttons
-
-This means we can use one Button component throughout the entire application.
+I'll continue documenting the Button component and testing with detailed explanations, matching the clean style of the first documentation (no "Step" numbering, just component name as header).
 
 ---
 
-### Import memo
+# BUTTON COMPONENT
+
+## File: `src/components/Button.jsx`
 
 ```jsx
-import { memo } from "react";
-```
+import { memo, forwardRef } from "react";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-Used to prevent unnecessary re-renders.
+// Helper function: combines classes and removes conflicts
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
 
-```text
-Props Changed?
-      |
-   Yes|No
-      |
-      V
-Render / Skip
+// Color theme definitions for each button type
+const variantMap = {
+  primary:   "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500",
+  secondary: "bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500",
+  danger:    "bg-red-600 hover:bg-red-700 text-white focus:ring-red-500",
+  success:   "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500",
+  warning:   "bg-yellow-500 hover:bg-yellow-600 text-white focus:ring-yellow-500",
+  info:      "bg-cyan-500 hover:bg-cyan-600 text-white focus:ring-cyan-500",
+  light:     "bg-gray-100 hover:bg-gray-200 text-gray-800 focus:ring-gray-300",
+  dark:      "bg-gray-800 hover:bg-gray-900 text-white focus:ring-gray-700",
+  link:      "text-blue-600 hover:text-blue-800 underline hover:no-underline bg-transparent",
+};
+
+// Size definitions for buttons
+const sizeMap = {
+  sm: "px-3 py-1.5 text-sm",
+  md: "px-4 py-2 text-sm",
+  lg: "px-5 py-3 text-base",
+};
+
+// The actual Button component with ref forwarding
+const Button = forwardRef(function Button(
+  {
+    as: Component = "button",
+    variant = "primary",
+    size = "md",
+    isLoading = false,
+    disabled = false,
+    className = "",
+    children,
+    ...props
+  },
+  ref
+) {
+  // Button is disabled if explicitly disabled OR currently loading
+  const isDisabled = disabled || isLoading;
+
+  return (
+    <Component
+      ref={ref}
+      disabled={isDisabled}
+      className={cn(
+        // Base styles applied to ALL buttons
+        "inline-flex items-center justify-center",
+        "font-medium rounded-lg",
+        "transition-colors duration-200",
+        "focus:outline-none focus:ring-2 focus:ring-offset-2",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
+        
+        // Variant-specific colors (from variantMap)
+        variantMap[variant],
+        
+        // Size-specific padding and text (from sizeMap)
+        sizeMap[size],
+        
+        // Any custom classes passed from parent
+        className
+      )}
+      {...props}
+    >
+      {/* Show spinner when loading */}
+      {isLoading && (
+        <svg
+          className="animate-spin -ml-1 mr-2 h-4 w-4"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          ></circle>
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      )}
+      
+      {/* Button text/content */}
+      {children}
+    </Component>
+  );
+});
+
+export default memo(Button);
 ```
 
 ---
 
-### Import forwardRef
+## LINE-BY-LINE EXPLANATION
+
+### IMPORTS
 
 ```jsx
-import { forwardRef } from "react";
+import { memo, forwardRef } from "react";
 ```
 
-Allows parent components to access the actual DOM element.
-
-Example:
-
-```jsx
-<Button ref={buttonRef}>
-```
-
-Without `forwardRef`:
-
-```text
-Ref does not reach button
-```
-
-With `forwardRef`:
-
-```text
-Ref → Button DOM Element
-```
-
----
-
-### Import clsx
+| Import | Purpose |
+|--------|---------|
+| `memo` | Prevents re-rendering if props haven't changed |
+| `forwardRef` | Allows parent components to access this component's DOM element |
 
 ```jsx
 import { clsx } from "clsx";
 ```
 
-Used to conditionally combine class names.
+**What is clsx:** A tiny utility that builds class name strings conditionally.
 
-Example:
-
+**Example:**
 ```jsx
-clsx(
-  "btn",
-  isLoading && "opacity-50"
-)
+clsx("btn", isLoading && "opacity-50", isLarge && "text-lg")
+// isLoading=true, isLarge=false → "btn opacity-50"
+// isLoading=false, isLarge=true → "btn text-lg"
 ```
-
-Result:
-
-```text
-btn opacity-50
-```
-
----
-
-### Import twMerge
 
 ```jsx
 import { twMerge } from "tailwind-merge";
 ```
 
-Removes conflicting Tailwind classes.
+**What is twMerge:** Resolves conflicting Tailwind classes by keeping the last one.
 
-Example:
-
+**Example:**
 ```jsx
-twMerge(
-  "p-2",
-  "p-4"
-)
+twMerge("px-2 py-1", "px-4 py-2") 
+// Result: "px-4 py-2" (last one wins)
 ```
 
-Result:
-
-```text
-p-4
-```
-
-The last class wins.
+**Why combine them:** `clsx` handles conditional logic. `twMerge` resolves conflicts. Together they make dynamic class names safe and clean.
 
 ---
 
-### cn() Helper Function
+### THE cn() HELPER FUNCTION
 
 ```jsx
 export function cn(...inputs) {
@@ -131,823 +161,550 @@ export function cn(...inputs) {
 }
 ```
 
-Purpose:
+**What it does:**
+1. `...inputs` → Accepts any number of arguments (strings, objects, arrays)
+2. `clsx(inputs)` → Combines them into a clean class string
+3. `twMerge(...)` → Removes conflicting Tailwind classes
 
-```text
-Merge Tailwind Classes
-          +
-Remove Conflicts
-```
-
-Example:
-
+**Example usage:**
 ```jsx
-cn(
-  "px-2",
-  "px-6"
-)
-```
-
-Result:
-
-```text
-px-6
+cn("px-4 py-2", "px-6")        // → "py-2 px-6" (px-6 wins)
+cn("bg-blue-500", condition && "bg-red-500")  // → conditional class
 ```
 
 ---
 
-### Variant Map
+### VARIANT MAP
 
 ```jsx
 const variantMap = {
+  primary:   "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500",
+  secondary: "bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500",
+  danger:    "bg-red-600 hover:bg-red-700 text-white focus:ring-red-500",
+  success:   "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500",
+  warning:   "bg-yellow-500 hover:bg-yellow-600 text-white focus:ring-yellow-500",
+  info:      "bg-cyan-500 hover:bg-cyan-600 text-white focus:ring-cyan-500",
+  light:     "bg-gray-100 hover:bg-gray-200 text-gray-800 focus:ring-gray-300",
+  dark:      "bg-gray-800 hover:bg-gray-900 text-white focus:ring-gray-700",
+  link:      "text-blue-600 hover:text-blue-800 underline hover:no-underline bg-transparent",
+};
 ```
 
-Stores all button color themes.
+**What this is:** A lookup table. Each key is a button "flavor", each value is the Tailwind classes for that flavor.
 
-Available variants:
+**How to read:**
+| Variant | Normal State | Hover State | Text Color | Focus Ring |
+|---------|-------------|-------------|------------|------------|
+| primary | bg-blue-600 | hover:bg-blue-700 | text-white | focus:ring-blue-500 |
+| danger | bg-red-600 | hover:bg-red-700 | text-white | focus:ring-red-500 |
 
-```jsx
-primary
-secondary
-danger
-success
-warning
-info
-light
-dark
-link
-```
-
-Example:
-
-```jsx
-<Button variant="danger">
-```
-
-Uses:
-
-```css
-bg-red-600 text-white
-```
+**Why use a map:** One place to define all colors. Easy to add new variants. Consistent across the app.
 
 ---
 
-### Size Map
+### SIZE MAP
 
 ```jsx
 const sizeMap = {
+  sm: "px-3 py-1.5 text-sm",
+  md: "px-4 py-2 text-sm",
+  lg: "px-5 py-3 text-base",
+};
 ```
 
-Controls button sizes.
-
-Small:
-
-```css
-px-3 py-1.5 text-sm
-```
-
-Medium:
-
-```css
-px-4 py-2 text-sm
-```
-
-Large:
-
-```css
-px-5 py-3 text-base
-```
-
-Usage:
-
-```jsx
-<Button size="lg">
-```
+| Size | Horizontal Padding | Vertical Padding | Text Size |
+|------|-------------------|------------------|-----------|
+| sm | px-3 (12px) | py-1.5 (6px) | text-sm (14px) |
+| md | px-4 (16px) | py-2 (8px) | text-sm (14px) |
+| lg | px-5 (20px) | py-3 (12px) | text-base (16px) |
 
 ---
 
-### forwardRef Component
+### forwardRef WRAPPER
 
 ```jsx
 const Button = forwardRef(function Button(
+  {
+    as: Component = "button",
+    variant = "primary",
+    size = "md",
+    isLoading = false,
+    disabled = false,
+    className = "",
+    children,
+    ...props
+  },
+  ref
+) {
 ```
 
-Wraps the component so refs can be forwarded.
+**What forwardRef does:**
 
-Example:
+```
+WITHOUT forwardRef:
+Parent has ref → tries to attach to Button → ref stays null
+                         ↓
+                    Button is a function
+                         ↓
+                    No DOM element to attach to
 
+WITH forwardRef:
+Parent has ref → forwardRef passes it through → attaches to <button> or <a>
+                         ↓
+                    ref now points to actual DOM element
+```
+
+**Props explained:**
+
+| Prop | Default | Purpose |
+|------|---------|---------|
+| `as: Component` | `"button"` | What HTML element to render (button, a, div) |
+| `variant` | `"primary"` | Color theme from variantMap |
+| `size` | `"md"` | Size from sizeMap |
+| `isLoading` | `false` | Shows spinner, disables clicks |
+| `disabled` | `false` | Standard disabled state |
+| `className` | `""` | Extra custom classes from parent |
+| `children` | - | Content inside the button |
+| `...props` | - | Any other props (onClick, href, type, etc.) |
+
+**The `as` prop pattern (polymorphic component):**
 ```jsx
-<Button ref={buttonRef}>
+<Button>Click me</Button>           → renders <button>
+<Button as="a" href="/">Link</Button> → renders <a>
+<Button as="div">Custom</Button>    → renders <div>
 ```
 
 ---
 
-### as Prop
-
-```jsx
-as: Component = "button"
-```
-
-Allows dynamic rendering.
-
-Default:
-
-```html
-<button>
-```
-
-Example:
-
-```jsx
-<Button as="a">
-```
-
-Becomes:
-
-```html
-<a>
-```
-
----
-
-### Loading State
+### DISABLED LOGIC
 
 ```jsx
 const isDisabled = disabled || isLoading;
 ```
 
-When loading:
-
-```jsx
-<Button isLoading>
-```
-
-Result:
-
-```text
-Disabled
-+
-Spinner
-```
-
-Prevents multiple clicks.
+**Why combine:** A loading button should also be disabled. Prevents double-clicks while submitting.
 
 ---
 
-### Dynamic Classes
+### THE RENDERED ELEMENT
 
 ```jsx
-className={cn(
+<Component
+  ref={ref}
+  disabled={isDisabled}
+  className={cn(
+    "inline-flex items-center justify-center",
+    "font-medium rounded-lg",
+    "transition-colors duration-200",
+    "focus:outline-none focus:ring-2 focus:ring-offset-2",
+    "disabled:opacity-50 disabled:cursor-not-allowed",
+    variantMap[variant],
+    sizeMap[size],
+    className
+  )}
+  {...props}
+>
 ```
 
-Combines:
+**Base classes (applied to ALL buttons):**
 
-```jsx
-variantMap[variant]
+| Class | What It Does |
+|-------|-------------|
+| `inline-flex` | Makes button inline but allows flexbox layout inside |
+| `items-center` | Vertically centers content inside |
+| `justify-center` | Horizontally centers content inside |
+| `font-medium` | Medium font weight (500) |
+| `rounded-lg` | Rounded corners (8px radius) |
+| `transition-colors duration-200` | Smooth color change over 200ms |
+| `focus:outline-none` | Removes default browser focus outline |
+| `focus:ring-2` | Adds custom focus ring (2px) |
+| `focus:ring-offset-2` | Gap between element and focus ring |
+| `disabled:opacity-50` | 50% transparent when disabled |
+| `disabled:cursor-not-allowed` | Shows "not allowed" cursor when disabled |
 
-sizeMap[size]
-
-className
-```
-
-Example:
-
-```jsx
-<Button
-  variant="danger"
-  size="lg"
-/>
-```
-
-Gets:
-
-```css
-bg-red-600
-text-white
-px-5
-py-3
-```
+**Then adds:** variant colors → size padding → any custom classes from parent
 
 ---
 
-### Loading Spinner
+### LOADING SPINNER
 
 ```jsx
 {isLoading && (
+  <svg className="animate-spin -ml-1 mr-2 h-4 w-4" ...>
+    {/* SVG spinner graphic */}
+  </svg>
+)}
 ```
 
-Only displays when:
+**What this does:** When `isLoading` is true, shows a spinning circle before the button text.
+
+**SVG breakdown:**
+- `animate-spin` → Tailwind animation that rotates continuously
+- `-ml-1` → Negative left margin (pulls spinner slightly left)
+- `mr-2` → Right margin (space between spinner and text)
+- `h-4 w-4` → 16px × 16px size
+- Two circles: one gray track (opacity-25), one colored segment (opacity-75)
+
+---
+
+### CHILDREN RENDER
 
 ```jsx
-isLoading === true
+{children}
 ```
 
-Example:
+**What this is:** Whatever content was placed between `<Button>` and `</Button>` tags.
 
+**Examples:**
 ```jsx
-<Button isLoading>
-  Saving
-</Button>
-```
-
-Output:
-
-```text
-⟳ Saving
+<Button>Save</Button>           → children = "Save"
+<Button>🗑️ Delete</Button>     → children = "🗑️ Delete"
+<Button><Icon /> Text</Button>  → children = fragment with icon + text
 ```
 
 ---
 
-### Export
+### EXPORTS
 
 ```jsx
 export default memo(Button);
 ```
 
-Uses React memo optimization.
-
-```text
-Props Same?
-      |
-   Yes
-      |
-      V
-Skip Render
-```
+**Export flow:**
+1. `forwardRef` wraps the function → allows ref passing
+2. `memo` wraps the result → prevents unnecessary re-renders
+3. `export default` → makes it available for import
 
 ---
 
-## Step 20: Test the Button Component
+## HOW TO TEST THE BUTTON COMPONENT
 
-Open:
-
-```text
-src/App.jsx
-```
-
-Replace App with the Button testing playground.
-
-Purpose:
-
-```text
-Verify Button Features
-```
-
-Before using the Button in the Task Manager, we confirm:
-
-* Variants work
-* Sizes work
-* Disabled state works
-* Loading state works
-* Link rendering works
-* Ref forwarding works
-* Custom className overrides work
-
----
-
-### Variant Test
+### File: `src/App.jsx`
 
 ```jsx
-<Button variant="primary">
-```
-
-Tests:
-
-```text
-Primary
-Secondary
-Danger
-Success
-Warning
-Info
-Light
-Dark
-Link
-```
-
----
-
-### Size Test
-
-```jsx
-<Button size="sm">
-<Button size="md">
-<Button size="lg">
-```
-
-Verifies sizing system.
-
----
-
-### Disabled Test
-
-```jsx
-<Button disabled>
-```
-
-Expected:
-
-```text
-Visible
-Not Clickable
-```
-
----
-
-### Loading Test
-
-```jsx
-<Button isLoading>
-```
-
-Expected:
-
-```text
-Spinner
-Loading State
-```
-
----
-
-### Link Test
-
-```jsx
-<Button
-  as="a"
-  href="https://example.com"
->
-```
-
-Expected HTML:
-
-```html
-<a href="https://example.com">
-```
-
-instead of:
-
-```html
-<button>
-```
-
----
-
-### className Override Test
-
-```jsx
-<Button className="w-full">
-```
-
-Expected:
-
-```text
-Full Width Button
-```
-
----
-
-### Ref Test
-
-```jsx
-<Button ref={buttonRef}>
-```
-
-Tests `forwardRef`.
-
-Clicking:
-
-```text
-Test Ref
-```
-
-Should focus the Button component.
-
----
-
-### Project Structure So Far
-
-```text
-src/
-├── components/
-│   ├── Button.jsx
-│   ├── Header.jsx
-│   └── Layout.jsx
-│
-├── utils/
-│   ├── constants.js
-│   └── task.utils.js
-│
-├── App.jsx
-├── context/
-├── features/
-├── hooks/
-├── services/
-├── styles/
-└── types/
-```
-
-### Purpose
-
-* `Button.jsx` provides a fully reusable button system.
-* Supports enterprise-level UI patterns.
-* Will be reused throughout the Task Manager application.
-
-## Step 15: Test the Button Component
-
-Open:
-
-```text
-src/App.jsx
-```
-
-Replace the code with:
-
-```jsx
+import { useRef } from "react";
 import Button from "./components/Button";
 
 function App() {
+  const buttonRef = useRef(null);
+
   return (
-    <div className="p-8 space-y-4">
+    <div className="p-8 space-y-8 max-w-4xl mx-auto">
 
-      {/* 1. Test all variants */}
-      <h2 className="font-bold">Variants</h2>
+      {/* TEST 1: ALL VARIANTS */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">1. Variants</h2>
+        <div className="flex gap-2 flex-wrap">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="danger">Danger</Button>
+          <Button variant="success">Success</Button>
+          <Button variant="warning">Warning</Button>
+          <Button variant="info">Info</Button>
+          <Button variant="light">Light</Button>
+          <Button variant="dark">Dark</Button>
+          <Button variant="link">Link</Button>
+        </div>
+      </section>
 
-      <div className="flex gap-2 flex-wrap">
-        <Button variant="primary">Primary</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="danger">Danger</Button>
-        <Button variant="success">Success</Button>
-        <Button variant="warning">Warning</Button>
-        <Button variant="info">Info</Button>
-        <Button variant="light">Light</Button>
-        <Button variant="dark">Dark</Button>
-        <Button variant="link">Link</Button>
-      </div>
+      {/* TEST 2: ALL SIZES */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">2. Sizes</h2>
+        <div className="flex gap-2 items-center">
+          <Button size="sm">Small</Button>
+          <Button size="md">Medium</Button>
+          <Button size="lg">Large</Button>
+        </div>
+      </section>
 
-      {/* 2. Test all sizes */}
-      <h2 className="font-bold">Sizes</h2>
+      {/* TEST 3: DISABLED STATE */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">3. Disabled</h2>
+        <div className="flex gap-2">
+          <Button disabled>Disabled</Button>
+          <Button variant="success" disabled>
+            Disabled Success
+          </Button>
+        </div>
+      </section>
 
-      <div className="flex gap-2 items-center">
-        <Button size="sm">Small</Button>
-        <Button size="md">Medium</Button>
-        <Button size="lg">Large</Button>
-      </div>
+      {/* TEST 4: LOADING STATE */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">4. Loading</h2>
+        <div className="flex gap-2">
+          <Button isLoading>Saving</Button>
+          <Button variant="danger" isLoading>
+            Deleting
+          </Button>
+        </div>
+      </section>
 
-      {/* 3. Test disabled state */}
-      <h2 className="font-bold">Disabled</h2>
-
-      <div className="flex gap-2">
-        <Button disabled>Disabled</Button>
-        <Button variant="secondary" disabled>
-          Disabled Secondary
+      {/* TEST 5: AS LINK (a tag) */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">5. As Link</h2>
+        <Button
+          as="a"
+          href="https://example.com"
+          target="_blank"
+          variant="link"
+        >
+          Visit Example.com
         </Button>
-      </div>
+      </section>
 
-      {/* 4. Test loading state */}
-      <h2 className="font-bold">Loading</h2>
-
-      <div className="flex gap-2">
-        <Button isLoading>Loading</Button>
-        <Button variant="danger" isLoading>
-          Deleting
+      {/* TEST 6: CUSTOM CLASSNAME */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">6. Custom ClassName</h2>
+        <Button className="w-full">
+          Full Width Button
         </Button>
-      </div>
+      </section>
 
-      {/* 5. Test as prop */}
-      <h2 className="font-bold">As Link</h2>
+      {/* TEST 7: REF FORWARDING */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">7. Ref Test</h2>
+        <div className="flex gap-2">
+          <Button ref={buttonRef}>
+            Ref Button
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              if (buttonRef.current) {
+                buttonRef.current.focus();
+                buttonRef.current.style.transform = "scale(1.1)";
+                setTimeout(() => {
+                  buttonRef.current.style.transform = "scale(1)";
+                }, 200);
+              }
+            }}
+          >
+            Focus & Animate
+          </Button>
+        </div>
+      </section>
 
-      <Button
-        as="a"
-        href="https://example.com"
-        variant="link"
-      >
-        Go to Example
-      </Button>
-
-      {/* 6. Test className override */}
-      <h2 className="font-bold">Custom Class</h2>
-
-      <Button className="w-full">
-        Full Width Button
-      </Button>
-
-      {/* 7. Test ref forwarding */}
-      <h2 className="font-bold">Ref Test</h2>
-
-      <RefTest />
+      {/* TEST 8: CLICK HANDLER */}
+      <section>
+        <h2 className="text-lg font-bold mb-3">8. Click Handler</h2>
+        <Button
+          onClick={() => alert("Button clicked!")}
+        >
+          Click Me
+        </Button>
+      </section>
 
     </div>
-  );
-}
-
-function RefTest() {
-  const buttonRef = { current: null };
-
-  return (
-    <>
-      <Button ref={buttonRef}>
-        Ref Button
-      </Button>
-
-      <button
-        className="ml-2 px-3 py-1 bg-gray-200 rounded"
-        onClick={() => {
-          if (buttonRef.current) {
-            buttonRef.current.focus();
-            alert("Ref works! Button focused.");
-          } else {
-            alert("Ref is NOT working");
-          }
-        }}
-      >
-        Test Ref
-      </button>
-    </>
   );
 }
 
 export default App;
 ```
 
-### Explanation
-
-This App component is being used as a **testing playground** for the Button component.
-
-Instead of building the Task Manager immediately, we first verify that the Button works correctly in different situations.
-
 ---
 
-### Variant Testing
+## HOW TO READ THE TEST FILE
+
+### IMPORTS
 
 ```jsx
-<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="danger">Danger</Button>
+import { useRef } from "react";
+import Button from "./components/Button";
 ```
 
-Tests the different button styles.
-
-Expected result:
-
-```text
-Primary
-Secondary
-Danger
-Success
-Warning
-Info
-Light
-Dark
-Link
-```
-
-Each should display its own color scheme.
+| Import | Purpose |
+|--------|---------|
+| `useRef` | Creates a reference to attach to a DOM element |
+| `Button` | The component we are testing |
 
 ---
 
-### Size Testing
+### TEST 1: VARIANTS
 
 ```jsx
-<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
+<section>
+  <h2 className="text-lg font-bold mb-3">1. Variants</h2>
+  <div className="flex gap-2 flex-wrap">
+    <Button variant="primary">Primary</Button>
+    <Button variant="secondary">Secondary</Button>
+    ...
+  </div>
+</section>
 ```
 
-Tests the button sizing system.
+**What to verify:**
+- Each button has different colors
+- Hover over each - color should darken
+- Focus on each - colored ring should appear
 
-Expected result:
-
-```text
-Small   Medium   Large
+**Expected result:**
 ```
-
-Each button should have different padding and font sizes.
+[Blue] [Gray] [Red] [Green] [Yellow] [Cyan] [Light gray] [Dark gray] [Link text]
+```
 
 ---
 
-### Disabled State Testing
+### TEST 2: SIZES
 
 ```jsx
-<Button disabled>
-  Disabled
-</Button>
+<div className="flex gap-2 items-center">
+  <Button size="sm">Small</Button>
+  <Button size="md">Medium</Button>
+  <Button size="lg">Large</Button>
+</div>
 ```
 
-Tests whether the button can be disabled.
+**What to verify:**
+- Three buttons with different heights and padding
+- Aligned by their centers (items-center)
 
-Expected result:
-
-```text
-Button visible
-Cannot be clicked
-Reduced opacity
+**Expected result:**
+```
+[Small]  [Medium]  [Large]
+  short     medium     tall
 ```
 
 ---
 
-### Loading State Testing
+### TEST 3: DISABLED
 
 ```jsx
-<Button isLoading>
-  Loading
-</Button>
+<Button disabled>Disabled</Button>
 ```
 
-Tests loading behavior.
-
-Expected result:
-
-```text
-Loading Spinner
-or
-Loading Text
-```
-
-depending on Button implementation.
+**What to verify:**
+- Button looks faded (opacity-50)
+- Cursor shows "not allowed" on hover
+- Clicking does nothing
 
 ---
 
-### Link Testing
+### TEST 4: LOADING
 
 ```jsx
-<Button
-  as="a"
-  href="https://example.com"
->
-  Go to Example
-</Button>
+<Button isLoading>Saving</Button>
 ```
 
-Tests polymorphic rendering.
-
-Expected result:
-
-```html
-<a href="https://example.com">
-  Go to Example
-</a>
-```
-
-instead of:
-
-```html
-<button>
-  Go to Example
-</button>
-```
+**What to verify:**
+- Spinner icon appears before text
+- Button is disabled (cannot click)
+- Spinner rotates continuously
 
 ---
 
-### className Override Testing
+### TEST 5: AS LINK
+
+```jsx
+<Button as="a" href="https://example.com" target="_blank" variant="link">
+```
+
+**What to verify:**
+- Renders as `<a>` tag in browser DevTools (not `<button>`)
+- Has href attribute
+- Opens in new tab (target="_blank")
+- Looks like a text link (underlined)
+
+---
+
+### TEST 6: CUSTOM CLASSNAME
 
 ```jsx
 <Button className="w-full">
 ```
 
-Tests whether parent components can extend styling.
-
-Expected result:
-
-```text
-Button stretches across container width
-```
+**What to verify:**
+- Button stretches to full width of container
+- All other styles (color, padding) still apply
+- `w-full` from parent overrides any width constraints
 
 ---
 
-### Ref Testing
+### TEST 7: REF FORWARDING
 
 ```jsx
+const buttonRef = useRef(null);
+...
 <Button ref={buttonRef}>
+...
+<button onClick={() => {
+  buttonRef.current.focus();
+  buttonRef.current.style.transform = "scale(1.1)";
+}}>
 ```
 
-Tests React ref forwarding.
+**What to verify:**
+- Click "Focus & Animate" → first button gets focus ring
+- First button scales up briefly
+- This proves the ref successfully reached the DOM element
 
-Purpose:
-
-```text
-Parent Component
-      |
-      V
-Access Button DOM Element
-```
+**Without forwardRef:** `buttonRef.current` would be `null` and nothing would happen
 
 ---
 
-### RefTest Component
+### TEST 8: CLICK HANDLER
 
 ```jsx
-function RefTest()
+<Button onClick={() => alert("Button clicked!")}>
 ```
 
-A helper component used only for testing refs.
+**What to verify:**
+- Clicking shows browser alert
+- `onClick` prop was passed through `...props` to the underlying element
 
 ---
 
-### buttonRef
+## RUNNING THE TESTS
 
-```jsx
-const buttonRef = { current: null };
+```bash
+cd task_manager/client
+npm run dev
 ```
 
-Stores a reference to the button element.
+**Open browser:** `http://localhost:5173`
 
-After rendering:
+**Verify all 8 tests pass visually.**
 
-```text
-buttonRef
-    |
-    V
-Actual Button Element
+---
+
+## PROJECT STRUCTURE SO FAR
+
+```
+task_manager/
+│
+├── client/
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Button.jsx      ← NEW
+│   │   │   ├── Header.jsx
+│   │   │   └── Layout.jsx
+│   │   ├── App.jsx             ← TEST FILE
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── package.json
+│   └── vite.config.js
+│
+└── server/
 ```
 
 ---
 
-### Test Button
+## WHAT YOU HAVE LEARNED
 
-```jsx
-buttonRef.current.focus();
-```
-
-When clicked:
-
-1. Accesses the button element.
-2. Calls focus().
-3. Moves keyboard focus to the button.
-
-Expected result:
-
-```text
-Ref works! Button focused.
-```
-
-If ref forwarding is not implemented:
-
-```text
-Ref is NOT working
-```
-
-appears instead.
+| Concept | Where Used |
+|---------|-----------|
+| `forwardRef` | Button component (parent can access DOM) |
+| `memo` | Button component (prevent re-renders) |
+| `clsx` | `cn()` helper (conditional classes) |
+| `tailwind-merge` | `cn()` helper (resolve conflicts) |
+| Polymorphic `as` prop | Render as button, a, or any element |
+| `...props` spread | Pass through any extra props |
+| `...inputs` rest parameter | `cn()` accepts any number of classes |
+| `disabled \|\| isLoading` | Combine conditions for disabled state |
+| SVG spinner | Loading animation with CSS animation |
+| `useRef` | Test file (access DOM element) |
 
 ---
 
-### Tailwind Classes Used
-
-```css
-p-8
-```
-
-Adds padding.
-
-```css
-space-y-4
-```
-
-Adds spacing between sections.
-
-```css
-flex
-```
-
-Creates flex layout.
-
-```css
-gap-2
-```
-
-Adds spacing between buttons.
-
-```css
-flex-wrap
-```
-
-Allows buttons to move onto the next line.
-
-```css
-font-bold
-```
-
-Bold section headings.
-
-```css
-items-center
-```
-
-Vertically aligns items.
-
----
-
-### Purpose
-
-This file serves as a complete Button component test suite.
-
-Before using Button in the Task Manager, we verify:
-
-* Variants work
-* Sizes work
-* Disabled state works
-* Loading state works
-* Link rendering works
-* Custom styling works
-* Ref forwarding works
-
-This is a common professional practice before integrating reusable UI components into larger applications.
+Send me the next component and I will document it the same way!
