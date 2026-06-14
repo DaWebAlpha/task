@@ -457,4 +457,121 @@ src/
 
 * `constants.js` stores reusable application constants.
 * `task.utils.js` stores reusable task helper functions.
-* `App.jsx` currently acts as a testing playground to verify utility functions before building the real Task Manager UI.
+* `App.jsx` currently acts as a testing playground to verify utility functions before building the real Task Manager UI.  /**
+ * Step 17 Test: Verify Task Utility Functions
+ * 
+ * This file tests that task.utils.js functions work correctly:
+ * - generateTaskId() creates unique IDs
+ * - createTask() builds complete task objects
+ * - getPriorityStyles() returns correct Tailwind classes
+ */
+
+// React hooks for state and side effects
+import { useState, useEffect } from "react";
+
+// Shared UI components
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+
+// Task utility functions
+import taskUtils from "./utils/task.utils";
+
+// Application constants
+import constants from "./utils/constants";
+
+function App() {
+  // Extract utility functions for easier access
+  const generateTaskId = taskUtils.generateTaskId;
+  const createTask = taskUtils.createTask;
+  const getPriorityStyles = taskUtils.getPriorityStyles;
+
+  // Test priority values including an invalid one for default case
+  const priority = ["low", "medium", "high", "default"];
+
+  // Test data for createTask
+  const data = {
+    title: "Pound fufu",
+    description: "Will pound fufu on Friday",
+    priority: constants.TASK_PRIORITY.HIGH,
+    dueDate: new Date(Date.now() + 36000000).toISOString(),
+  };
+
+  // Create a task using utility function
+  const task = createTask(data);
+
+  // Log created task to console for verification
+  console.log(task);
+
+  // State for delayed ID generation demo
+  const [taskId, setTaskId] = useState("Generating...");
+
+  // Generate ID after 1 second to show it's dynamic
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newId = generateTaskId();
+      setTaskId(newId);
+    }, 1000);
+
+    // Cleanup timer on unmount
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Layout>
+      {/* Application header */}
+      <Header />
+
+      {/* Main content area */}
+      <main className="p-4">
+        <div className="max-w-4xl mx-auto space-y-5">
+
+          {/* Test 1: generateTaskId */}
+          <div className="bg-white shadow-md p-4 rounded-xl border border-gray-300">
+            <h2 className="font-bold text-gray-800 mb-2">
+              Test 1: generateTaskId()
+            </h2>
+            <p className="text-gray-600">
+              Generated ID: <span className="font-mono text-blue-600">{taskId}</span>
+            </p>
+          </div>
+
+          {/* Test 2: createTask */}
+          <div className="bg-white shadow-md p-4 rounded-xl border border-gray-300">
+            <h2 className="font-bold text-gray-800 mb-2">
+              Test 2: createTask()
+            </h2>
+            <div className="text-gray-600 space-y-1">
+              <p>Title: {task.title}</p>
+              <p>Description: {task.description}</p>
+              <p>Priority: {task.priority}</p>
+              <p>Status: {task.status}</p>
+              <p>Due Date: {task.dueDate}</p>
+              <p>Created At: {task.createdAt}</p>
+              <p>ID: {task.id}</p>
+            </div>
+          </div>
+
+          {/* Test 3: getPriorityStyles */}
+          <div className="bg-white shadow-md p-4 rounded-xl border border-gray-300">
+            <h2 className="font-bold text-gray-800 mb-2">
+              Test 3: getPriorityStyles()
+            </h2>
+            <div className="space-y-2">
+              {priority.map((prior) => (
+                <p
+                  key={prior}
+                  className={`${getPriorityStyles(prior)} p-4 text-center rounded-lg font-semibold`}
+                >
+                  Priority: {prior.toUpperCase()}
+                </p>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </Layout>
+  );
+}
+
+export default App;
