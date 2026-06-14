@@ -1,3 +1,557 @@
+## Step 19: Create the Reusable Button Component
+
+Create a new file:
+
+```text
+src/components/Button.jsx
+```
+
+Add your Button component code.
+
+### Explanation
+
+The Button component is a reusable UI component that supports:
+
+* Multiple variants
+* Multiple sizes
+* Loading state
+* Disabled state
+* Ref forwarding
+* Custom styling
+* Rendering as links or buttons
+
+This means we can use one Button component throughout the entire application.
+
+---
+
+### Import memo
+
+```jsx
+import { memo } from "react";
+```
+
+Used to prevent unnecessary re-renders.
+
+```text
+Props Changed?
+      |
+   Yes|No
+      |
+      V
+Render / Skip
+```
+
+---
+
+### Import forwardRef
+
+```jsx
+import { forwardRef } from "react";
+```
+
+Allows parent components to access the actual DOM element.
+
+Example:
+
+```jsx
+<Button ref={buttonRef}>
+```
+
+Without `forwardRef`:
+
+```text
+Ref does not reach button
+```
+
+With `forwardRef`:
+
+```text
+Ref → Button DOM Element
+```
+
+---
+
+### Import clsx
+
+```jsx
+import { clsx } from "clsx";
+```
+
+Used to conditionally combine class names.
+
+Example:
+
+```jsx
+clsx(
+  "btn",
+  isLoading && "opacity-50"
+)
+```
+
+Result:
+
+```text
+btn opacity-50
+```
+
+---
+
+### Import twMerge
+
+```jsx
+import { twMerge } from "tailwind-merge";
+```
+
+Removes conflicting Tailwind classes.
+
+Example:
+
+```jsx
+twMerge(
+  "p-2",
+  "p-4"
+)
+```
+
+Result:
+
+```text
+p-4
+```
+
+The last class wins.
+
+---
+
+### cn() Helper Function
+
+```jsx
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+```
+
+Purpose:
+
+```text
+Merge Tailwind Classes
+          +
+Remove Conflicts
+```
+
+Example:
+
+```jsx
+cn(
+  "px-2",
+  "px-6"
+)
+```
+
+Result:
+
+```text
+px-6
+```
+
+---
+
+### Variant Map
+
+```jsx
+const variantMap = {
+```
+
+Stores all button color themes.
+
+Available variants:
+
+```jsx
+primary
+secondary
+danger
+success
+warning
+info
+light
+dark
+link
+```
+
+Example:
+
+```jsx
+<Button variant="danger">
+```
+
+Uses:
+
+```css
+bg-red-600 text-white
+```
+
+---
+
+### Size Map
+
+```jsx
+const sizeMap = {
+```
+
+Controls button sizes.
+
+Small:
+
+```css
+px-3 py-1.5 text-sm
+```
+
+Medium:
+
+```css
+px-4 py-2 text-sm
+```
+
+Large:
+
+```css
+px-5 py-3 text-base
+```
+
+Usage:
+
+```jsx
+<Button size="lg">
+```
+
+---
+
+### forwardRef Component
+
+```jsx
+const Button = forwardRef(function Button(
+```
+
+Wraps the component so refs can be forwarded.
+
+Example:
+
+```jsx
+<Button ref={buttonRef}>
+```
+
+---
+
+### as Prop
+
+```jsx
+as: Component = "button"
+```
+
+Allows dynamic rendering.
+
+Default:
+
+```html
+<button>
+```
+
+Example:
+
+```jsx
+<Button as="a">
+```
+
+Becomes:
+
+```html
+<a>
+```
+
+---
+
+### Loading State
+
+```jsx
+const isDisabled = disabled || isLoading;
+```
+
+When loading:
+
+```jsx
+<Button isLoading>
+```
+
+Result:
+
+```text
+Disabled
++
+Spinner
+```
+
+Prevents multiple clicks.
+
+---
+
+### Dynamic Classes
+
+```jsx
+className={cn(
+```
+
+Combines:
+
+```jsx
+variantMap[variant]
+
+sizeMap[size]
+
+className
+```
+
+Example:
+
+```jsx
+<Button
+  variant="danger"
+  size="lg"
+/>
+```
+
+Gets:
+
+```css
+bg-red-600
+text-white
+px-5
+py-3
+```
+
+---
+
+### Loading Spinner
+
+```jsx
+{isLoading && (
+```
+
+Only displays when:
+
+```jsx
+isLoading === true
+```
+
+Example:
+
+```jsx
+<Button isLoading>
+  Saving
+</Button>
+```
+
+Output:
+
+```text
+⟳ Saving
+```
+
+---
+
+### Export
+
+```jsx
+export default memo(Button);
+```
+
+Uses React memo optimization.
+
+```text
+Props Same?
+      |
+   Yes
+      |
+      V
+Skip Render
+```
+
+---
+
+## Step 20: Test the Button Component
+
+Open:
+
+```text
+src/App.jsx
+```
+
+Replace App with the Button testing playground.
+
+Purpose:
+
+```text
+Verify Button Features
+```
+
+Before using the Button in the Task Manager, we confirm:
+
+* Variants work
+* Sizes work
+* Disabled state works
+* Loading state works
+* Link rendering works
+* Ref forwarding works
+* Custom className overrides work
+
+---
+
+### Variant Test
+
+```jsx
+<Button variant="primary">
+```
+
+Tests:
+
+```text
+Primary
+Secondary
+Danger
+Success
+Warning
+Info
+Light
+Dark
+Link
+```
+
+---
+
+### Size Test
+
+```jsx
+<Button size="sm">
+<Button size="md">
+<Button size="lg">
+```
+
+Verifies sizing system.
+
+---
+
+### Disabled Test
+
+```jsx
+<Button disabled>
+```
+
+Expected:
+
+```text
+Visible
+Not Clickable
+```
+
+---
+
+### Loading Test
+
+```jsx
+<Button isLoading>
+```
+
+Expected:
+
+```text
+Spinner
+Loading State
+```
+
+---
+
+### Link Test
+
+```jsx
+<Button
+  as="a"
+  href="https://example.com"
+>
+```
+
+Expected HTML:
+
+```html
+<a href="https://example.com">
+```
+
+instead of:
+
+```html
+<button>
+```
+
+---
+
+### className Override Test
+
+```jsx
+<Button className="w-full">
+```
+
+Expected:
+
+```text
+Full Width Button
+```
+
+---
+
+### Ref Test
+
+```jsx
+<Button ref={buttonRef}>
+```
+
+Tests `forwardRef`.
+
+Clicking:
+
+```text
+Test Ref
+```
+
+Should focus the Button component.
+
+---
+
+### Project Structure So Far
+
+```text
+src/
+├── components/
+│   ├── Button.jsx
+│   ├── Header.jsx
+│   └── Layout.jsx
+│
+├── utils/
+│   ├── constants.js
+│   └── task.utils.js
+│
+├── App.jsx
+├── context/
+├── features/
+├── hooks/
+├── services/
+├── styles/
+└── types/
+```
+
+### Purpose
+
+* `Button.jsx` provides a fully reusable button system.
+* Supports enterprise-level UI patterns.
+* Will be reused throughout the Task Manager application.
+
 ## Step 15: Test the Button Component
 
 Open:
