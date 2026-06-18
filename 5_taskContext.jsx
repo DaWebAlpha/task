@@ -4534,3 +4534,1780 @@ function UserProvider({ children }){
   }, []);
 
   const loginSuccess = useCallback((user, token, refreshToken)
+
+
+
+
+
+  import { 
+  createContext, 
+  useContext, 
+  useReducer, 
+  useCallback,
+  useMemo,
+  useState,
+  useEffect
+} from "react";
+
+const ThemeContext = createContext(null);
+
+const SET_THEME = "SET_THEME";
+const TOGGLE_THEME = "TOGGLE_THEME";
+const SET_COLOR_SCHEME = "SET_COLOR_SCHEME";
+const SET_ACCENT_COLOR = "SET_ACCENT_COLOR";
+const SET_FONT_SIZE = "SET_FONT_SIZE";
+const SET_FONT_FAMILY = "SET_FONT_FAMILY";
+const SET_LANGUAGE = "SET_LANGUAGE";
+const SET_LOCALE = "SET_LOCALE";
+const SET_TIMEZONE = "SET_TIMEZONE";
+const SET_DATE_FORMAT = "SET_DATE_FORMAT";
+const SET_TIME_FORMAT = "SET_TIME_FORMAT";
+const SET_NUMBER_FORMAT = "SET_NUMBER_FORMAT";
+const SET_CURRENCY = "SET_CURRENCY";
+const SET_UNIT_SYSTEM = "SET_UNIT_SYSTEM";
+const SET_REDUCED_MOTION = "SET_REDUCED_MOTION";
+const SET_HIGH_CONTRAST = "SET_HIGH_CONTRAST";
+const SET_SCREEN_READER = "SET_SCREEN_READER";
+const RESET_APPEARANCE = "RESET_APPEARANCE";
+const SAVE_APPEARANCE = "SAVE_APPEARANCE";
+const LOAD_APPEARANCE = "LOAD_APPEARANCE";
+
+function themeReducer(state, action){
+  switch(action.type){
+    case SET_THEME:
+      return { ...state, theme: action.payload };
+    case TOGGLE_THEME:
+      const themes = ['light', 'dark', 'system'];
+      const currentIndex = themes.indexOf(state.theme);
+      return { ...state, theme: themes[(currentIndex + 1) % themes.length] };
+    case SET_COLOR_SCHEME:
+      return { ...state, colorScheme: action.payload };
+    case SET_ACCENT_COLOR:
+      return { ...state, accentColor: action.payload };
+    case SET_FONT_SIZE:
+      return { ...state, fontSize: action.payload };
+    case SET_FONT_FAMILY:
+      return { ...state, fontFamily: action.payload };
+    case SET_LANGUAGE:
+      return { ...state, language: action.payload };
+    case SET_LOCALE:
+      return { ...state, locale: action.payload };
+    case SET_TIMEZONE:
+      return { ...state, timezone: action.payload };
+    case SET_DATE_FORMAT:
+      return { ...state, dateFormat: action.payload };
+    case SET_TIME_FORMAT:
+      return { ...state, timeFormat: action.payload };
+    case SET_NUMBER_FORMAT:
+      return { ...state, numberFormat: action.payload };
+    case SET_CURRENCY:
+      return { ...state, currency: action.payload };
+    case SET_UNIT_SYSTEM:
+      return { ...state, unitSystem: action.payload };
+    case SET_REDUCED_MOTION:
+      return { ...state, reducedMotion: action.payload };
+    case SET_HIGH_CONTRAST:
+      return { ...state, highContrast: action.payload };
+    case SET_SCREEN_READER:
+      return { ...state, screenReader: action.payload };
+    case RESET_APPEARANCE:
+      return { 
+        ...state,
+        theme: 'system',
+        colorScheme: 'default',
+        accentColor: 'blue',
+        fontSize: 'medium',
+        fontFamily: 'system',
+        language: 'en',
+        locale: 'en-US',
+        timezone: 'UTC',
+        dateFormat: 'MM/DD/YYYY',
+        timeFormat: '12h',
+        numberFormat: 'en-US',
+        currency: 'USD',
+        unitSystem: 'metric',
+        reducedMotion: false,
+        highContrast: false,
+        screenReader: false
+      };
+    case SAVE_APPEARANCE:
+      return { ...state, savedAt: Date.now() };
+    case LOAD_APPEARANCE:
+      return { ...state, ...action.payload, loadedAt: Date.now() };
+    default:
+      return state;
+  }
+}
+
+function ThemeProvider({ children, defaultTheme = 'system' }){
+  const [theme, dispatch] = useReducer(themeReducer, {
+    theme: defaultTheme,
+    colorScheme: 'default',
+    accentColor: 'blue',
+    fontSize: 'medium',
+    fontFamily: 'system',
+    language: 'en',
+    locale: 'en-US',
+    timezone: 'UTC',
+    dateFormat: 'MM/DD/YYYY',
+    timeFormat: '12h',
+    numberFormat: 'en-US',
+    currency: 'USD',
+    unitSystem: 'metric',
+    reducedMotion: false,
+    highContrast: false,
+    screenReader: false,
+    savedAt: null,
+    loadedAt: null
+  });
+
+  const setTheme = useCallback((theme) => {
+    dispatch({ type: SET_THEME, payload: theme });
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    dispatch({ type: TOGGLE_THEME });
+  }, []);
+
+  const setColorScheme = useCallback((scheme) => {
+    dispatch({ type: SET_COLOR_SCHEME, payload: scheme });
+  }, []);
+
+  const setAccentColor = useCallback((color) => {
+    dispatch({ type: SET_ACCENT_COLOR, payload: color });
+  }, []);
+
+  const setFontSize = useCallback((size) => {
+    dispatch({ type: SET_FONT_SIZE, payload: size });
+  }, []);
+
+  const setFontFamily = useCallback((family) => {
+    dispatch({ type: SET_FONT_FAMILY, payload: family });
+  }, []);
+
+  const setLanguage = useCallback((lang) => {
+    dispatch({ type: SET_LANGUAGE, payload: lang });
+  }, []);
+
+  const setLocale = useCallback((locale) => {
+    dispatch({ type: SET_LOCALE, payload: locale });
+  }, []);
+
+  const setTimezone = useCallback((tz) => {
+    dispatch({ type: SET_TIMEZONE, payload: tz });
+  }, []);
+
+  const setDateFormat = useCallback((format) => {
+    dispatch({ type: SET_DATE_FORMAT, payload: format });
+  }, []);
+
+  const setTimeFormat = useCallback((format) => {
+    dispatch({ type: SET_TIME_FORMAT, payload: format });
+  }, []);
+
+  const setNumberFormat = useCallback((format) => {
+    dispatch({ type: SET_NUMBER_FORMAT, payload: format });
+  }, []);
+
+  const setCurrency = useCallback((currency) => {
+    dispatch({ type: SET_CURRENCY, payload: currency });
+  }, []);
+
+  const setUnitSystem = useCallback((system) => {
+    dispatch({ type: SET_UNIT_SYSTEM, payload: system });
+  }, []);
+
+  const setReducedMotion = useCallback((enabled) => {
+    dispatch({ type: SET_REDUCED_MOTION, payload: enabled });
+  }, []);
+
+  const setHighContrast = useCallback((enabled) => {
+    dispatch({ type: SET_HIGH_CONTRAST, payload: enabled });
+  }, []);
+
+  const setScreenReader = useCallback((enabled) => {
+    dispatch({ type: SET_SCREEN_READER, payload: enabled });
+  }, []);
+
+  const resetAppearance = useCallback(() => {
+    dispatch({ type: RESET_APPEARANCE });
+  }, []);
+
+  const saveAppearance = useCallback(() => {
+    dispatch({ type: SAVE_APPEARANCE });
+  }, []);
+
+  const loadAppearance = useCallback((settings) => {
+    dispatch({ type: LOAD_APPEARANCE, payload: settings });
+  }, []);
+
+  // UI state outside reducer
+  const [themePanelOpen, setThemePanelOpen] = useState(false);
+
+  // Computed effective theme
+  const effectiveTheme = useMemo(() => {
+    if (theme.theme === 'system') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return theme.theme;
+  }, [theme.theme]);
+
+  const isDark = useMemo(() => effectiveTheme === 'dark', [effectiveTheme]);
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', effectiveTheme);
+    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.classList.toggle('high-contrast', theme.highContrast);
+    document.documentElement.classList.toggle('reduced-motion', theme.reducedMotion);
+    document.documentElement.style.setProperty('--accent-color', theme.accentColor);
+    document.documentElement.style.setProperty('--font-size', theme.fontSize);
+    document.documentElement.style.setProperty('--font-family', theme.fontFamily);
+  }, [effectiveTheme, isDark, theme.highContrast, theme.reducedMotion, theme.accentColor, theme.fontSize, theme.fontFamily]);
+
+  // Load from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        dispatch({ type: LOAD_APPEARANCE, payload: parsed });
+      } catch (e) {
+        console.error('Failed to load theme', e);
+      }
+    }
+  }, []);
+
+  // Save to localStorage
+  useEffect(() => {
+    localStorage.setItem('theme', JSON.stringify({
+      theme: theme.theme,
+      colorScheme: theme.colorScheme,
+      accentColor: theme.accentColor,
+      fontSize: theme.fontSize,
+      fontFamily: theme.fontFamily,
+      language: theme.language,
+      locale: theme.locale,
+      timezone: theme.timezone,
+      dateFormat: theme.dateFormat,
+      timeFormat: theme.timeFormat,
+      numberFormat: theme.numberFormat,
+      currency: theme.currency,
+      unitSystem: theme.unitSystem,
+      reducedMotion: theme.reducedMotion,
+      highContrast: theme.highContrast,
+      screenReader: theme.screenReader
+    }));
+  }, [theme]);
+
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = () => {
+      if (theme.theme === 'system') {
+        // Force re-render by dispatching a no-op or using state
+        dispatch({ type: SET_THEME, payload: 'system' });
+      }
+    };
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, [theme.theme]);
+
+  const value = {
+    theme,
+    effectiveTheme,
+    isDark,
+    themePanelOpen,
+    setThemePanelOpen,
+    setTheme,
+    toggleTheme,
+    setColorScheme,
+    setAccentColor,
+    setFontSize,
+    setFontFamily,
+    setLanguage,
+    setLocale,
+    setTimezone,
+    setDateFormat,
+    setTimeFormat,
+    setNumberFormat,
+    setCurrency,
+    setUnitSystem,
+    setReducedMotion,
+    setHighContrast,
+    setScreenReader,
+    resetAppearance,
+    saveAppearance,
+    loadAppearance
+  };
+
+  return (
+    <ThemeContext.Provider value={value}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+function useTheme(){
+  const context = useContext(ThemeContext);
+  if (context === null) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
+}
+
+export { ThemeProvider, useTheme };
+
+
+
+
+
+
+
+
+import { 
+  createContext, 
+  useContext, 
+  useReducer, 
+  useCallback,
+  useMemo,
+  useState,
+  useEffect
+} from "react";
+
+const NavigationContext = createContext(null);
+
+const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
+const OPEN_SIDEBAR = "OPEN_SIDEBAR";
+const CLOSE_SIDEBAR = "CLOSE_SIDEBAR";
+const SET_SIDEBAR_WIDTH = "SET_SIDEBAR_WIDTH";
+const SET_SIDEBAR_COLLAPSED = "SET_SIDEBAR_COLLAPSED";
+const PIN_SIDEBAR = "PIN_SIDEBAR";
+const UNPIN_SIDEBAR = "UNPIN_SIDEBAR";
+const SET_ACTIVE_ROUTE = "SET_ACTIVE_ROUTE";
+const PUSH_ROUTE = "PUSH_ROUTE";
+const POP_ROUTE = "POP_ROUTE";
+const REPLACE_ROUTE = "REPLACE_ROUTE";
+const GO_BACK = "GO_BACK";
+const GO_FORWARD = "GO_FORWARD";
+const SET_BREADCRUMBS = "SET_BREADCRUMBS";
+const ADD_BREADCRUMB = "ADD_BREADCRUMB";
+const POP_BREADCRUMB = "POP_BREADCRUMB";
+const CLEAR_BREADCRUMBS = "CLEAR_BREADCRUMBS";
+const SET_NAV_HISTORY = "SET_NAV_HISTORY";
+const CLEAR_NAV_HISTORY = "CLEAR_NAV_HISTORY";
+
+function navigationReducer(state, action){
+  switch(action.type){
+    case TOGGLE_SIDEBAR:
+      return { ...state, sidebarOpen: !state.sidebarOpen };
+    case OPEN_SIDEBAR:
+      return { ...state, sidebarOpen: true };
+    case CLOSE_SIDEBAR:
+      return { ...state, sidebarOpen: false };
+    case SET_SIDEBAR_WIDTH:
+      return { ...state, sidebarWidth: action.payload };
+    case SET_SIDEBAR_COLLAPSED:
+      return { ...state, sidebarCollapsed: action.payload };
+    case PIN_SIDEBAR:
+      return { ...state, sidebarPinned: true };
+    case UNPIN_SIDEBAR:
+      return { ...state, sidebarPinned: false };
+    case SET_ACTIVE_ROUTE:
+      return { ...state, activeRoute: action.payload };
+    case PUSH_ROUTE:
+      return { 
+        ...state, 
+        routeStack: [...state.routeStack, action.payload],
+        activeRoute: action.payload,
+        canGoBack: state.routeStack.length > 0,
+        canGoForward: false
+      };
+    case POP_ROUTE:
+      const popped = [...state.routeStack];
+      popped.pop();
+      return { 
+        ...state, 
+        routeStack: popped,
+        activeRoute: popped[popped.length - 1] || state.activeRoute,
+        canGoBack: popped.length > 0,
+        canGoForward: true
+      };
+    case REPLACE_ROUTE:
+      const replaced = [...state.routeStack];
+      replaced[replaced.length - 1] = action.payload;
+      return { 
+        ...state, 
+        routeStack: replaced,
+        activeRoute: action.payload 
+      };
+    case GO_BACK:
+      if (state.routeStack.length === 0) return state;
+      const backStack = [...state.routeStack];
+      const backRoute = backStack.pop();
+      return { 
+        ...state, 
+        routeStack: backStack,
+        forwardStack: [...state.forwardStack, state.activeRoute],
+        activeRoute: backStack[backStack.length - 1] || '/',
+        canGoBack: backStack.length > 0,
+        canGoForward: true
+      };
+    case GO_FORWARD:
+      if (state.forwardStack.length === 0) return state;
+      const forwardStack = [...state.forwardStack];
+      const forwardRoute = forwardStack.pop();
+      return { 
+        ...state, 
+        routeStack: [...state.routeStack, forwardRoute],
+        forwardStack,
+        activeRoute: forwardRoute,
+        canGoBack: true,
+        canGoForward: forwardStack.length > 0
+      };
+    case SET_BREADCRUMBS:
+      return { ...state, breadcrumbs: action.payload };
+    case ADD_BREADCRUMB:
+      return { 
+        ...state, 
+        breadcrumbs: [...state.breadcrumbs, action.payload] 
+      };
+    case POP_BREADCRUMB:
+      return { 
+        ...state, 
+        breadcrumbs: state.breadcrumbs.slice(0, -1) 
+      };
+    case CLEAR_BREADCRUMBS:
+      return { ...state, breadcrumbs: [] };
+    case SET_NAV_HISTORY:
+      return { ...state, navHistory: action.payload };
+    case CLEAR_NAV_HISTORY:
+      return { ...state, navHistory: [], routeStack: [], forwardStack: [] };
+    default:
+      return state;
+  }
+}
+
+function NavigationProvider({ children, initialRoute = '/' }){
+  const [navigation, dispatch] = useReducer(navigationReducer, {
+    sidebarOpen: true,
+    sidebarWidth: 280,
+    sidebarCollapsed: false,
+    sidebarPinned: true,
+    activeRoute: initialRoute,
+    routeStack: [initialRoute],
+    forwardStack: [],
+    breadcrumbs: [],
+    navHistory: [],
+    canGoBack: false,
+    canGoForward: false
+  });
+
+  const toggleSidebar = useCallback(() => {
+    dispatch({ type: TOGGLE_SIDEBAR });
+  }, []);
+
+  const openSidebar = useCallback(() => {
+    dispatch({ type: OPEN_SIDEBAR });
+  }, []);
+
+  const closeSidebar = useCallback(() => {
+    dispatch({ type: CLOSE_SIDEBAR });
+  }, []);
+
+  const setSidebarWidth = useCallback((width) => {
+    dispatch({ type: SET_SIDEBAR_WIDTH, payload: width });
+  }, []);
+
+  const setSidebarCollapsed = useCallback((collapsed) => {
+    dispatch({ type: SET_SIDEBAR_COLLAPSED, payload: collapsed });
+  }, []);
+
+  const pinSidebar = useCallback(() => {
+    dispatch({ type: PIN_SIDEBAR });
+  }, []);
+
+  const unpinSidebar = useCallback(() => {
+    dispatch({ type: UNPIN_SIDEBAR });
+  }, []);
+
+  const setActiveRoute = useCallback((route) => {
+    dispatch({ type: SET_ACTIVE_ROUTE, payload: route });
+  }, []);
+
+  const pushRoute = useCallback((route) => {
+    dispatch({ type: PUSH_ROUTE, payload: route });
+  }, []);
+
+  const popRoute = useCallback(() => {
+    dispatch({ type: POP_ROUTE });
+  }, []);
+
+  const replaceRoute = useCallback((route) => {
+    dispatch({ type: REPLACE_ROUTE, payload: route });
+  }, []);
+
+  const goBack = useCallback(() => {
+    dispatch({ type: GO_BACK });
+  }, []);
+
+  const goForward = useCallback(() => {
+    dispatch({ type: GO_FORWARD });
+  }, []);
+
+  const setBreadcrumbs = useCallback((crumbs) => {
+    dispatch({ type: SET_BREADCRUMBS, payload: crumbs });
+  }, []);
+
+  const addBreadcrumb = useCallback((crumb) => {
+    dispatch({ type: ADD_BREADCRUMB, payload: crumb });
+  }, []);
+
+  const popBreadcrumb = useCallback(() => {
+    dispatch({ type: POP_BREADCRUMB });
+  }, []);
+
+  const clearBreadcrumbs = useCallback(() => {
+    dispatch({ type: CLEAR_BREADCRUMBS });
+  }, []);
+
+  const setNavHistory = useCallback((history) => {
+    dispatch({ type: SET_NAV_HISTORY, payload: history });
+  }, []);
+
+  const clearNavHistory = useCallback(() => {
+    dispatch({ type: CLEAR_NAV_HISTORY });
+  }, []);
+
+  // UI state outside reducer
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Computed
+  const sidebarVisible = useMemo(() => 
+    navigation.sidebarOpen && !navigation.sidebarCollapsed,
+    [navigation.sidebarOpen, navigation.sidebarCollapsed]
+  );
+  const currentBreadcrumb = useMemo(() => 
+    navigation.breadcrumbs[navigation.breadcrumbs.length - 1],
+    [navigation.breadcrumbs]
+  );
+
+  // Load from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('navigation');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.sidebarWidth) dispatch({ type: SET_SIDEBAR_WIDTH, payload: parsed.sidebarWidth });
+        if (parsed.sidebarCollapsed !== undefined) dispatch({ type: SET_SIDEBAR_COLLAPSED, payload: parsed.sidebarCollapsed });
+        if (parsed.sidebarPinned !== undefined) parsed.sidebarPinned ? pinSidebar() : unpinSidebar();
+      } catch (e) {
+        console.error('Failed to load navigation', e);
+      }
+    }
+  }, []);
+
+  // Save to localStorage
+  useEffect(() => {
+    localStorage.setItem('navigation', JSON.stringify({
+      sidebarWidth: navigation.sidebarWidth,
+      sidebarCollapsed: navigation.sidebarCollapsed,
+      sidebarPinned: navigation.sidebarPinned
+    }));
+  }, [navigation.sidebarWidth, navigation.sidebarCollapsed, navigation.sidebarPinned]);
+
+  const value = {
+    navigation,
+    sidebarVisible,
+    currentBreadcrumb,
+    mobileMenuOpen,
+    setMobileMenuOpen,
+    searchOpen,
+    setSearchOpen,
+    toggleSidebar,
+    openSidebar,
+    closeSidebar,
+    setSidebarWidth,
+    setSidebarCollapsed,
+    pinSidebar,
+    unpinSidebar,
+    setActiveRoute,
+    pushRoute,
+    popRoute,
+    replaceRoute,
+    goBack,
+    goForward,
+    setBreadcrumbs,
+    addBreadcrumb,
+    popBreadcrumb,
+    clearBreadcrumbs,
+    setNavHistory,
+    clearNavHistory
+  };
+
+  return (
+    <NavigationContext.Provider value={value}>
+      {children}
+    </NavigationContext.Provider>
+  );
+}
+
+function useNavigation(){
+  const context = useContext(NavigationContext);
+  if (context === null) {
+    throw new Error("useNavigation must be used within a NavigationProvider");
+  }
+  return context;
+}
+
+export { NavigationProvider, useNavigation };
+
+
+
+
+
+
+
+import { 
+  createContext, 
+  useContext, 
+  useReducer, 
+  useCallback,
+  useMemo,
+  useState,
+  useEffect
+} from "react";
+
+const ImportExportContext = createContext(null);
+
+const IMPORT_START = "IMPORT_START";
+const IMPORT_PROGRESS = "IMPORT_PROGRESS";
+const IMPORT_SUCCESS = "IMPORT_SUCCESS";
+const IMPORT_ERROR = "IMPORT_ERROR";
+const IMPORT_VALIDATE = "IMPORT_VALIDATE";
+const IMPORT_PREVIEW = "IMPORT_PREVIEW";
+const IMPORT_CANCEL = "IMPORT_CANCEL";
+const SET_IMPORT_FILE = "SET_IMPORT_FILE";
+const SET_IMPORT_FORMAT = "SET_IMPORT_FORMAT";
+const SET_IMPORT_MAPPING = "SET_IMPORT_MAPPING";
+const SET_IMPORT_OPTIONS = "SET_IMPORT_OPTIONS";
+const EXPORT_START = "EXPORT_START";
+const EXPORT_PROGRESS = "EXPORT_PROGRESS";
+const EXPORT_SUCCESS = "EXPORT_SUCCESS";
+const EXPORT_ERROR = "EXPORT_ERROR";
+const EXPORT_CANCEL = "EXPORT_CANCEL";
+const SET_EXPORT_FORMAT = "SET_EXPORT_FORMAT";
+const SET_EXPORT_FIELDS = "SET_EXPORT_FIELDS";
+const SET_EXPORT_FILTER = "SET_EXPORT_FILTER";
+const SET_EXPORT_OPTIONS = "SET_EXPORT_OPTIONS";
+const DOWNLOAD_FILE = "DOWNLOAD_FILE";
+const PREVIEW_EXPORT = "PREVIEW_EXPORT";
+const SCHEDULE_EXPORT = "SCHEDULE_EXPORT";
+const SHARE_EXPORT = "SHARE_EXPORT";
+
+function importExportReducer(state, action){
+  switch(action.type){
+    case IMPORT_START:
+      return { 
+        ...state, 
+        importStatus: 'running',
+        importProgress: 0,
+        importError: null,
+        importResult: null,
+        importStartedAt: Date.now() 
+      };
+    case IMPORT_PROGRESS:
+      return { ...state, importProgress: action.payload };
+    case IMPORT_SUCCESS:
+      return { 
+        ...state, 
+        importStatus: 'success',
+        importProgress: 100,
+        importResult: action.payload,
+        importCompletedAt: Date.now() 
+      };
+    case IMPORT_ERROR:
+      return { 
+        ...state, 
+        importStatus: 'error',
+        importError: action.payload,
+        importCompletedAt: Date.now() 
+      };
+    case IMPORT_VALIDATE:
+      return { 
+        ...state, 
+        importValidation: action.payload,
+        importStatus: action.payload.isValid ? 'validated' : 'validation_failed' 
+      };
+    case IMPORT_PREVIEW:
+      return { ...state, importPreview: action.payload };
+    case IMPORT_CANCEL:
+      return { 
+        ...state, 
+        importStatus: 'cancelled',
+        importProgress: 0,
+        importResult: null 
+      };
+    case SET_IMPORT_FILE:
+      return { ...state, importFile: action.payload };
+    case SET_IMPORT_FORMAT:
+      return { ...state, importFormat: action.payload };
+    case SET_IMPORT_MAPPING:
+      return { ...state, importMapping: action.payload };
+    case SET_IMPORT_OPTIONS:
+      return { ...state, importOptions: { ...state.importOptions, ...action.payload } };
+    case EXPORT_START:
+      return { 
+        ...state, 
+        exportStatus: 'running',
+        exportProgress: 0,
+        exportError: null,
+        exportResult: null,
+        exportStartedAt: Date.now() 
+      };
+    case EXPORT_PROGRESS:
+      return { ...state, exportProgress: action.payload };
+    case EXPORT_SUCCESS:
+      return { 
+        ...state, 
+        exportStatus: 'success',
+        exportProgress: 100,
+        exportResult: action.payload,
+        exportCompletedAt: Date.now() 
+      };
+    case EXPORT_ERROR:
+      return { 
+        ...state, 
+        exportStatus: 'error',
+        exportError: action.payload,
+        exportCompletedAt: Date.now() 
+      };
+    case EXPORT_CANCEL:
+      return { 
+        ...state, 
+        exportStatus: 'cancelled',
+        exportProgress: 0,
+        exportResult: null 
+      };
+    case SET_EXPORT_FORMAT:
+      return { ...state, exportFormat: action.payload };
+    case SET_EXPORT_FIELDS:
+      return { ...state, exportFields: action.payload };
+    case SET_EXPORT_FILTER:
+      return { ...state, exportFilter: action.payload };
+    case SET_EXPORT_OPTIONS:
+      return { ...state, exportOptions: { ...state.exportOptions, ...action.payload } };
+    case DOWNLOAD_FILE:
+      return { ...state, downloadUrl: action.payload.url, downloadFilename: action.payload.filename };
+    case PREVIEW_EXPORT:
+      return { ...state, exportPreview: action.payload };
+    case SCHEDULE_EXPORT:
+      return { 
+        ...state, 
+        scheduledExports: [...state.scheduledExports, { ...action.payload, id: crypto.randomUUID() }] 
+      };
+    case SHARE_EXPORT:
+      return { 
+        ...state, 
+        sharedExports: [...state.sharedExports, { ...action.payload, id: crypto.randomUUID(), sharedAt: Date.now() }] 
+      };
+    default:
+      return state;
+  }
+}
+
+function ImportExportProvider({ children }){
+  const [importExport, dispatch] = useReducer(importExportReducer, {
+    // Import state
+    importStatus: 'idle',
+    importProgress: 0,
+    importError: null,
+    importResult: null,
+    importFile: null,
+    importFormat: 'csv',
+    importMapping: {},
+    importOptions: { skipDuplicates: false, updateExisting: false },
+    importValidation: null,
+    importPreview: null,
+    importStartedAt: null,
+    importCompletedAt: null,
+    // Export state
+    exportStatus: 'idle',
+    exportProgress: 0,
+    exportError: null,
+    exportResult: null,
+    exportFormat: 'csv',
+    exportFields: [],
+    exportFilter: null,
+    exportOptions: { includeHeaders: true, delimiter: ',' },
+    exportPreview: null,
+    downloadUrl: null,
+    downloadFilename: null,
+    exportStartedAt: null,
+    exportCompletedAt: null,
+    // Scheduled & shared
+    scheduledExports: [],
+    sharedExports: []
+  });
+
+  // Import actions
+  const importStart = useCallback(() => {
+    dispatch({ type: IMPORT_START });
+  }, []);
+
+  const importProgress = useCallback((progress) => {
+    dispatch({ type: IMPORT_PROGRESS, payload: progress });
+  }, []);
+
+  const importSuccess = useCallback((result) => {
+    dispatch({ type: IMPORT_SUCCESS, payload: result });
+  }, []);
+
+  const importError = useCallback((error) => {
+    dispatch({ type: IMPORT_ERROR, payload: error });
+  }, []);
+
+  const importValidate = useCallback((validation) => {
+    dispatch({ type: IMPORT_VALIDATE, payload: validation });
+  }, []);
+
+  const importPreview = useCallback((preview) => {
+    dispatch({ type: IMPORT_PREVIEW, payload: preview });
+  }, []);
+
+  const importCancel = useCallback(() => {
+    dispatch({ type: IMPORT_CANCEL });
+  }, []);
+
+  const setImportFile = useCallback((file) => {
+    dispatch({ type: SET_IMPORT_FILE, payload: file });
+  }, []);
+
+  const setImportFormat = useCallback((format) => {
+    dispatch({ type: SET_IMPORT_FORMAT, payload: format });
+  }, []);
+
+  const setImportMapping = useCallback((mapping) => {
+    dispatch({ type: SET_IMPORT_MAPPING, payload: mapping });
+  }, []);
+
+  const setImportOptions = useCallback((options) => {
+    dispatch({ type: SET_IMPORT_OPTIONS, payload: options });
+  }, []);
+
+  // Export actions
+  const exportStart = useCallback(() => {
+    dispatch({ type: EXPORT_START });
+  }, []);
+
+  const exportProgress = useCallback((progress) => {
+    dispatch({ type: EXPORT_PROGRESS, payload: progress });
+  }, []);
+
+  const exportSuccess = useCallback((result) => {
+    dispatch({ type: EXPORT_SUCCESS, payload: result });
+  }, []);
+
+  const exportError = useCallback((error) => {
+    dispatch({ type: EXPORT_ERROR, payload: error });
+  }, []);
+
+  const exportCancel = useCallback(() => {
+    dispatch({ type: EXPORT_CANCEL });
+  }, []);
+
+  const setExportFormat = useCallback((format) => {
+    dispatch({ type: SET_EXPORT_FORMAT, payload: format });
+  }, []);
+
+  const setExportFields = useCallback((fields) => {
+    dispatch({ type: SET_EXPORT_FIELDS, payload: fields });
+  }, []);
+
+  const setExportFilter = useCallback((filter) => {
+    dispatch({ type: SET_EXPORT_FILTER, payload: filter });
+  }, []);
+
+  const setExportOptions = useCallback((options) => {
+    dispatch({ type: SET_EXPORT_OPTIONS, payload: options });
+  }, []);
+
+  const downloadFile = useCallback((url, filename) => {
+    dispatch({ type: DOWNLOAD_FILE, payload: { url, filename } });
+    // Trigger actual download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+  }, []);
+
+  const previewExport = useCallback((preview) => {
+    dispatch({ type: PREVIEW_EXPORT, payload: preview });
+  }, []);
+
+  const scheduleExport = useCallback((schedule) => {
+    dispatch({ type: SCHEDULE_EXPORT, payload: schedule });
+  }, []);
+
+  const shareExport = useCallback((share) => {
+    dispatch({ type: SHARE_EXPORT, payload: share });
+  }, []);
+
+  // UI state outside reducer
+  const [importModalOpen, setImportModalOpen] = useState(false);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
+
+  // Computed
+  const isImporting = useMemo(() => importExport.importStatus === 'running', [importExport.importStatus]);
+  const isExporting = useMemo(() => importExport.exportStatus === 'running', [importExport.exportStatus]);
+  const canImport = useMemo(() => 
+    importExport.importFile !== null && 
+    importExport.importStatus !== 'running',
+    [importExport.importFile, importExport.importStatus]
+  );
+  const canExport = useMemo(() => 
+    importExport.exportFields.length > 0 && 
+    importExport.exportStatus !== 'running',
+    [importExport.exportFields, importExport.exportStatus]
+  );
+
+  const value = {
+    importExport,
+    isImporting,
+    isExporting,
+    canImport,
+    canExport,
+    importModalOpen,
+    setImportModalOpen,
+    exportModalOpen,
+    setExportModalOpen,
+    importStart,
+    importProgress,
+    importSuccess,
+    importError,
+    importValidate,
+    importPreview,
+    importCancel,
+    setImportFile,
+    setImportFormat,
+    setImportMapping,
+    setImportOptions,
+    exportStart,
+    exportProgress,
+    exportSuccess,
+    exportError,
+    exportCancel,
+    setExportFormat,
+    setExportFields,
+    setExportFilter,
+    setExportOptions,
+    downloadFile,
+    previewExport,
+    scheduleExport,
+    shareExport
+  };
+
+  return (
+    <ImportExportContext.Provider value={value}>
+      {children}
+    </ImportExportContext.Provider>
+  );
+}
+
+function useImportExport(){
+  const context = useContext(ImportExportContext);
+  if (context === null) {
+    throw new Error("useImportExport must be used within an ImportExportProvider");
+  }
+  return context;
+}
+
+export { ImportExportProvider, useImportExport };
+
+
+
+
+
+
+
+
+
+import { 
+  createContext, 
+  useContext, 
+  useReducer, 
+  useCallback,
+  useMemo,
+  useState,
+  useEffect
+} from "react";
+
+const CommentContext = createContext(null);
+
+const ADD_COMMENT = "ADD_COMMENT";
+const EDIT_COMMENT = "EDIT_COMMENT";
+const DELETE_COMMENT = "DELETE_COMMENT";
+const REPLY_TO_COMMENT = "REPLY_TO_COMMENT";
+const RESOLVE_COMMENT = "RESOLVE_COMMENT";
+const UNRESOLVE_COMMENT = "UNRESOLVE_COMMENT";
+const PIN_COMMENT = "PIN_COMMENT";
+const UNPIN_COMMENT = "UNPIN_COMMENT";
+const REACTION_ADD = "REACTION_ADD";
+const REACTION_REMOVE = "REACTION_REMOVE";
+const SET_COMMENT_SORT = "SET_COMMENT_SORT";
+const SET_COMMENT_FILTER = "SET_COMMENT_FILTER";
+const MENTION_USER = "MENTION_USER";
+const UNMENTION_USER = "UNMENTION_USER";
+const NOTIFY_USER = "NOTIFY_USER";
+const MARK_NOTIFICATION_READ = "MARK_NOTIFICATION_READ";
+const MARK_ALL_NOTIFICATIONS_READ = "MARK_ALL_NOTIFICATIONS_READ";
+const CLEAR_NOTIFICATION = "CLEAR_NOTIFICATION";
+const SET_NOTIFICATION_PREFERENCES = "SET_NOTIFICATION_PREFERENCES";
+
+function commentReducer(state, action){
+  switch(action.type){
+    case ADD_COMMENT:
+      return { 
+        ...state, 
+        comments: [action.payload, ...state.comments] 
+      };
+    case EDIT_COMMENT:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload.id 
+            ? { ...c, ...action.payload.data, editedAt: Date.now(), isEdited: true } 
+            : c
+        ) 
+      };
+    case DELETE_COMMENT:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload 
+            ? { ...c, deletedAt: Date.now(), isDeleted: true, content: '[deleted]' } 
+            : c
+        ) 
+      };
+    case REPLY_TO_COMMENT:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload.parentId 
+            ? { ...c, replies: [...(c.replies || []), action.payload.reply] } 
+            : c
+        ) 
+      };
+    case RESOLVE_COMMENT:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload 
+            ? { ...c, resolvedAt: Date.now(), isResolved: true } 
+            : c
+        ) 
+      };
+    case UNRESOLVE_COMMENT:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload 
+            ? { ...c, resolvedAt: null, isResolved: false } 
+            : c
+        ) 
+      };
+    case PIN_COMMENT:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload 
+            ? { ...c, pinnedAt: Date.now(), isPinned: true } 
+            : { ...c, isPinned: false, pinnedAt: null }
+        ) 
+      };
+    case UNPIN_COMMENT:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload 
+            ? { ...c, pinnedAt: null, isPinned: false } 
+            : c
+        ) 
+      };
+    case REACTION_ADD:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload.commentId 
+            ? { 
+                ...c, 
+                reactions: { 
+                  ...c.reactions, 
+                  [action.payload.emoji]: [...(c.reactions?.[action.payload.emoji] || []), action.payload.userId] 
+                } 
+              } 
+            : c
+        ) 
+      };
+    case REACTION_REMOVE:
+      return { 
+        ...state, 
+        comments: state.comments.map(c => 
+          c.id === action.payload.commentId 
+            ? { 
+                ...c, 
+                reactions: { 
+                  ...c.reactions, 
+                  [action.payload.emoji]: (c.reactions?.[action.payload.emoji] || []).filter(u => u !== action.payload.userId) 
+                } 
+              } 
+            : c
+        ) 
+      };
+    case SET_COMMENT_SORT:
+      return { ...state, commentSort: action.payload };
+    case SET_COMMENT_FILTER:
+      return { ...state, commentFilter: action.payload };
+    case MENTION_USER:
+      return { 
+        ...state, 
+        mentions: [...state.mentions, { ...action.payload, createdAt: Date.now() }] 
+      };
+    case UNMENTION_USER:
+      return { 
+        ...state, 
+        mentions: state.mentions.filter(m => m.id !== action.payload) 
+      };
+    case NOTIFY_USER:
+      return { 
+        ...state, 
+        notifications: [{ ...action.payload, id: crypto.randomUUID(), read: false, createdAt: Date.now() }, ...state.notifications] 
+      };
+    case MARK_NOTIFICATION_READ:
+      return { 
+        ...state, 
+        notifications: state.notifications.map(n => 
+          n.id === action.payload ? { ...n, read: true, readAt: Date.now() } : n
+        ) 
+      };
+    case MARK_ALL_NOTIFICATIONS_READ:
+      return { 
+        ...state, 
+        notifications: state.notifications.map(n => 
+          !n.read ? { ...n, read: true, readAt: Date.now() } : n
+        ) 
+      };
+    case CLEAR_NOTIFICATION:
+      return { 
+        ...state, 
+        notifications: state.notifications.filter(n => n.id !== action.payload) 
+      };
+    case SET_NOTIFICATION_PREFERENCES:
+      return { ...state, notificationPreferences: { ...state.notificationPreferences, ...action.payload } };
+    default:
+      return state;
+  }
+}
+
+function CommentProvider({ children }){
+  const [comments, dispatch] = useReducer(commentReducer, {
+    comments: [],
+    commentSort: 'newest',
+    commentFilter: 'all',
+    mentions: [],
+    notifications: [],
+    notificationPreferences: {
+      emailOnMention: true,
+      emailOnReply: true,
+      pushOnMention: true,
+      pushOnReply: false
+    }
+  });
+
+  const addComment = useCallback((comment) => {
+    dispatch({ type: ADD_COMMENT, payload: { ...comment, id: crypto.randomUUID(), createdAt: Date.now() } });
+  }, []);
+
+  const editComment = useCallback((id, data) => {
+    dispatch({ type: EDIT_COMMENT, payload: { id, data } });
+  }, []);
+
+  const deleteComment = useCallback((id) => {
+    dispatch({ type: DELETE_COMMENT, payload: id });
+  }, []);
+
+  const replyToComment = useCallback((parentId, reply) => {
+    dispatch({ type: REPLY_TO_COMMENT, payload: { parentId, reply: { ...reply, id: crypto.randomUUID(), createdAt: Date.now() } } });
+  }, []);
+
+  const resolveComment = useCallback((id) => {
+    dispatch({ type: RESOLVE_COMMENT, payload: id });
+  }, []);
+
+  const unresolveComment = useCallback((id) => {
+    dispatch({ type: UNRESOLVE_COMMENT, payload: id });
+  }, []);
+
+  const pinComment = useCallback((id) => {
+    dispatch({ type: PIN_COMMENT, payload: id });
+  }, []);
+
+  const unpinComment = useCallback((id) => {
+    dispatch({ type: UNPIN_COMMENT, payload: id });
+  }, []);
+
+  const addReaction = useCallback((commentId, emoji, userId) => {
+    dispatch({ type: REACTION_ADD, payload: { commentId, emoji, userId } });
+  }, []);
+
+  const removeReaction = useCallback((commentId, emoji, userId) => {
+    dispatch({ type: REACTION_REMOVE, payload: { commentId, emoji, userId } });
+  }, []);
+
+  const setCommentSort = useCallback((sort) => {
+    dispatch({ type: SET_COMMENT_SORT, payload: sort });
+  }, []);
+
+  const setCommentFilter = useCallback((filter) => {
+    dispatch({ type: SET_COMMENT_FILTER, payload: filter });
+  }, []);
+
+  const mentionUser = useCallback((mention) => {
+    dispatch({ type: MENTION_USER, payload: mention });
+  }, []);
+
+  const unmentionUser = useCallback((id) => {
+    dispatch({ type: UNMENTION_USER, payload: id });
+  }, []);
+
+  const notifyUser = useCallback((notification) => {
+    dispatch({ type: NOTIFY_USER, payload: notification });
+  }, []);
+
+  const markNotificationRead = useCallback((id) => {
+    dispatch({ type: MARK_NOTIFICATION_READ, payload: id });
+  }, []);
+
+  const markAllNotificationsRead = useCallback(() => {
+    dispatch({ type: MARK_ALL_NOTIFICATIONS_READ });
+  }, []);
+
+  const clearNotification = useCallback((id) => {
+    dispatch({ type: CLEAR_NOTIFICATION, payload: id });
+  }, []);
+
+  const setNotificationPreferences = useCallback((prefs) => {
+    dispatch({ type: SET_NOTIFICATION_PREFERENCES, payload: prefs });
+  }, []);
+
+  // UI state outside reducer
+  const [commentPanelOpen, setCommentPanelOpen] = useState(false);
+  const [activeCommentId, setActiveCommentId] = useState(null);
+
+  // Computed
+  const sortedComments = useMemo(() => {
+    let result = [...comments.comments];
+    switch(comments.commentSort) {
+      case 'newest':
+        result.sort((a, b) => b.createdAt - a.createdAt);
+        break;
+      case 'oldest':
+        result.sort((a, b) => a.createdAt - b.createdAt);
+        break;
+      case 'popular':
+        result.sort((a, b) => (b.reactions?.length || 0) - (a.reactions?.length || 0));
+        break;
+    }
+    return result;
+  }, [comments.comments, comments.commentSort]);
+
+  const filteredComments = useMemo(() => {
+    switch(comments.commentFilter) {
+      case 'resolved':
+        return sortedComments.filter(c => c.isResolved);
+      case 'unresolved':
+        return sortedComments.filter(c => !c.isResolved);
+      case 'pinned':
+        return sortedComments.filter(c => c.isPinned);
+      default:
+        return sortedComments;
+    }
+  }, [sortedComments, comments.commentFilter]);
+
+  const unreadCount = useMemo(() => 
+    comments.notifications.filter(n => !n.read).length,
+    [comments.notifications]
+  );
+
+  const value = {
+    comments,
+    sortedComments,
+    filteredComments,
+    unreadCount,
+    commentPanelOpen,
+    setCommentPanelOpen,
+    activeCommentId,
+    setActiveCommentId,
+    addComment,
+    editComment,
+    deleteComment,
+    replyToComment,
+    resolveComment,
+    unresolveComment,
+    pinComment,
+    unpinComment,
+    addReaction,
+    removeReaction,
+    setCommentSort,
+    setCommentFilter,
+    mentionUser,
+    unmentionUser,
+    notifyUser,
+    markNotificationRead,
+    markAllNotificationsRead,
+    clearNotification,
+    setNotificationPreferences
+  };
+
+  return (
+    <CommentContext.Provider value={value}>
+      {children}
+    </CommentContext.Provider>
+  );
+}
+
+function useComments(){
+  const context = useContext(CommentContext);
+  if (context === null) {
+    throw new Error("useComments must be used within a CommentProvider");
+  }
+  return context;
+}
+
+export { CommentProvider, useComments };
+
+
+
+
+
+
+import { 
+  createContext, 
+  useContext, 
+  useReducer, 
+  useCallback,
+  useMemo,
+  useState,
+  useEffect
+} from "react";
+
+const FileContext = createContext(null);
+
+const UPLOAD_START = "UPLOAD_START";
+const UPLOAD_PROGRESS = "UPLOAD_PROGRESS";
+const UPLOAD_SUCCESS = "UPLOAD_SUCCESS";
+const UPLOAD_ERROR = "UPLOAD_ERROR";
+const UPLOAD_CANCEL = "UPLOAD_CANCEL";
+const UPLOAD_RETRY = "UPLOAD_RETRY";
+const SET_UPLOAD_FILE = "SET_UPLOAD_FILE";
+const SET_UPLOAD_QUEUE = "SET_UPLOAD_QUEUE";
+const CLEAR_UPLOAD_QUEUE = "CLEAR_UPLOAD_QUEUE";
+const REMOVE_FROM_QUEUE = "REMOVE_FROM_QUEUE";
+const DOWNLOAD_START = "DOWNLOAD_START";
+const DOWNLOAD_PROGRESS = "DOWNLOAD_PROGRESS";
+const DOWNLOAD_SUCCESS = "DOWNLOAD_SUCCESS";
+const DOWNLOAD_ERROR = "DOWNLOAD_ERROR";
+const DOWNLOAD_CANCEL = "DOWNLOAD_CANCEL";
+const SET_DOWNLOAD_FILE = "SET_DOWNLOAD_FILE";
+const SET_DOWNLOAD_QUEUE = "SET_DOWNLOAD_QUEUE";
+const CLEAR_DOWNLOAD_QUEUE = "CLEAR_DOWNLOAD_QUEUE";
+const REMOVE_DOWNLOAD_FROM_QUEUE = "REMOVE_DOWNLOAD_FROM_QUEUE";
+const PREVIEW_FILE = "PREVIEW_FILE";
+const CLOSE_PREVIEW = "CLOSE_PREVIEW";
+const SET_FILE_SORT = "SET_FILE_SORT";
+const SET_FILE_FILTER = "SET_FILE_FILTER";
+
+function fileReducer(state, action){
+  switch(action.type){
+    case UPLOAD_START:
+      return { 
+        ...state, 
+        uploads: { 
+          ...state.uploads, 
+          [action.payload.id]: { 
+            status: 'uploading', 
+            progress: 0, 
+            file: action.payload.file,
+            startedAt: Date.now() 
+          } 
+        } 
+      };
+    case UPLOAD_PROGRESS:
+      return { 
+        ...state, 
+        uploads: { 
+          ...state.uploads, 
+          [action.payload.id]: { 
+            ...state.uploads[action.payload.id], 
+            progress: action.payload.progress 
+          } 
+        } 
+      };
+    case UPLOAD_SUCCESS:
+      return { 
+        ...state, 
+        uploads: { 
+          ...state.uploads, 
+          [action.payload.id]: { 
+            ...state.uploads[action.payload.id], 
+            status: 'success',
+            progress: 100,
+            url: action.payload.url,
+            completedAt: Date.now() 
+          } 
+        },
+        files: [action.payload.fileData, ...state.files] 
+      };
+    case UPLOAD_ERROR:
+      return { 
+        ...state, 
+        uploads: { 
+          ...state.uploads, 
+          [action.payload.id]: { 
+            ...state.uploads[action.payload.id], 
+            status: 'error',
+            error: action.payload.error,
+            completedAt: Date.now() 
+          } 
+        } 
+      };
+    case UPLOAD_CANCEL:
+      const { [action.payload]: __u, ...remainingUploads } = state.uploads;
+      return { ...state, uploads: remainingUploads };
+    case UPLOAD_RETRY:
+      return { 
+        ...state, 
+        uploads: { 
+          ...state.uploads, 
+          [action.payload]: { 
+            ...state.uploads[action.payload], 
+            status: 'uploading',
+            progress: 0,
+            error: null 
+          } 
+        } 
+      };
+    case SET_UPLOAD_FILE:
+      return { ...state, currentUploadFile: action.payload };
+    case SET_UPLOAD_QUEUE:
+      return { ...state, uploadQueue: action.payload };
+    case CLEAR_UPLOAD_QUEUE:
+      return { ...state, uploadQueue: [] };
+    case REMOVE_FROM_QUEUE:
+      return { 
+        ...state, 
+        uploadQueue: state.uploadQueue.filter((_, i) => i !== action.payload) 
+      };
+    case DOWNLOAD_START:
+      return { 
+        ...state, 
+        downloads: { 
+          ...state.downloads, 
+          [action.payload.id]: { 
+            status: 'downloading', 
+            progress: 0, 
+            file: action.payload.file,
+            startedAt: Date.now() 
+          } 
+        } 
+      };
+    case DOWNLOAD_PROGRESS:
+      return { 
+        ...state, 
+        downloads: { 
+          ...state.downloads, 
+          [action.payload.id]: { 
+            ...state.downloads[action.payload.id], 
+            progress: action.payload.progress 
+          } 
+        } 
+      };
+    case DOWNLOAD_SUCCESS:
+      return { 
+        ...state, 
+        downloads: { 
+          ...state.downloads, 
+          [action.payload.id]: { 
+            ...state.downloads[action.payload.id], 
+            status: 'success',
+            progress: 100,
+            blob: action.payload.blob,
+            completedAt: Date.now() 
+          } 
+        } 
+      };
+    case DOWNLOAD_ERROR:
+      return { 
+        ...state, 
+        downloads: { 
+          ...state.downloads, 
+          [action.payload.id]: { 
+            ...state.downloads[action.payload.id], 
+            status: 'error',
+            error: action.payload.error,
+            completedAt: Date.now() 
+          } 
+        } 
+      };
+    case DOWNLOAD_CANCEL:
+      const { [action.payload]: __d, ...remainingDownloads } = state.downloads;
+      return { ...state, downloads: remainingDownloads };
+    case SET_DOWNLOAD_FILE:
+      return { ...state, currentDownloadFile: action.payload };
+    case SET_DOWNLOAD_QUEUE:
+      return { ...state, downloadQueue: action.payload };
+    case CLEAR_DOWNLOAD_QUEUE:
+      return { ...state, downloadQueue: [] };
+    case REMOVE_DOWNLOAD_FROM_QUEUE:
+      return { 
+        ...state, 
+        downloadQueue: state.downloadQueue.filter((_, i) => i !== action.payload) 
+      };
+    case PREVIEW_FILE:
+      return { ...state, previewFile: action.payload, isPreviewOpen: true };
+    case CLOSE_PREVIEW:
+      return { ...state, previewFile: null, isPreviewOpen: false };
+    case SET_FILE_SORT:
+      return { ...state, fileSort: action.payload };
+    case SET_FILE_FILTER:
+      return { ...state, fileFilter: action.payload };
+    default:
+      return state;
+  }
+}
+
+function FileProvider({ children }){
+  const [files, dispatch] = useReducer(fileReducer, {
+    files: [],
+    uploads: {},
+    downloads: {},
+    uploadQueue: [],
+    downloadQueue: [],
+    currentUploadFile: null,
+    currentDownloadFile: null,
+    previewFile: null,
+    isPreviewOpen: false,
+    fileSort: 'newest',
+    fileFilter: 'all'
+  });
+
+  // Upload actions
+  const uploadStart = useCallback((id, file) => {
+    dispatch({ type: UPLOAD_START, payload: { id, file } });
+  }, []);
+
+  const uploadProgress = useCallback((id, progress) => {
+    dispatch({ type: UPLOAD_PROGRESS, payload: { id, progress } });
+  }, []);
+
+  const uploadSuccess = useCallback((id, url, fileData) => {
+    dispatch({ type: UPLOAD_SUCCESS, payload: { id, url, fileData } });
+  }, []);
+
+  const uploadError = useCallback((id, error) => {
+    dispatch({ type: UPLOAD_ERROR, payload: { id, error } });
+  }, []);
+
+  const uploadCancel = useCallback((id) => {
+    dispatch({ type: UPLOAD_CANCEL, payload: id });
+  }, []);
+
+  const uploadRetry = useCallback((id) => {
+    dispatch({ type: UPLOAD_RETRY, payload: id });
+  }, []);
+
+  const setUploadFile = useCallback((file) => {
+    dispatch({ type: SET_UPLOAD_FILE, payload: file });
+  }, []);
+
+  const setUploadQueue = useCallback((queue) => {
+    dispatch({ type: SET_UPLOAD_QUEUE, payload: queue });
+  }, []);
+
+  const clearUploadQueue = useCallback(() => {
+    dispatch({ type: CLEAR_UPLOAD_QUEUE });
+  }, []);
+
+  const removeFromQueue = useCallback((index) => {
+    dispatch({ type: REMOVE_FROM_QUEUE, payload: index });
+  }, []);
+
+  // Download actions
+  const downloadStart = useCallback((id, file) => {
+    dispatch({ type: DOWNLOAD_START, payload: { id, file } });
+  }, []);
+
+  const downloadProgress = useCallback((id, progress) => {
+    dispatch({ type: DOWNLOAD_PROGRESS, payload: { id, progress } });
+  }, []);
+
+  const downloadSuccess = useCallback((id, blob) => {
+    dispatch({ type: DOWNLOAD_SUCCESS, payload: { id, blob } });
+  }, []);
+
+  const downloadError = useCallback((id, error) => {
+    dispatch({ type: DOWNLOAD_ERROR, payload: { id, error } });
+  }, []);
+
+  const downloadCancel = useCallback((id) => {
+    dispatch({ type: DOWNLOAD_CANCEL, payload: id });
+  }, []);
+
+  const setDownloadFile = useCallback((file) => {
+    dispatch({ type: SET_DOWNLOAD_FILE, payload: file });
+  }, []);
+
+  const setDownloadQueue = useCallback((queue) => {
+    dispatch({ type: SET_DOWNLOAD_QUEUE, payload: queue });
+  }, []);
+
+  const clearDownloadQueue = useCallback(() => {
+    dispatch({ type: CLEAR_DOWNLOAD_QUEUE });
+  }, []);
+
+  const removeDownloadFromQueue = useCallback((index) => {
+    dispatch({ type: REMOVE_DOWNLOAD_FROM_QUEUE, payload: index });
+  }, []);
+
+  // Preview actions
+  const previewFile = useCallback((file) => {
+    dispatch({ type: PREVIEW_FILE, payload: file });
+  }, []);
+
+  const closePreview = useCallback(() => {
+    dispatch({ type: CLOSE_PREVIEW });
+  }, []);
+
+  const setFileSort = useCallback((sort) => {
+    dispatch({ type: SET_FILE_SORT, payload: sort });
+  }, []);
+
+  const setFileFilter = useCallback((filter) => {
+    dispatch({ type: SET_FILE_FILTER, payload: filter });
+  }, []);
+
+  // UI state outside reducer
+  const [fileManagerOpen, setFileManagerOpen] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  // Computed
+  const activeUploads = useMemo(() => 
+    Object.entries(files.uploads).filter(([_, u]) => u.status === 'uploading'),
+    [files.uploads]
+  );
+  const activeDownloads = useMemo(() => 
+    Object.entries(files.downloads).filter(([_, d]) => d.status === 'downloading'),
+    [files.downloads]
+  );
+  const sortedFiles = useMemo(() => {
+    let result = [...files.files];
+    switch(files.fileSort) {
+      case 'newest':
+        result.sort((a, b) => b.createdAt - a.createdAt);
+        break;
+      case 'oldest':
+        result.sort((a, b) => a.createdAt - b.createdAt);
+        break;
+      case 'name':
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'size':
+        result.sort((a, b) => b.size - a.size);
+        break;
+    }
+    return result;
+  }, [files.files, files.fileSort]);
+
+  const filteredFiles = useMemo(() => {
+    switch(files.fileFilter) {
+      case 'images':
+        return sortedFiles.filter(f => f.type?.startsWith('image/'));
+      case 'documents':
+        return sortedFiles.filter(f => f.type?.includes('pdf') || f.type?.includes('document'));
+      case 'videos':
+        return sortedFiles.filter(f => f.type?.startsWith('video/'));
+      default:
+        return sortedFiles;
+    }
+  }, [sortedFiles, files.fileFilter]);
+
+  const totalSize = useMemo(() => 
+    files.files.reduce((acc, f) => acc + (f.size || 0), 0),
+    [files.files]
+  );
+
+  const value = {
+    files,
+    activeUploads,
+    activeDownloads,
+    sortedFiles,
+    filteredFiles,
+    totalSize,
+    fileManagerOpen,
+    setFileManagerOpen,
+    selectedFiles,
+    setSelectedFiles,
+    uploadStart,
+    uploadProgress,
+    uploadSuccess,
+    uploadError,
+    uploadCancel,
+    uploadRetry,
+    setUploadFile,
+    setUploadQueue,
+    clearUploadQueue,
+    removeFromQueue,
+    downloadStart,
+    downloadProgress,
+    downloadSuccess,
+    downloadError,
+    downloadCancel,
+    setDownloadFile,
+    setDownloadQueue,
+    clearDownloadQueue,
+    removeDownloadFromQueue,
+    previewFile,
+    closePreview,
+    setFileSort,
+    setFileFilter
+  };
+
+  return (
+    <FileContext.Provider value={value}>
+      {children}
+    </FileContext.Provider>
+  );
+}
+
+function useFiles(){
+  const context = useContext(FileContext);
+  if (context === null) {
+    throw new Error("useFiles must be used within a FileProvider");
+  }
+  return context;
+}
+
+export { FileProvider, useFiles };
+
+
+  
+
+  
+
+  
+
+
+
+
+
